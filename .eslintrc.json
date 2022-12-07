@@ -5,6 +5,7 @@
     "node": true
   },
   "extends": [
+    "airbnb",
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
@@ -30,7 +31,10 @@
     "radix": "error",
     "space-before-blocks": "error",
     "import/prefer-default-export": "off",
-    "prettier/prettier": ["error", { "singleQuote": true }]
+    "prettier/prettier": ["error", { "singleQuote": true }],
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
+    "import/extensions": ["error", "never", { "ignorePackages": true }],
+    "import/no-unresolved": false
   },
   "overrides": [
     {
