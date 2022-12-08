@@ -5,12 +5,14 @@ interface IButtonProps {
   children: ReactNode;
   // eslint-disable-next-line react/require-default-props
   type?: 'submit' | 'reset' | 'button';
+  // eslint-disable-next-line react/require-default-props
+  size?: 'sm' | 'lg';
 }
 
-export default function Button({ children, type = 'button' }: IButtonProps) {
+export default function Button({ children, type = 'button', size }: IButtonProps) {
   return (
     // eslint-disable-next-line react/button-has-type
-    <button className="btn w-full" type={type}>
+    <button className={`btn bg-primary ${size ? 'w-full' : ''}`} type={type}>
       {children}
     </button>
   );
