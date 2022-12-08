@@ -34,7 +34,7 @@
     "prettier/prettier": ["error", { "singleQuote": true }],
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
     "import/extensions": ["error", "never", { "ignorePackages": true }],
-    "import/no-unresolved": false
+    "import/no-unresolved": 0
   },
   "overrides": [
     {
