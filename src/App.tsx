@@ -1,10 +1,10 @@
+import Button from './components/Button';
+
 export default function App() {
   return (
-    <div className="text-8xl text-green-500">
+    <div className="text-8xl text-green-500 container mx-auto">
       <h1>Suforia</h1>
-      <button className="btn btn-primary" type="submit">
-        Click
-      </button>
+      <Button>Click</Button>
     </div>
   );
 }
