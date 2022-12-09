@@ -3,9 +3,10 @@ interface IInputProps {
   id: string;
   type: string;
   placeholder: string;
+  field: any;
 }
 
-export default function Input({ label, id, type, placeholder }: IInputProps) {
+export default function Input({ label, id, type, placeholder, field }: IInputProps) {
   return (
     <div className="form-control">
       <label className="label" htmlFor={id}>
@@ -16,6 +17,8 @@ export default function Input({ label, id, type, placeholder }: IInputProps) {
         type={type}
         placeholder={placeholder}
         className="input input-bordered w-full max-w-xs"
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        {...field}
       />
     </div>
   );

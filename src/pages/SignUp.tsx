@@ -1,10 +1,30 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
+import * as Yup from 'yup';
+import { Formik, Form, Field } from 'formik';
 import Button from '../components/Button';
 import Input from '../components/Input';
 import Facebook from '../components/SVGS/Facebook';
 import Linkedin from '../components/SVGS/Linkedin';
-
 import { fields } from '../data/fields';
+
+const initialValues = {
+  firstName: '',
+  lastName: '',
+  phoneNumber: '',
+  email: '',
+  password: '',
+  confirmPassword: ''
+};
+const SignupSchema = Yup.object().shape({
+  firstName: Yup.string()
+    .min(2, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required('First name is empty!'),
+  lastName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Last name is empty!'),
+  phoneNumber: Yup.string().required('Phone number is empty!'),
+  email: Yup.string().email('Invalid email address').required('Email is empty!'),
+  password: Yup.string().min(6, 'Password is too short').required('Password is empty!')
+});
 
 export default function SignUp() {
   return (
@@ -24,26 +44,52 @@ export default function SignUp() {
               <p className="text-accent">Get started with Suforia</p>
             </div>
             {/* inputs */}
-            <div className="grid md:grid-cols-2 gap-x-4">
-              {fields.map((field) => (
-                <Input
-                  key={field.fid}
-                  label={field.label}
-                  type={field.type}
-                  id={field.id}
-                  placeholder={field.placeholder}
-                />
-              ))}
-            </div>
-            <div className="form-control mt-8 mb-7">
-              <label className="label cursor-pointer justify-start gap-2">
-                <input type="checkbox" checked className="checkbox" />
-                <span className="text-base text-accent">
-                  By signing up you are agree to suforia terms of services
-                </span>
-              </label>
-            </div>
-            <Button size="lg">Sign Up</Button>
+            <Formik
+              initialValues={initialValues}
+              validationSchema={SignupSchema}
+              onSubmit={(values, actions) => {
+                console.log({ values, actions });
+              }}
+            >
+              <Form>
+                <div className="grid md:grid-cols-2 gap-x-4">
+                  {fields.map((item) => (
+                    <div key={item?.id}>
+                      <Field name={item?.name}>
+                        {({ field, form: { touched, errors } }: any) => (
+                          <>
+                            <Input
+                              label={item.label}
+                              type={item.type}
+                              id={item.id}
+                              placeholder={item.placeholder}
+                              field={field}
+                            />
+                            <span className="text-error text-xs pt-2">
+                              {errors[item?.name] && touched[item?.name] ? (
+                                <div>{errors[item?.name]}</div>
+                              ) : null}
+                            </span>
+                          </>
+                        )}
+                      </Field>
+                    </div>
+                  ))}
+                </div>
+                <div className="form-control mt-8 mb-7">
+                  <label className="label cursor-pointer justify-start gap-2">
+                    <input type="checkbox" className="checkbox" />
+                    <span className="text-base text-accent">
+                      By signing up you are agree to suforia terms of services
+                    </span>
+                  </label>
+                </div>
+                <Button type="submit" size="lg">
+                  Sign Up
+                </Button>
+              </Form>
+            </Formik>
+
             {/* footer */}
             <div className="mt-8 mb-[42px]">
               <p className="text-accent text-center text-sm">
