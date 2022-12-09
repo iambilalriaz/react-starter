@@ -6,8 +6,7 @@ frontend for suforia
 
 Install the following for local development:
 
-- [node](https://nodejs.org/en/download/)
-- [yarn](https://classic.yarnpkg.com/en/docs/install)
+- [Node.js](https://nodejs.org/en/download/)
 - [Buf](https://docs.buf.build/installation)
 
 **Note:**

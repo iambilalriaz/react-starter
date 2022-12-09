@@ -6,9 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "pre-commit": "lint-staged",
     "preview": "vite preview",
     "prepare": "husky install",
-    "start": "yarn install && vite"
+    "start": "npm install && vite"
   },
   "dependencies": {
     "react": "^18.2.0",
