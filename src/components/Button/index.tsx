@@ -12,7 +12,7 @@ interface IButtonProps {
 export default function Button({ children, type = 'button', size }: IButtonProps) {
   return (
     // eslint-disable-next-line react/button-has-type
-    <button className={`btn bg-primary ${size ? 'w-full' : ''}`} type={type}>
+    <button className={`btn bg-primary capitalize ${size ? 'w-full' : ''}`} type={type}>
       {children}
     </button>
   );
