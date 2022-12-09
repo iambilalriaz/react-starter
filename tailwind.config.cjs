@@ -22,6 +22,7 @@ module.exports = {
       sans: ['Poppins', 'sans-serif']
     }
   },
+  // eslint-disable-next-line import/no-extraneous-dependencies, global-require
   plugins: [require('daisyui')],
   // daisyUI config (optional)
   daisyui: {
@@ -39,6 +40,8 @@ module.exports = {
         }
       }
     ],
+    // eslint-disable-next-line no-dupe-keys
+    themes: true,
     styled: true,
     base: true,
     utils: true,

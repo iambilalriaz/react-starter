@@ -16,7 +16,7 @@ export default function Input({ label, id, type, placeholder, field }: IInputPro
         id={id}
         type={type}
         placeholder={placeholder}
-        className="input input-bordered w-full max-w-xs"
+        className="input input-bordered w-full "
         // eslint-disable-next-line react/jsx-props-no-spreading
         {...field}
       />
