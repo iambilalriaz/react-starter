@@ -39,6 +39,7 @@ module.exports = {
         }
       }
     ],
+    themes: true,
     styled: true,
     base: true,
     utils: true,
