@@ -4,7 +4,9 @@ Pre-requisites:
 
 - node _(follow [this link](https://nodejs.org/en/download/) to install)_
 - yarn _(follow [this link](https://classic.yarnpkg.com/en/docs/install) to install)_
-- `yarn add -D grpc-tools grpc_tools_node_protoc_ts`
+- [Buf](https://docs.buf.build/installation)
+  You'll also need to install the following
+  `yarn add -D grpc-tools grpc_tools_node_protoc_ts`
 
 Build gRPC client
 
