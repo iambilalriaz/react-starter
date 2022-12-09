@@ -8,6 +8,7 @@ module.exports = {
         secondary: '#aaaaaa',
         accent: '#708090',
         neutral: '#f5f5f5',
+        'dark-gray': '#C6C9CF',
         info: '#199ee9',
         success: '#15CF74',
         warning: '#FBBD23',
