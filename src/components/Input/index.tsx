@@ -10,7 +10,7 @@ export default function Input({ label, id, type, placeholder, field }: IInputPro
   return (
     <div className="form-control">
       <label className="label" htmlFor={id}>
-        <span className="text-base">{label}</span>
+        <span className="md:text-base text-sm">{label}</span>
       </label>
       <input
         id={id}
