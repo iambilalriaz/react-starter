@@ -10,7 +10,7 @@ function OTPInput({ id, placeholder, field }: IOTPInput) {
       type="number"
       id={id}
       placeholder={placeholder}
-      className="border-b-[1.5px] border-primary outline-0 w-8 text-center pb-2 text-[24px]"
+      className="border-b-[1.5px] bg-transparent border-primary outline-0 w-8 text-center pb-2 text-[24px]"
       {...field}
       onChange={(e) => {
         if (e.target.value.length === 1) {

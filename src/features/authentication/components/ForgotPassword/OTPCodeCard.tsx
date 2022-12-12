@@ -18,8 +18,8 @@ export function OTPCodeCard() {
   return (
     <ForgotPasswordLayout>
       <>
-        <p className="text-[24px] bold-[500] text-center text-primary leading-[36px]">OTP Code</p>
-        <p className="text-[16px] bold-[400] text-center text-accent leading-[24px]">
+        <p className="text-2xl bold-[500] text-center text-primary leading-[36px]">OTP Code</p>
+        <p className="text-base bold-[400] text-center text-accent">
           A 6 digit OTP Code has been send to your email given by you
         </p>
         <Formik

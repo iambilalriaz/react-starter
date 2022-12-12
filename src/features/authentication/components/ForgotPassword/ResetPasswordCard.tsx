@@ -1,18 +1,17 @@
 import { Field, Form, Formik } from 'formik';
 import Button from '../../../../components/Button';
+import { Card } from '../../../../components/Card';
 import Input from '../../../../components/Input';
 import ForgotPasswordLayout from '../../../../layouts/ForgotPasswordLayout';
+import CardSubtitle from '../CardSubtitle';
+import CardTitle from '../CardTitle';
 
 function ResetPasswordCard() {
   return (
     <ForgotPasswordLayout>
-      <>
-        <p className="text-[24px] bold-[500] text-center text-primary leading-[36px]">
-          Set New Password
-        </p>
-        <p className="text-[16px] bold-[400] text-center text-accent leading-[24px]">
-          Your new password must be different from the old password
-        </p>
+      <Card>
+        <CardTitle>Set New Password</CardTitle>
+        <CardSubtitle>Your new password must be different from the old password</CardSubtitle>
         <Formik
           initialValues={{ emailOrPhone: '' }}
           // validationSchema={SignupSchema}
@@ -62,7 +61,7 @@ function ResetPasswordCard() {
             </div>
           </Form>
         </Formik>
-      </>
+      </Card>
     </ForgotPasswordLayout>
   );
 }
