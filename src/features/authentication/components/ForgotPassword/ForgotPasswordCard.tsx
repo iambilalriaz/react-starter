@@ -1,19 +1,20 @@
 /* eslint-disable react/no-unescaped-entities */
 import { Field, Form, Formik } from 'formik';
 import Button from '../../../../components/Button';
+import { Card } from '../../../../components/Card';
 import Input from '../../../../components/Input';
 import ForgotPasswordLayout from '../../../../layouts/ForgotPasswordLayout';
+import CardSubtitle from '../CardSubtitle';
+import CardTitle from '../CardTitle';
 
 function ForgotPasswordCard() {
   return (
     <ForgotPasswordLayout>
-      <>
-        <p className="text-[24px] bold-[500] text-center text-primary leading-[36px]">
-          Forget Password
-        </p>
-        <p className="text-[16px] bold-[400] text-center text-accent leading-[24px]">
+      <Card>
+        <CardTitle>Forget Password</CardTitle>
+        <CardSubtitle>
           Enter the email or phone and we'll send OTP Code to reset your password.
-        </p>
+        </CardSubtitle>
         <Formik
           initialValues={{ emailOrPhone: '' }}
           // validationSchema={SignupSchema}
@@ -47,7 +48,7 @@ function ForgotPasswordCard() {
             </div>
           </Form>
         </Formik>
-      </>
+      </Card>
     </ForgotPasswordLayout>
   );
 }
