@@ -7,10 +7,16 @@ interface IOTPInput {
 function OTPInput({ id, placeholder, field }: IOTPInput) {
   return (
     <input
+      type="number"
       id={id}
       placeholder={placeholder}
+      className="border-b-[1.5px] border-primary outline-0 w-8 text-center pb-2 text-[24px]"
       {...field}
-      className="border-none border-b border-primary"
+      onChange={(e) => {
+        if (e.target.value.length === 1) {
+          field.onChange(e);
+        }
+      }}
     />
   );
 }
