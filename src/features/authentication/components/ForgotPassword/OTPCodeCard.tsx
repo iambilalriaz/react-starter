@@ -1,7 +1,10 @@
 import { Field, FieldArray, Form, Formik } from 'formik';
 import { useEffect, useState } from 'react';
 import Button from '../../../../components/Button';
+import { Card } from '../../../../components/Card';
 import ForgotPasswordLayout from '../../../../layouts/ForgotPasswordLayout';
+import CardSubtitle from '../CardSubtitle';
+import CardTitle from '../CardTitle';
 import OTPInput from './OTPInput';
 
 const CODE_LENGTH = new Array(6).fill(0);
@@ -17,11 +20,10 @@ export function OTPCodeCard() {
   }, [countDown]);
   return (
     <ForgotPasswordLayout>
-      <>
-        <p className="text-2xl bold-[500] text-center text-primary leading-[36px]">OTP Code</p>
-        <p className="text-base bold-[400] text-center text-accent">
-          A 6 digit OTP Code has been send to your email given by you
-        </p>
+      <Card>
+        <CardTitle>OTP Code</CardTitle>
+        <CardSubtitle>A 6 digit OTP Code has been send to your email given by you</CardSubtitle>
+
         <Formik
           initialValues={{ codes: ['', '', '', '', '', ''] }}
           onSubmit={() => {}}
@@ -64,7 +66,7 @@ export function OTPCodeCard() {
             </Form>
           )}
         />
-      </>
+      </Card>
     </ForgotPasswordLayout>
   );
 }
