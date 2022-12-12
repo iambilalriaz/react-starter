@@ -1,10 +1,11 @@
+import { RouterProvider } from 'react-router-dom';
 import { Wrapper } from './components/Wrapper';
 import ForgotPassword from './pages/ForgotPassword';
+import { router } from './router';
 // import SignUp from './pages/SignUp';
-
 export default function App() {
   return (
-    <div>
+    <RouterProvider router={router}>
       {/* <SignUp /> */}
       <Wrapper>
         {/* <Card>
@@ -12,6 +13,6 @@ export default function App() {
         </Card> */}
       </Wrapper>
       <ForgotPassword />
-    </div>
+    </RouterProvider>
   );
 }

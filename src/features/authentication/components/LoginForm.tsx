@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import Button from '../../../components/Button';
 import Input from '../../../components/Input';
 import Facebook from '../../../components/SVGS/Facebook';
@@ -57,9 +58,9 @@ export default function LoginForm() {
       <div className="mt-8 mb-[42px]">
         <p className="text-accent font-medium text-center text-sm">
           Don’t have an account!{' '}
-          <a href="/" className="text-primary">
+          <Link to="/signup" className="text-primary">
             Create Account
-          </a>
+          </Link>
         </p>
       </div>
     </div>

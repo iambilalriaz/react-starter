@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 import { Formik, Form, Field } from 'formik';
+import { Link } from 'react-router-dom';
 import { fields } from '../../../data/fields';
 import Input from '../../../components/Input';
 import Button from '../../../components/Button';
@@ -83,9 +84,9 @@ export default function SignupForm() {
       <div className="mt-8 mb-[42px]">
         <p className="text-accent font-medium  text-center text-sm">
           Already have an account!{' '}
-          <a href="/" className="text-primary">
+          <Link to="/login" className="text-primary">
             Log In
-          </a>
+          </Link>
         </p>
       </div>
       {/* social */}
