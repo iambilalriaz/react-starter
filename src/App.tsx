@@ -1,5 +1,5 @@
 import { Wrapper } from './components/Wrapper';
-import ForgotPassword from './pages/ForgotPassword';
+import LoginForm from './features/authentication/components/LoginForm';
 // import SignUp from './pages/SignUp';
 
 export default function App() {
@@ -10,8 +10,9 @@ export default function App() {
         {/* <Card>
           <h2>card body</h2>
         </Card> */}
+        <LoginForm />
       </Wrapper>
-      <ForgotPassword />
+      {/* <ForgotPassword /> */}
     </div>
   );
 }

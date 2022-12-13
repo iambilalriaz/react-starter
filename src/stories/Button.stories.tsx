@@ -6,8 +6,6 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import { Button, IButtonProps } from '../components/Button';
 
-// import { Button } from './Button';
-
 // // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
   title: 'Example/Button',
@@ -17,8 +15,8 @@ export default {
 // eslint-disable-next-line react/function-component-definition
 const Template: ComponentStory<typeof Button> = (args) => <Button {...args} />;
 
-export const GloabalButton = Template.bind({});
-GloabalButton.args = {
+export const Primary = Template.bind({});
+Primary.args = {
   children: 'Click',
   size: 'lg'
 } as IButtonProps;

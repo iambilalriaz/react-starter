@@ -1,4 +1,4 @@
-import Button from '../../../components/Button';
+import { Button } from '../../../components/Button';
 import Input from '../../../components/Input';
 import Facebook from '../../../components/SVGS/Facebook';
 import Linkedin from '../../../components/SVGS/Linkedin';
@@ -24,14 +24,14 @@ export default function LoginForm() {
         />
         <Input label="Password" type="password" id="password" placeholder="******" field="b" />
       </div>
-      <div className="form-control mt-8 mb-7">
+      {/* <div className="form-control mt-8 mb-7">
         <label htmlFor="agree" className="label cursor-pointer justify-start gap-2">
           <input type="checkbox" className="checkbox" id="agree" />
           <span className="text-base text-accent">
             By signing up you are agree to suforia terms of services
           </span>
         </label>
-      </div>
+      </div> */}
 
       <div>
         <p className="text-center mb-5 text-accent">Or continue with</p>

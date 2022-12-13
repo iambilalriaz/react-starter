@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import { Field, Form, Formik } from 'formik';
-import Button from '../../../../components/Button';
+import { Button } from '../../../../components/Button';
 import { Card } from '../../../../components/Card';
 import Input from '../../../../components/Input';
 import ForgotPasswordLayout from '../../../../layouts/ForgotPasswordLayout';
