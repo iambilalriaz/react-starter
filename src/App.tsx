@@ -1,18 +1,19 @@
 import { Wrapper } from './components/Wrapper';
 import LoginForm from './features/authentication/components/LoginForm';
-// import SignUp from './pages/SignUp';
+import SignupForm from './features/authentication/components/SignupForm';
 
 export default function App() {
   return (
-    <div>
+    <>
       {/* <SignUp /> */}
       <Wrapper>
         {/* <Card>
           <h2>card body</h2>
         </Card> */}
         <LoginForm />
+        <SignupForm />
       </Wrapper>
       {/* <ForgotPassword /> */}
-    </div>
+    </>
   );
 }

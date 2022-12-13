@@ -2,9 +2,11 @@ import * as Yup from 'yup';
 import { Formik, Form, Field } from 'formik';
 import { fields } from '../../../data/fields';
 import Input from '../../../components/Input';
-import Button from '../../../components/Button';
+import { Button } from '../../../components/Button';
 import Facebook from '../../../components/SVGS/Facebook';
 import Linkedin from '../../../components/SVGS/Linkedin';
+import { CardDivider } from './CardDivider';
+import { Card } from '../../../components/Card';
 
 const initialValues = {
   firstName: '',
@@ -27,7 +29,7 @@ const SignupSchema = Yup.object().shape({
 
 export default function SignupForm() {
   return (
-    <div>
+    <Card>
       <div className="flex flex-col mb-11 items-center justify-center">
         <h2 className="md:text-2xl text-lg">Create Account</h2>
         <p className="text-accent md:text-base text-lg">Get started with Suforia</p>
@@ -89,7 +91,8 @@ export default function SignupForm() {
         </p>
       </div>
       {/* social */}
-      <p className="text-center mb-5">Or continue with</p>
+      {/* <p className="text-center mb-5">Or continue with</p> */}
+      <CardDivider />
       <div className="flex justify-center gap-6">
         <a href="/">
           <div className="rounded-full w-[50px] border-[#c6c9cf] grid place-content-center h-[50px] border">
@@ -102,6 +105,6 @@ export default function SignupForm() {
           </div>
         </a>
       </div>
-    </div>
+    </Card>
   );
 }
