@@ -1,6 +1,6 @@
 import { Field, FieldArray, Form, Formik } from 'formik';
 import { useEffect, useState } from 'react';
-import Button from '../../../../components/Button';
+import { Button } from '../../../../components/Button';
 import { Card } from '../../../../components/Card';
 import ForgotPasswordLayout from '../../../../layouts/ForgotPasswordLayout';
 import CardSubtitle from '../CardSubtitle';

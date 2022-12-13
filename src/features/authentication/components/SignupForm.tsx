@@ -3,7 +3,7 @@ import { Formik, Form, Field } from 'formik';
 import { Link } from 'react-router-dom';
 import { fields } from '../../../data/fields';
 import Input from '../../../components/Input';
-import Button from '../../../components/Button';
+import { Button } from '../../../components/Button';
 import Facebook from '../../../components/SVGS/Facebook';
 import Linkedin from '../../../components/SVGS/Linkedin';
 
