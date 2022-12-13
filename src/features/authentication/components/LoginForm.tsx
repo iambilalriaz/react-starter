@@ -13,9 +13,7 @@ export default function LoginForm() {
         <h2 className="md:text-2xl text-lg">Log In</h2>
         <p className="text-accent md:text-base text-lg">Log In to continue to suforia</p>
       </div>
-
       {/* inputs */}
-
       <div className="grid gap-x-4">
         <Input
           label="Email"
@@ -26,7 +24,11 @@ export default function LoginForm() {
         />
         <Input label="Password" type="password" id="password" placeholder="******" field="b" />
       </div>
-
+      <div className="flex justify-end mt-[10px] mb-[6px]">
+        <a href="/" className="underline font-medium text-sm text-black">
+          Forgot your password?
+        </a>
+      </div>
       <div>
         <CardDivider />
         <div className="flex justify-center gap-6 mb-[30px]">
