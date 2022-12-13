@@ -19,7 +19,7 @@ function AuthLayout({ children }: { children: JSX.Element }) {
           </div>
         </div>
         <div className="flex gap-4 flex-col md:w-[50%] justify-center">
-          <div className="mx-auto md:max-w-[583px]">{children}</div>
+          <div className=" mx-auto w-full  md:max-w-[583px] ">{children}</div>
         </div>
       </div>
     </main>
