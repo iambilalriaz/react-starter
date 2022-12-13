@@ -1,6 +1,7 @@
+import React from 'react';
 import Logo from '../components/SVGS/Logo';
 
-function AuthLayout({ children }: { children: JSX.Element }) {
+function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
     <main>
       <div className="flex gap-4 flex-col w-[90%] md:w-full mx-auto md:flex-row md:h-screen md:place-content-center">
