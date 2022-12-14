@@ -24,3 +24,15 @@ input[type='number'] {
   margin-left: -17px;
   font-size: 10px;
 }
+.otp-input:focus::-webkit-input-placeholder {
+  color: transparent;
+}
+.otp-input:focus:-moz-placeholder {
+  color: transparent;
+} /* FF 4-18 */
+.otp-input:focus::-moz-placeholder {
+  color: transparent;
+} /* FF 19+ */
+.otp-input:focus:-ms-input-placeholder {
+  color: transparent;
+} /* IE 10+ */

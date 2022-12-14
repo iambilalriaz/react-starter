@@ -1,12 +1,16 @@
 import IntlTelInput from 'react-intl-tel-input';
 import React from 'react';
 import Logo from '../components/SVGS/Logo';
+import AuthHeader from '../features/authentication/components/Header';
 
 import 'react-intl-tel-input/dist/main.css';
 
 function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
     <main>
+      <div className="sticky top-0 md:hidden">
+        <AuthHeader />
+      </div>
       <div className="flex gap-4 flex-col w-[90%] md:w-full mx-auto md:flex-row md:h-screen md:place-content-center">
         <div className="md:w-[50%] rounded md:rounded-none bg-black mt-[10px] md:mt-0 p-8 text-white">
           <div className="md:ml-[100px]">

@@ -1,8 +1,8 @@
-export default function DarkLogo() {
+export default function DarkLogo({ width, height }: { width: string; height: string }) {
   return (
     <svg
-      width="195"
-      height="29"
+      width={width}
+      height={height}
       viewBox="0 0 195 29"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

@@ -1,23 +1,22 @@
-import { RouteObject } from 'react-router-dom';
 import ForgotPassword from '../pages/ForgotPassword';
 import Login from '../pages/Login';
 import SignUp from '../pages/SignUp';
 
-export const routes: RouteObject[] = [
+export const routes = [
   {
     path: '/',
-    element: Login()
+    element: <Login />
   },
   {
     path: '/login',
-    element: Login()
+    element: <Login />
   },
   {
     path: '/signup',
-    element: SignUp()
+    element: <SignUp />
   },
   {
     path: '/forgot-password',
-    element: ForgotPassword()
+    element: <ForgotPassword />
   }
 ];
