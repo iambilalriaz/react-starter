@@ -12,10 +12,12 @@ module.exports = {
         info: '#199ee9',
         success: '#15CF74',
         warning: '#FBBD23',
-        error: '#ea4335'
+        error: '#ea4335',
+        base: 'dad9d9'
       },
       boxShadow: {
-        '4xl': '0px 0px 34px rgba(0, 0, 0, 0.1)'
+        '4xl': '0px 0px 34px rgba(0, 0, 0, 0.1)',
+        bottom: '0px 0px 11px rgba(0, 0, 0, 0.06)'
       },
       borderRadius: {
         '1.5xl': '13px'
@@ -44,7 +46,7 @@ module.exports = {
       }
     ],
     // eslint-disable-next-line no-dupe-keys
-    themes: true,
+    // themes: true,
     styled: true,
     base: true,
     utils: true,

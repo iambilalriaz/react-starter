@@ -35,7 +35,8 @@
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
     "import/extensions": ["error", "never", { "ignorePackages": true }],
     "import/no-unresolved": 0,
-    "react/jsx-props-no-spreading": 0
+    "react/jsx-props-no-spreading": 0,
+    "react/function-component-definition": 0
   },
   "overrides": [
     {

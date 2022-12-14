@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import { Field, Form, Formik } from 'formik';
 import React, { Dispatch } from 'react';
+import { Link } from 'react-router-dom';
 import { Button } from '../../../../components/Button';
 import { Card } from '../../../../components/Card';
 import Input from '../../../../components/Input';
@@ -51,6 +52,12 @@ function ForgotPasswordCard({
           </div>
         </Form>
       </Formik>
+      <p className="text-xs mt-5 text-center text-accent font-medium">
+        Don you want to go back?{' '}
+        <Link className="text-primary cursor-pointer" to="/login">
+          Sign In
+        </Link>
+      </p>
     </Card>
   );
 }
