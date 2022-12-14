@@ -6,13 +6,15 @@ import Facebook from '../../../components/SVGS/Facebook';
 import Linkedin from '../../../components/SVGS/Linkedin';
 import Qrcode from '../../../components/SVGS/Qrcode';
 import { CardDivider } from './CardDivider';
+import CardSubtitle from './CardSubtitle';
+import CardTitle from './CardTitle';
 
 export default function LoginForm() {
   return (
     <Card>
       <div className="flex flex-col mb-11 gap-[15px] items-center justify-center">
-        <h2 className="md:text-2xl text-lg">Log In</h2>
-        <p className="text-accent md:text-base text-lg">Log In to continue to suforia</p>
+        <CardTitle>Log In</CardTitle>
+        <CardSubtitle>Log In to continue to suforia</CardSubtitle>
       </div>
       {/* inputs */}
       <div className="grid gap-x-4">
