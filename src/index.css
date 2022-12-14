@@ -14,6 +14,16 @@ input[type='number'] {
   -moz-appearance: textfield;
 }
 
+.iti-flag {
+  position: absolute;
+  top: 37%;
+}
+.intl-tel-input .flag-container .arrow {
+  top: 31%;
+  position: absolute;
+  margin-left: -17px;
+  font-size: 10px;
+}
 .otp-input:focus::-webkit-input-placeholder {
   color: transparent;
 }

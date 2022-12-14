@@ -1,6 +1,9 @@
+import IntlTelInput from 'react-intl-tel-input';
 import React from 'react';
 import Logo from '../components/SVGS/Logo';
 import AuthHeader from '../features/authentication/components/Header';
+
+import 'react-intl-tel-input/dist/main.css';
 
 function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -25,6 +28,8 @@ function AuthLayout({ children }: { children: React.ReactNode }) {
         </div>
         <div className="flex gap-4 flex-col md:w-[50%] justify-center">
           <div className=" mx-auto w-full  md:max-w-[583px] ">{children}</div>
+
+          <IntlTelInput inputClassName="input inputBox input-bordered" separateDialCode format />
         </div>
       </div>
     </main>

@@ -46,7 +46,7 @@ module.exports = {
       }
     ],
     // eslint-disable-next-line no-dupe-keys
-    // themes: true,
+    themes: true,
     styled: true,
     base: true,
     utils: true,
