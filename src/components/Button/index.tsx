@@ -1,19 +1,17 @@
-/* eslint-disable no-unused-vars */
 import { ReactNode } from 'react';
 
 export interface IButtonProps {
   children: ReactNode;
-  // eslint-disable-next-line react/require-default-props
   type?: 'submit' | 'reset' | 'button';
-  // eslint-disable-next-line react/require-default-props
   size?: 'sm' | 'lg';
+  htmlFor?: string;
 }
 
-export function Button({ children, type = 'button', size }: IButtonProps): JSX.Element {
+export function Button({ children, type = 'button', size, htmlFor }: IButtonProps): JSX.Element {
   return (
     // eslint-disable-next-line react/button-has-type
-    <button className={`btn bg-primary capitalize ${size ? 'w-full' : ''}`} type={type}>
-      {children}
+    <button className={`btn bg-primary text-white capitalize ${size ? 'w-full' : ''}`} type={type}>
+      {htmlFor ? <label htmlFor={htmlFor}>{children}</label> : children}
     </button>
   );
 }
