@@ -1,11 +1,12 @@
 .PHONY:
 setup:
 	npm install
-	npm i -g grpc-tools grpc_tools_node_protoc_ts
+	npm install ts-protoc-gen
 
 .PHONY:
 protos:
-	buf generate
+	export PATH=$PATH:node_modules/ts-protoc-gen/bin
+	buf generate --path api
 
 .PHONY:
 run: protos
