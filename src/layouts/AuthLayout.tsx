@@ -1,7 +1,8 @@
 // import IntlTelInput from 'react-intl-tel-input';
 import React from 'react';
-import Logo from '../components/SVGS/Logo';
+// import Logo from '../components/SVGS/Logo';
 import AuthHeader from '../features/authentication/components/Header';
+import logo from '../assets/header-logo.svg';
 
 import 'react-intl-tel-input/dist/main.css';
 
@@ -15,7 +16,7 @@ function AuthLayout({ children }: { children: React.ReactNode }) {
         <div className="md:w-[50%] rounded md:rounded-none bg-black mt-[10px] md:mt-0 p-8 text-white">
           <div className="md:ml-[100px]">
             <header className="mb-[239px] hidden md:block  mt-[76px]">
-              <Logo />
+              <img src={logo} alt="Suforia" />
             </header>
             <h1 className="md:text-2xl font-semibold md:mb-[18px] text-base text-neutral">
               Welcome to Suforia

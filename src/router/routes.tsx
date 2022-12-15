@@ -16,7 +16,7 @@ export const routes = [
     element: <SignUp />
   },
   {
-    path: '/forgot-password',
+    path: '/code',
     element: <ForgotPassword />
   }
 ];

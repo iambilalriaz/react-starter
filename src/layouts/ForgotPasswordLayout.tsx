@@ -1,5 +1,6 @@
 import React from 'react';
-import DarkLogo from '../components/SVGS/DarkLogo';
+// import DarkLogo from '../components/SVGS/DarkLogo';
+import logo from '../assets/dark-logo.svg';
 // import topPattern from '../assets/topPattern.svg';
 // import bottomPattern from '../assets/bottomPattern.svg';
 import { Wrapper } from '../components/Wrapper';
@@ -15,7 +16,8 @@ function ForgotPasswordLayout({ children }: ILayoutProps) {
         <AuthHeader />
       </div>
       <header className="px-[76px] py-[37px]">
-        <DarkLogo width="195" height="29" />
+        {/* <DarkLogo width="195" height="29" /> */}
+        <img src={logo} alt="suforia" />
       </header>
       <div>
         <Wrapper>

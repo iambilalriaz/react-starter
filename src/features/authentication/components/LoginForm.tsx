@@ -1,88 +1,134 @@
-import { Form, Formik } from 'formik';
-import { Link } from 'react-router-dom';
+/* eslint-disable camelcase */
+import { GrpcWebFetchTransport } from '@protobuf-ts/grpcweb-transport';
+import { Field, Form, Formik } from 'formik';
+import * as Yup from 'yup';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AuthServiceClient } from '../../../api/authpb/v1/auth.client';
 import { Button } from '../../../components/Button';
 import { Card } from '../../../components/Card';
 import Input from '../../../components/Input';
-import Facebook from '../../../components/SVGS/Facebook';
-import Linkedin from '../../../components/SVGS/Linkedin';
-import Qrcode from '../../../components/SVGS/Qrcode';
-import { CardDivider } from './CardDivider';
 import CardSubtitle from './CardSubtitle';
 import CardTitle from './CardTitle';
+import { RequestEmailLinkRequest_AppType } from '../../../api/authpb/v1/auth';
 
+const ErrorMessage = ({ text }: { text: string }): JSX.Element => (
+  <span className="text-xs text-error mt-1">{text}</span>
+);
+const transport = new GrpcWebFetchTransport({
+  baseUrl: 'http://localhost:3000'
+});
+
+const authService = new AuthServiceClient(transport);
+
+// type FormValues = {
+//   email: string;
+//   phoneNumber: string;
+// };
 const initialValues = {
-  email: ''
+  email: '',
+  phoneNumber: ''
 };
 
 export default function LoginForm() {
-  const clickHandle = () => {
-    console.log('clicked');
+  const [inputType, setInputType] = useState('email');
+  const navigate = useNavigate();
+
+  authService.requestEmailLink({
+    email: 'haris.shah@datumbrain.com',
+    appType: RequestEmailLinkRequest_AppType.USERS_APP
+  });
+
+  const FormSchema = Yup.object().shape(
+    inputType === 'email'
+      ? {
+          email: Yup.string()
+            .email('Please enter a valid email address')
+            .required('Email address is empty')
+        }
+      : {
+          phoneNumber: Yup.string()
+            .matches(/^\(?\d{3}\)?[- ]?\d{3}[- ]?\d{4}$/, {
+              message: 'Please enter a valid phone number'
+            })
+            .required('Phone number is empty')
+        }
+  );
+
+  const changeInputType = () => {
+    setInputType((prevInputType) => (prevInputType === 'email' ? 'phone' : 'email'));
+  };
+  const onFormSubmit = () => {
+    navigate('/code');
   };
   return (
-    <Formik initialValues={initialValues} onSubmit={clickHandle}>
-      <Form>
-        <Card>
-          <div className="flex flex-col mb-11 gap-[15px] items-center justify-center">
-            <CardTitle>Log In</CardTitle>
-            <CardSubtitle>Log In to continue to suforia</CardSubtitle>
-          </div>
-          {/* inputs */}
-          <div className="grid gap-x-4">
-            {/* <Field name="email"> */}
-            <Input
-              label="Email"
-              type="email"
-              id="email"
-              placeholder="bill.sanders@example.com"
-              field="b"
-              name="email"
-            />
-            {/* </Field> */}
-            {/* <Input label="Password" type="password" id="password" placeholder="******" field="b" /> */}
-          </div>
-          {/* <div className="flex justify-end mt-[10px] mb-[6px]">
-        <Link to="/forgot-password" className="underline font-medium text-sm text-black">
-        Forgot your password?
-        </Link>
-      </div> */}
-          <div className="flex justify-end mt-[10px] mb-[6px]">
-            <Link to="/forgot-password" className="underline font-medium text-sm text-black">
-              or continue with phone number
-            </Link>
-          </div>
-          <div>
-            <CardDivider />
-            <div className="flex justify-center gap-6 mb-[30px]">
-              <a href="/">
-                <div className="rounded-full w-[50px] border-[#c6c9cf] grid place-content-center h-[50px] border">
-                  <Facebook />
-                </div>
-              </a>
-              <a href="/">
-                <div className="rounded-full w-[50px] border-[#c6c9cf] grid place-content-center h-[50px] border">
-                  <Linkedin />
-                </div>
-              </a>
-              <a href="/">
-                <div className="rounded-full w-[50px] border-[#c6c9cf] grid place-content-center h-[50px] border">
-                  <Qrcode />
-                </div>
-              </a>
+    <Formik initialValues={initialValues} validationSchema={FormSchema} onSubmit={onFormSubmit}>
+      {({ setFieldValue, setFieldTouched, errors, touched }) => (
+        <Form>
+          <Card>
+            <div className="flex flex-col mb-11 gap-[15px] items-center justify-center">
+              <CardTitle>Log In</CardTitle>
+              <CardSubtitle>Log In to continue to suforia</CardSubtitle>
             </div>
-          </div>
-          <Button size="lg" type="submit" onClick={clickHandle}>
-            Log In
-          </Button>
-          <div className="mt-8 mb-[42px]">
-            <p className="text-accent font-medium text-center text-sm">
-              Don’t have an account!{' '}
-              <Link to="/signup" className="text-primary">
-                Create Account
-              </Link>
-            </p>
-          </div>
-        </Card>
-      </Form>
+            {/* inputs */}
+            <div className="grid gap-x-4">
+              {inputType === 'email' ? (
+                <Field name="email">
+                  {({ field }: any) => (
+                    <>
+                      <Input
+                        label="Email"
+                        type=""
+                        id="email"
+                        placeholder="bill.sanders@example.com"
+                        field={field}
+                      />
+                      {touched?.email && errors?.email ? <ErrorMessage text={errors?.email} /> : ''}
+                    </>
+                  )}
+                </Field>
+              ) : (
+                <Field name="phoneNumber">
+                  {({ field }: any) => (
+                    <>
+                      <Input
+                        label="Phone Number"
+                        type="text"
+                        id="phoneNumber"
+                        placeholder="(480) 555-0103"
+                        field={field}
+                      />
+                      {touched?.phoneNumber && errors?.phoneNumber ? (
+                        <ErrorMessage text={errors?.phoneNumber} />
+                      ) : (
+                        ''
+                      )}
+                    </>
+                  )}
+                </Field>
+              )}
+            </div>
+            <div className="flex justify-end mt-2">
+              <button
+                type="button"
+                onClick={() => {
+                  changeInputType();
+                  setFieldValue(inputType === 'email' ? 'email' : 'phoneNumber', '');
+                  setFieldTouched('email', false);
+                  setFieldTouched('phoneNumber', false);
+                }}
+                className="underline font-medium text-sm text-black mb-8"
+              >
+                use {inputType === 'email' ? 'phone number' : 'email'} instead
+              </button>
+            </div>
+
+            <Button size="lg" type="submit">
+              Log In
+            </Button>
+          </Card>
+        </Form>
+      )}
     </Formik>
   );
 }
