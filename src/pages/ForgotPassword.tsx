@@ -5,7 +5,7 @@ import ResetPasswordCard from '../features/authentication/components/ForgotPassw
 import ForgotPasswordLayout from '../layouts/ForgotPasswordLayout';
 
 export default function ForgotPassword() {
-  const [activePageIdx, setActivePageIdx] = useState(0);
+  const [activePageIdx, setActivePageIdx] = useState(1);
   let ActiveComponent: JSX.Element | string = '';
   if (activePageIdx === 0)
     ActiveComponent = <ForgotPasswordCard setActivePageIdx={setActivePageIdx} />;

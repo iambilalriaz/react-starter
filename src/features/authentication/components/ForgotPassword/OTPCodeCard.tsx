@@ -1,5 +1,5 @@
 import { Field, FieldArray, Form, Formik } from 'formik';
-import React, { Dispatch, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '../../../../components/Button';
 import { Card } from '../../../../components/Card';
 import CardSubtitle from '../CardSubtitle';
@@ -7,20 +7,21 @@ import CardTitle from '../CardTitle';
 import OTPInput from './OTPInput';
 
 const CODE_LENGTH = [1, 2, 3, 4, 5, 6];
-export function OTPCodeCard({
-  setActivePageIdx
-}: {
-  setActivePageIdx: Dispatch<React.SetStateAction<number>>;
-}) {
-  const [countDown, setCountDown] = useState(59);
+
+export function OTPCodeCard() {
+  const [countDown, setCountDown] = useState(+(localStorage.getItem('countDown') || 59));
+
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      if (countDown >= 1) {
-        setCountDown((prevCount) => prevCount - 1);
-      }
-    }, 1000);
+    let intervalId = 0;
+    if (countDown >= 1) {
+      intervalId = window.setInterval(() => {
+        localStorage.setItem('countDown', (countDown - 1).toString());
+        setCountDown(+(localStorage.getItem('countDown') || 0));
+      }, 1000);
+    }
     return () => clearInterval(intervalId);
   }, [countDown]);
+
   return (
     <Card>
       <CardTitle>OTP Code</CardTitle>
@@ -28,8 +29,8 @@ export function OTPCodeCard({
 
       <Formik
         initialValues={{ codes: ['', '', '', '', '', ''] }}
-        onSubmit={() => {
-          setActivePageIdx((prevIdx: number) => prevIdx + 1);
+        onSubmit={(values) => {
+          console.log(values.codes.join(''));
         }}
         render={() => (
           <Form>
@@ -56,8 +57,17 @@ export function OTPCodeCard({
                 </div>
               )}
             />
-            <p className="cursor-pointer text-center text-[15px] text-accent font-normal leading-[11px]">
-              Resend OTP{' '}
+            <p className="text-center text-[15px] text-accent font-normal leading-[11px]">
+              <button
+                type="button"
+                className={`${countDown > 1 ? 'pointer-events-none disabled' : 'cursor-pointer'}`}
+                onClick={() => {
+                  setCountDown(59);
+                  localStorage.setItem('countDown', '59');
+                }}
+              >
+                Resend OTP
+              </button>{' '}
               {countDown ? (
                 <span className="text-primary font-normal leading-[14px]">({countDown}s)</span>
               ) : null}
