@@ -9,7 +9,7 @@
     "pre-commit": "lint-staged",
     "preview": "vite preview",
     "prepare": "husky install",
-    "start": "npm install && vite",
+    "start": "vite",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },

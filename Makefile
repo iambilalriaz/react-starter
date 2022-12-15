@@ -1,6 +1,6 @@
 .PHONY:
 setup:
-	npm install
+	npm install --legacy-peer-deps
 
 .PHONY:
 protos:
