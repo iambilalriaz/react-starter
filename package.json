@@ -6,15 +6,17 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "pre-commit": "lint-staged",
     "preview": "vite preview",
     "prepare": "husky install",
-    "start": "yarn install && vite"
+    "start": "vite"
   },
   "dependencies": {
+    "@protobuf-ts/grpcweb-transport": "^2.8.2",
+    "@protobuf-ts/plugin": "^2.8.2",
     "grpc-web": "^1.4.2",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "ts-protoc-gen": "^0.15.0"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.24",
