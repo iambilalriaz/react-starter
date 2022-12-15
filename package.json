@@ -9,7 +9,7 @@
     "pre-commit": "lint-staged",
     "preview": "vite preview",
     "prepare": "husky install",
-    "start": "npm install && vite"
+    "start": "vite"
   },
   "dependencies": {
     "@protobuf-ts/grpcweb-transport": "^2.8.2",
