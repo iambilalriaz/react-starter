@@ -21,7 +21,9 @@
     "react-intl-tel-input": "^8.2.0",
     "react-router-dom": "^6.4.5",
     "sort-by": "^1.2.0",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "grpc-web": "^1.4.2",
+    "ts-protoc-gen": "^0.15.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.5",
