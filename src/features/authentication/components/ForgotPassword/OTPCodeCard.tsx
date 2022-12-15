@@ -19,6 +19,8 @@ export function OTPCodeCard() {
         localStorage.setItem('countDown', (countDown - 1).toString());
         setCountDown(+(localStorage.getItem('countDown') || 0));
       }, 1000);
+    } else {
+      localStorage.removeItem('countDown');
     }
     return () => clearInterval(intervalId);
   }, [countDown]);

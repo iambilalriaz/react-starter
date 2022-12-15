@@ -1,30 +1,25 @@
 /* eslint-disable camelcase */
-import { GrpcWebFetchTransport } from '@protobuf-ts/grpcweb-transport';
 import { Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AuthServiceClient } from '../../../api/authpb/v1/auth.client';
+import { GrpcWebFetchTransport } from '@protobuf-ts/grpcweb-transport';
 import { Button } from '../../../components/Button';
 import { Card } from '../../../components/Card';
 import Input from '../../../components/Input';
 import CardSubtitle from './CardSubtitle';
 import CardTitle from './CardTitle';
+import { AuthServiceClient } from '../../../api/authpb/v1/auth.client';
 import { RequestEmailLinkRequest_AppType } from '../../../api/authpb/v1/auth';
 
 const ErrorMessage = ({ text }: { text: string }): JSX.Element => (
   <span className="text-xs text-error mt-1">{text}</span>
 );
-const transport = new GrpcWebFetchTransport({
-  baseUrl: 'http://localhost:3000'
-});
 
-const authService = new AuthServiceClient(transport);
-
-// type FormValues = {
-//   email: string;
-//   phoneNumber: string;
-// };
+type FormValues = {
+  email: string;
+  phoneNumber: string;
+};
 const initialValues = {
   email: '',
   phoneNumber: ''
@@ -33,11 +28,6 @@ const initialValues = {
 export default function LoginForm() {
   const [inputType, setInputType] = useState('email');
   const navigate = useNavigate();
-
-  authService.requestEmailLink({
-    email: 'haris.shah@datumbrain.com',
-    appType: RequestEmailLinkRequest_AppType.USERS_APP
-  });
 
   const FormSchema = Yup.object().shape(
     inputType === 'email'
@@ -58,7 +48,17 @@ export default function LoginForm() {
   const changeInputType = () => {
     setInputType((prevInputType) => (prevInputType === 'email' ? 'phone' : 'email'));
   };
-  const onFormSubmit = () => {
+  const onFormSubmit = (values: FormValues) => {
+    const transport = new GrpcWebFetchTransport({
+      baseUrl: 'http://192.168.0.117:8089'
+    });
+    const authService = new AuthServiceClient(transport);
+    authService
+      .requestEmailLink({
+        email: values?.email,
+        appType: RequestEmailLinkRequest_AppType.USERS_APP
+      })
+      .then((response) => console.log(response));
     navigate('/code');
   };
   return (
