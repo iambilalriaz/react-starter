@@ -30,21 +30,21 @@ export const fields = [
     id: 'email',
     name: 'email',
     placeholder: 'bill.sanders@example.com'
-  },
-  {
-    fid: 5,
-    label: 'Password',
-    type: 'password',
-    id: 'password',
-    name: 'password',
-    placeholder: '******'
-  },
-  {
-    fid: 6,
-    label: 'Confirm Password',
-    type: 'password',
-    id: 'cpassword',
-    name: 'confirmPassword',
-    placeholder: '******'
   }
+  // {
+  //   fid: 5,
+  //   label: 'Password',
+  //   type: 'password',
+  //   id: 'password',
+  //   name: 'password',
+  //   placeholder: '******'
+  // },
+  // {
+  //   fid: 6,
+  //   label: 'Confirm Password',
+  //   type: 'password',
+  //   id: 'cpassword',
+  //   name: 'confirmPassword',
+  //   placeholder: '******'
+  // }
 ];

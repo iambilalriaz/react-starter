@@ -9,9 +9,10 @@ interface IInputProps {
   placeholder: string;
   // eslint-disable-next-line react/require-default-props
   field?: any;
+  name?: string;
 }
 
-export default function Input({ label, id, type, placeholder = '', field }: IInputProps) {
+export default function Input({ label, id, type, placeholder = '', field, name }: IInputProps) {
   const [togglePassword, setTogglePassword] = useState(false);
 
   const passwordDisplayHandle = () => {
@@ -32,6 +33,7 @@ export default function Input({ label, id, type, placeholder = '', field }: IInp
             className="input input-bordered w-full"
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...field}
+            name={name}
           />
           <div
             onClick={passwordDisplayHandle}

@@ -28,7 +28,6 @@ function AuthLayout({ children }: { children: React.ReactNode }) {
         </div>
         <div className="flex gap-4 flex-col md:w-[50%] justify-center">
           <div className=" mx-auto w-full  md:max-w-[583px] ">{children}</div>
-
           {/* do not remove this */}
           {/* <IntlTelInput inputClassName="input inputBox input-bordered" separateDialCode format /> */}
         </div>
