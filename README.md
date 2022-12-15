@@ -8,7 +8,6 @@ Install the following for local development:
 
 - [Node.js](https://nodejs.org/en/download/)
 - [Buf](https://docs.buf.build/installation)
-- [protoc for TypeScript](https://github.com/improbable-eng/ts-protoc-gen#installation)
 
 ## Navigating this repo
 
