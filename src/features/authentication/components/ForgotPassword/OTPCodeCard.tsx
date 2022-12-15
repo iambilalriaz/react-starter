@@ -1,5 +1,6 @@
 import { Field, FieldArray, Form, Formik } from 'formik';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../../../../components/Button';
 import { Card } from '../../../../components/Card';
 import CardSubtitle from '../CardSubtitle';
@@ -10,7 +11,7 @@ const CODE_LENGTH = [1, 2, 3, 4, 5, 6];
 
 export function OTPCodeCard() {
   const [countDown, setCountDown] = useState(+(localStorage.getItem('countDown') || 59));
-
+  const navigate = useNavigate();
   useEffect(() => {
     let intervalId = 0;
     if (countDown >= 1) {
@@ -21,6 +22,10 @@ export function OTPCodeCard() {
     }
     return () => clearInterval(intervalId);
   }, [countDown]);
+
+  const clickHandle = () => {
+    navigate('/home');
+  };
 
   return (
     <Card>
@@ -73,7 +78,7 @@ export function OTPCodeCard() {
               ) : null}
             </p>
             <div className="mt-16">
-              <Button type="submit" size="lg">
+              <Button onClick={clickHandle} type="submit" size="lg">
                 Done
               </Button>
             </div>
