@@ -14,15 +14,47 @@ input[type='number'] {
   -moz-appearance: textfield;
 }
 
+.selected-flag {
+  display: flex !important;
+}
+
+.arrow {
+  transform: scale(1.5) translate(36px, 0px);
+}
+
 .iti-flag {
-  position: absolute;
-  top: 37%;
+  transform: scale(1.1) translate(3px, -1px);
 }
 .intl-tel-input .flag-container .arrow {
   top: 31%;
   position: absolute;
-  margin-left: -17px;
   font-size: 10px;
+}
+
+.intl-tel-input.allow-dropdown.separate-dial-code .selected-flag {
+  background: #fff;
+  width: 90%;
+  margin: 0px 0px 3px 3px;
+}
+
+.intl-tel-input.allow-dropdown.separate-dial-code .selected-dial-code::before {
+  content: '(';
+  position: absolute;
+  margin-left: -8px;
+}
+.intl-tel-input.allow-dropdown.separate-dial-code .selected-dial-code::after {
+  content: ')';
+  position: absolute;
+  padding-left: 2px;
+}
+.intl-tel-input.allow-dropdown.separate-dial-code .selected-dial-code {
+  color: #708090;
+  margin-block: 2px;
+}
+.intl-tel-input.allow-dropdown.separate-dial-code.iti-sdc-2 input,
+.intl-tel-input.allow-dropdown.separate-dial-code.iti-sdc-2 input[type='text'],
+.intl-tel-input.allow-dropdown.separate-dial-code.iti-sdc-2 input[type='tel'] {
+  padding-left: 100px !important;
 }
 .otp-input:focus::-webkit-input-placeholder {
   color: transparent;
