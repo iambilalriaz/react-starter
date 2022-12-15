@@ -1,16 +1,34 @@
-## Running project
+# frontend
 
-Pre-requisites:
+frontend for suforia
 
-- node _(follow [this link](https://nodejs.org/en/download/) to install)_
-- yarn _(follow [this link](https://classic.yarnpkg.com/en/docs/install) to install)_
-- [buf](https://docs.buf.build/installation)
-- [protoc typescript](https://github.com/improbable-eng/ts-protoc-gen#installation)
+## Getting Started
 
-Execute following command:
+Install the following for local development:
+
+- [Node.js](https://nodejs.org/en/download/)
+- [Buf](https://docs.buf.build/installation)
+
+## Navigating this repo
+
+Check our Makefile for useful commands. This includes generating protos, running tha app.
+
+* `api` - a git submodule that describes the various API's that we support. This is analogous to a swagger spec, but is used to generate code and provide both a client-server contract. Read up on [gRPC](https://grpc.io/) for more
+* `src/` - contains the TypeScript source code.
+* `public` - contains images
+
+## Running the app
+
+To install dependencies, run
 
 ```bash
-npm start
+make setup
 ```
 
-Visit `http://localhost:5173` to see the running app.
+To run the project locally
+
+```bash
+make run
+```
+
+Visit [http://localhost:5173](http://localhost:5173) to see the running app.

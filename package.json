@@ -6,13 +6,16 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "pre-commit": "lint-staged",
     "preview": "vite preview",
     "prepare": "husky install",
-    "start": "yarn install && vite",
+    "start": "npm install && vite",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
   "dependencies": {
+    "@protobuf-ts/grpcweb-transport": "^2.8.2",
+    "@protobuf-ts/plugin": "^2.8.2",
     "formik": "^2.2.9",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
