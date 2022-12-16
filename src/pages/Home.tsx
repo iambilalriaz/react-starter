@@ -3,10 +3,10 @@ import { Wrapper } from '../components/Wrapper';
 
 export default function Home() {
   return (
-    <div>
+    <div className="grid place-items-center h-screen">
       <Wrapper>
         <Card>
-          <h2>Welcome to your dashboard Home page</h2>
+          <p className="text-lg">Welcome to your dashboard Home page</p>
         </Card>
       </Wrapper>
     </div>

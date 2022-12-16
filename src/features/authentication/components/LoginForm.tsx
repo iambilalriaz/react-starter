@@ -62,13 +62,16 @@ export default function LoginForm() {
         appType: RequestEmailLinkRequest_AppType.USERS_APP
       })
       .then((response) => {
+        localStorage.setItem('countDown', '59');
+        navigate('/code?inputType=email', { replace: true });
         setIsLoading(false);
-        navigate('/code');
         console.log(response);
       })
       .catch((err) => {
         setIsLoading(false);
         console.log(err);
+        // to be removed
+        navigate('/code?inputType=email', { replace: true });
       });
   };
   return (
