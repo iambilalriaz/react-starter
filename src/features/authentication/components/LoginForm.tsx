@@ -27,6 +27,7 @@ const initialValues = {
 
 export default function LoginForm() {
   const [inputType, setInputType] = useState('email');
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const FormSchema = Yup.object().shape(
@@ -53,13 +54,22 @@ export default function LoginForm() {
       baseUrl: 'http://192.168.0.117:8089'
     });
     const authService = new AuthServiceClient(transport);
+    setIsLoading(true);
+
     authService
       .requestEmailLink({
         email: values?.email,
         appType: RequestEmailLinkRequest_AppType.USERS_APP
       })
-      .then((response) => console.log(response));
-    navigate('/code');
+      .then((response) => {
+        setIsLoading(false);
+        navigate('/code');
+        console.log(response);
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        console.log(err);
+      });
   };
   return (
     <Formik initialValues={initialValues} validationSchema={FormSchema} onSubmit={onFormSubmit}>
@@ -123,7 +133,7 @@ export default function LoginForm() {
               </button>
             </div>
 
-            <Button size="lg" type="submit">
+            <Button btnState={isLoading ? 'loading' : 'normal'} size="lg" type="submit">
               Log In
             </Button>
           </Card>

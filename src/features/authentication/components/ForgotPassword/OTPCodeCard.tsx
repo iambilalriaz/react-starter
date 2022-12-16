@@ -39,7 +39,8 @@ export function OTPCodeCard() {
       const authService = new AuthServiceClient(transport);
       authService
         .verifyEmailCode({ email: '', code: values.codes.join('') })
-        .then((response) => console.log(response));
+        .then((response) => console.log(response))
+        .catch((err) => console.log(err));
       navigate('/home');
     }
   };

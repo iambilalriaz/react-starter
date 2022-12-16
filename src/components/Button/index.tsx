@@ -6,6 +6,7 @@ export interface IButtonProps {
   size?: 'sm' | 'lg';
   htmlFor?: string;
   onClick?: () => void;
+  btnState?: 'loading' | 'btn-disabled' | 'normal';
 }
 
 export function Button({
@@ -13,13 +14,14 @@ export function Button({
   type = 'button',
   size,
   htmlFor,
-  onClick
+  onClick,
+  btnState
 }: IButtonProps): JSX.Element {
   return (
     // eslint-disable-next-line react/button-has-type
     <button
       onClick={onClick}
-      className={`btn bg-primary text-white capitalize ${size ? 'w-full' : ''}`}
+      className={`btn ${btnState} bg-primary text-white capitalize ${size ? 'w-full' : ''}`}
       // eslint-disable-next-line react/button-has-type
       type={type}
     >
