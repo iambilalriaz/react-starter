@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { AuthServiceClient } from '../../../../api/authpb/v1/auth.client';
 import { Button } from '../../../../components/Button';
 import { Card } from '../../../../components/Card';
+import { getInputType } from '../../../../constants';
 import CardSubtitle from '../CardSubtitle';
 import CardTitle from '../CardTitle';
 import OTPInput from './OTPInput';
@@ -17,7 +18,9 @@ type FormValues = {
 
 export function OTPCodeCard() {
   const [countDown, setCountDown] = useState(+(localStorage.getItem('countDown') || 59));
+
   const navigate = useNavigate();
+
   useEffect(() => {
     let intervalId = 0;
     if (countDown >= 1) {
@@ -39,16 +42,15 @@ export function OTPCodeCard() {
       const authService = new AuthServiceClient(transport);
       authService
         .verifyEmailCode({ email: '', code: values.codes.join('') })
-        .then((response) => console.log(response));
-      navigate('/home');
+        .then((response) => response);
+      navigate(getInputType() === 'phone' ? '/home' : '/signup', { replace: true });
     }
   };
-
+  const subTitle = `A 6 digit OTP Code has been send to your ${getInputType()} given by you`;
   return (
     <Card>
       <CardTitle>OTP Code</CardTitle>
-      <CardSubtitle>A 6 digit OTP Code has been send to your email given by you</CardSubtitle>
-
+      <CardSubtitle>{subTitle}</CardSubtitle>
       <Formik
         initialValues={{ codes: ['', '', '', '', '', ''] }}
         onSubmit={onCodeSubmit}

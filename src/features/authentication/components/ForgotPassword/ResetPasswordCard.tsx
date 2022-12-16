@@ -22,7 +22,7 @@ function ResetPasswordCard({
         // validationSchema={SignupSchema}
         onSubmit={() => {
           setActivePageIdx(0);
-          navigate('/login');
+          navigate('/login', { replace: true });
         }}
       >
         <Form>

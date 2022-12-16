@@ -59,7 +59,8 @@ export default function LoginForm() {
         appType: RequestEmailLinkRequest_AppType.USERS_APP
       })
       .then((response) => console.log(response));
-    navigate('/code');
+    localStorage.setItem('countDown', '59');
+    navigate('/code?inputType=email', { replace: true });
   };
   return (
     <Formik initialValues={initialValues} validationSchema={FormSchema} onSubmit={onFormSubmit}>
