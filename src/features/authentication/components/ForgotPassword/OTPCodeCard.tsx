@@ -13,6 +13,7 @@ import { getQueryParam } from '../../../../constants';
 import CardSubtitle from '../CardSubtitle';
 import CardTitle from '../CardTitle';
 import OTPInput from './OTPInput';
+import { Toast } from '../../../../components/Toast';
 
 const CODE_LENGTH = [1, 2, 3, 4, 5, 6];
 type FormValues = {
@@ -22,7 +23,7 @@ type FormValues = {
 export function OTPCodeCard() {
   const [countDown, setCountDown] = useState(+(localStorage.getItem('countDown') || 59));
   const [isLoading, setIsLoading] = useState(false);
-
+  // const [error, setError] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,7 +43,7 @@ export function OTPCodeCard() {
     setIsLoading(true);
     if (!values.codes.includes('')) {
       const transport = new GrpcWebFetchTransport({
-        baseUrl: 'http://192.168.0.178:8089'
+        baseUrl: 'http://192.168.100.125:8089'
       });
       const authService = new AuthServiceClient(transport);
       if (getQueryParam('inputType') === 'email') {
@@ -153,6 +154,7 @@ export function OTPCodeCard() {
           </Form>
         )}
       />
+      <Toast message="OTP is not valid" />
     </Card>
   );
 }

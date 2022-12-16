@@ -51,7 +51,7 @@ export default function LoginForm() {
   };
   const onFormSubmit = (values: FormValues) => {
     const transport = new GrpcWebFetchTransport({
-      baseUrl: 'http://192.168.0.178:8089'
+      baseUrl: 'http://192.168.100.125:8089'
     });
     const authService = new AuthServiceClient(transport);
     setIsLoading(true);
