@@ -1,12 +1,15 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable dot-notation */
 /* eslint-disable camelcase */
 import { GrpcWebFetchTransport } from '@protobuf-ts/grpcweb-transport';
 import { Field, FieldArray, Form, Formik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import type { RpcOptions, UnaryCall } from '@protobuf-ts/runtime-rpc';
 import { AuthServiceClient } from '../../../../api/authpb/v1/auth.client';
 import { Button } from '../../../../components/Button';
 import { Card } from '../../../../components/Card';
-import { getInputType } from '../../../../constants';
+import { getQueryParam } from '../../../../constants';
 import CardSubtitle from '../CardSubtitle';
 import CardTitle from '../CardTitle';
 import OTPInput from './OTPInput';
@@ -39,21 +42,62 @@ export function OTPCodeCard() {
     setIsLoading(true);
     if (!values.codes.includes('')) {
       const transport = new GrpcWebFetchTransport({
-        baseUrl: 'http://192.168.0.117:8089'
+        baseUrl: 'http://192.168.0.178:8089'
       });
       const authService = new AuthServiceClient(transport);
-      authService
-        .verifyEmailCode({ email: '', code: values.codes.join('') })
-        .then(() => {
-          navigate(getInputType() === 'phone' ? '/home' : '/signup', { replace: true });
-        })
-        .catch((err) => {
-          setIsLoading(false);
-          console.log(err);
-        });
+      if (getQueryParam('inputType') === 'email') {
+        authService
+          .verifyEmailCode({ email: '', code: values.codes.join('') })
+          .then(({ response }) => {
+            localStorage.setItem('accessToken', response?.accessToken);
+            console.log({ response });
+            if (response?.maskedPhoneNumber) {
+              navigate('/home', { replace: true });
+            } else {
+              navigate('/signup');
+            }
+          })
+          .catch((err) => {
+            setIsLoading(false);
+            console.log(err);
+          });
+      } else if (getQueryParam('inputType') === 'phone') {
+        const options: RpcOptions = {
+          interceptors: [
+            {
+              // adds auth header to unary requests
+              interceptUnary(next, method, input, optionsX: RpcOptions): UnaryCall {
+                if (!optionsX.meta) {
+                  // eslint-disable-next-line no-param-reassign
+                  optionsX.meta = {};
+                }
+                optionsX.meta['Authorization'] = localStorage.getItem('accessToken');
+                return next(method, input, optionsX);
+              }
+            }
+          ]
+        };
+        authService
+          .verifySMSCode(
+            {
+              phoneNumber: getQueryParam('phoneNumber') || '',
+              code: values?.codes?.join('')
+            },
+            options
+          )
+          .then(() => {
+            setIsLoading(false);
+            navigate('/home');
+          })
+          .catch(() => {
+            setIsLoading(false);
+          });
+      }
     }
   };
-  const subTitle = `A 6 digit OTP Code has been send to your ${getInputType()} given by you`;
+  const subTitle = `A 6 digit OTP Code has been send to your ${getQueryParam(
+    'inputType'
+  )} given by you`;
   return (
     <Card>
       <CardTitle>OTP Code</CardTitle>

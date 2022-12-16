@@ -1,4 +1,6 @@
-export const getInputType = () => {
+export const getQueryParam = (param: string) => {
   const urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get('inputType');
+  return urlParams.get(param);
 };
+
+// getInputType

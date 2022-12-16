@@ -51,7 +51,7 @@ export default function LoginForm() {
   };
   const onFormSubmit = (values: FormValues) => {
     const transport = new GrpcWebFetchTransport({
-      baseUrl: 'http://192.168.0.117:8089'
+      baseUrl: 'http://192.168.0.178:8089'
     });
     const authService = new AuthServiceClient(transport);
     setIsLoading(true);
@@ -71,7 +71,7 @@ export default function LoginForm() {
         setIsLoading(false);
         console.log(err);
         // to be removed
-        navigate(`/code?inputType=${inputType}`, { replace: true });
+        // navigate(`/code?inputType=${inputType}`, { replace: true });
         localStorage.setItem('countDown', '59');
       });
   };

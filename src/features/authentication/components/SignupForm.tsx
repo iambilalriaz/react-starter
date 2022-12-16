@@ -5,7 +5,14 @@ import { useNavigate } from 'react-router-dom';
 import Input from '../../../components/Input';
 import { Card } from '../../../components/Card';
 import { Button } from '../../../components/Button';
+// import { GrpcWebFetchTransport } from '@protobuf-ts/grpcweb-transport';
+// import { AuthServiceClient } from '../../../api/authpb/v1/auth.client';
+// import { useState } from 'react';
+// import { getQueryParam } from '../../../constants';
 
+type FormValues = {
+  phoneNumber: string;
+};
 const initialValues = {
   phoneNumber: ''
 };
@@ -19,6 +26,41 @@ const SignupSchema = Yup.object().shape({
 
 export default function SignupForm() {
   const navigate = useNavigate();
+  // const [isLoading, setIsLoading] = useState(false);
+
+  const onPhoneSubmit = (values: FormValues) => {
+    localStorage.setItem('countDown', '59');
+    console.log(values.phoneNumber);
+    navigate(`/code?inputType=phone&phoneNumber=${values.phoneNumber}`, { replace: true });
+    // const transport = new GrpcWebFetchTransport({
+    //   baseUrl: 'http://192.168.0.109:8089'
+    // });
+    // const authService = new AuthServiceClient(transport);
+    // authService
+    //   .requestSMSCode({ phoneNumber: values.phoneNumber })
+    // .then(({ response }) => {
+    // if (getQueryParam('inputType') === 'phone') {
+    //   if (response?.maskedPhoneNumber) {
+    //     navigate('/home', { replace: true });
+    //   } else {
+    //     navigate('/signup');
+    //   }
+    //   } else if (getQueryParam('inputType') === 'phone') {
+    //     authService.requestSMSCode({
+    //       phoneNumber: getQueryParam('phoneNumber') || ''
+    //     });
+    //     navigate('/home', {
+    //       replace: true
+    //     });
+    //   }
+    // console.log('phone :', response);
+    // })
+    // .catch((err) => {
+    //   setIsLoading(false);
+    //   console.log(err);
+    // });
+  };
+
   return (
     <Card>
       <div className="flex flex-col mb-11 items-center justify-center">
@@ -29,10 +71,7 @@ export default function SignupForm() {
       <Formik
         initialValues={initialValues}
         validationSchema={SignupSchema}
-        onSubmit={() => {
-          localStorage.setItem('countDown', '59');
-          navigate('/code?inputType=phone', { replace: true });
-        }}
+        onSubmit={onPhoneSubmit}
       >
         <Form>
           <Field name="phoneNumber">
