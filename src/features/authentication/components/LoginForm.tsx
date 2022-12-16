@@ -39,7 +39,7 @@ export default function LoginForm() {
         }
       : {
           phoneNumber: Yup.string()
-            .matches(/^\(?\d{3}\)?[- ]?\d{3}[- ]?\d{4}$/, {
+            .matches(/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/, {
               message: 'Please enter a valid phone number'
             })
             .required('Phone number is empty')
@@ -63,7 +63,7 @@ export default function LoginForm() {
       })
       .then((response) => {
         localStorage.setItem('countDown', '59');
-        navigate('/code?inputType=email', { replace: true });
+        navigate(`/code?inputType=${inputType}`, { replace: true });
         setIsLoading(false);
         console.log(response);
       })
@@ -71,7 +71,8 @@ export default function LoginForm() {
         setIsLoading(false);
         console.log(err);
         // to be removed
-        navigate('/code?inputType=email', { replace: true });
+        navigate(`/code?inputType=${inputType}`, { replace: true });
+        localStorage.setItem('countDown', '59');
       });
   };
   return (

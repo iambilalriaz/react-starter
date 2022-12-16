@@ -19,7 +19,6 @@ function ResetPasswordCard({
       <CardSubtitle>Your new password must be different from the old password</CardSubtitle>
       <Formik
         initialValues={{ emailOrPhone: '' }}
-        // validationSchema={SignupSchema}
         onSubmit={() => {
           setActivePageIdx(0);
           navigate('/login', { replace: true });
