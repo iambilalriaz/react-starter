@@ -38,13 +38,12 @@ export function OTPCodeCard() {
     }
     return () => clearInterval(intervalId);
   }, [countDown]);
-
+  const transport = new GrpcWebFetchTransport({
+    baseUrl: import.meta.env.VITE_BASE_URL
+  });
   const onCodeSubmit = (values: FormValues) => {
     setIsLoading(true);
     if (!values.codes.includes('')) {
-      const transport = new GrpcWebFetchTransport({
-        baseUrl: 'http://192.168.100.125:8089'
-      });
       const authService = new AuthServiceClient(transport);
       if (getQueryParam('inputType') === 'email') {
         authService

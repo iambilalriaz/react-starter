@@ -2,13 +2,13 @@
 import * as Yup from 'yup';
 import { Formik, Form, Field } from 'formik';
 import { useNavigate } from 'react-router-dom';
+import { GrpcWebFetchTransport } from '@protobuf-ts/grpcweb-transport';
+import { useState } from 'react';
 import Input from '../../../components/Input';
 import { Card } from '../../../components/Card';
 import { Button } from '../../../components/Button';
-// import { GrpcWebFetchTransport } from '@protobuf-ts/grpcweb-transport';
-// import { AuthServiceClient } from '../../../api/authpb/v1/auth.client';
-// import { useState } from 'react';
-// import { getQueryParam } from '../../../constants';
+import { AuthServiceClient } from '../../../api/authpb/v1/auth.client';
+import { getQueryParam } from '../../../constants';
 
 type FormValues = {
   phoneNumber: string;
@@ -26,39 +26,38 @@ const SignupSchema = Yup.object().shape({
 
 export default function SignupForm() {
   const navigate = useNavigate();
-  // const [isLoading, setIsLoading] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(false);
+  const transport = new GrpcWebFetchTransport({
+    baseUrl: import.meta.env.VITE_BASE_URL
+  });
+  const authService = new AuthServiceClient(transport);
   const onPhoneSubmit = (values: FormValues) => {
     localStorage.setItem('countDown', '59');
     console.log(values.phoneNumber);
     navigate(`/code?inputType=phone&phoneNumber=${values.phoneNumber}`, { replace: true });
-    // const transport = new GrpcWebFetchTransport({
-    //   baseUrl: 'http://192.168.0.109:8089'
-    // });
-    // const authService = new AuthServiceClient(transport);
-    // authService
-    //   .requestSMSCode({ phoneNumber: values.phoneNumber })
-    // .then(({ response }) => {
-    // if (getQueryParam('inputType') === 'phone') {
-    //   if (response?.maskedPhoneNumber) {
-    //     navigate('/home', { replace: true });
-    //   } else {
-    //     navigate('/signup');
-    //   }
-    //   } else if (getQueryParam('inputType') === 'phone') {
-    //     authService.requestSMSCode({
-    //       phoneNumber: getQueryParam('phoneNumber') || ''
-    //     });
-    //     navigate('/home', {
-    //       replace: true
-    //     });
-    //   }
-    // console.log('phone :', response);
-    // })
-    // .catch((err) => {
-    //   setIsLoading(false);
-    //   console.log(err);
-    // });
+    authService
+      .requestSMSCode({ phoneNumber: values.phoneNumber })
+      .then(({ response }) => {
+        if (getQueryParam('inputType') === 'email') {
+          if (response?.maskedPhoneNumber) {
+            navigate('/home', { replace: true });
+          } else {
+            navigate('/signup');
+          }
+        } else if (getQueryParam('inputType') === 'phone') {
+          authService.requestSMSCode({
+            phoneNumber: getQueryParam('phoneNumber') || ''
+          });
+          navigate('/home', {
+            replace: true
+          });
+        }
+        console.log('phone :', response);
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        console.log(err);
+      });
   };
 
   return (
@@ -93,7 +92,7 @@ export default function SignupForm() {
             )}
           </Field>
 
-          <Button type="submit" size="lg">
+          <Button btnState={isLoading ? 'loading' : 'normal'} type="submit" size="lg">
             Continue
           </Button>
         </Form>

@@ -49,13 +49,12 @@ export default function LoginForm() {
   const changeInputType = () => {
     setInputType((prevInputType) => (prevInputType === 'email' ? 'phone' : 'email'));
   };
+  const transport = new GrpcWebFetchTransport({
+    baseUrl: import.meta.env.VITE_BASE_URL
+  });
   const onFormSubmit = (values: FormValues) => {
-    const transport = new GrpcWebFetchTransport({
-      baseUrl: 'http://192.168.100.125:8089'
-    });
     const authService = new AuthServiceClient(transport);
     setIsLoading(true);
-
     authService
       .requestEmailLink({
         email: values?.email,

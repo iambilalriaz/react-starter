@@ -21,7 +21,7 @@ export function Button({
     // eslint-disable-next-line react/button-has-type
     <button
       onClick={onClick}
-      className={`btn ${btnState} bg-primary text-white capitalize ${size ? 'w-full' : ''}`}
+      className={`btn ${btnState} bg-primary text-white capitalize ${size && 'w-full'}`}
       // eslint-disable-next-line react/button-has-type
       type={type}
     >
