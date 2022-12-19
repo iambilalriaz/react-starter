@@ -1,7 +1,6 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable dot-notation */
 /* eslint-disable camelcase */
-import { GrpcWebFetchTransport } from '@protobuf-ts/grpcweb-transport';
 import { Field, FieldArray, Form, Formik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -9,7 +8,7 @@ import type { RpcOptions, UnaryCall } from '@protobuf-ts/runtime-rpc';
 import { AuthServiceClient } from '../../../../api/authpb/v1/auth.client';
 import { Button } from '../../../../components/Button';
 import { Card } from '../../../../components/Card';
-import { getQueryParam } from '../../../../constants';
+import { getQueryParam, getTransport } from '../../../../constants';
 import CardSubtitle from '../CardSubtitle';
 import CardTitle from '../CardTitle';
 import OTPInput from './OTPInput';
@@ -38,13 +37,11 @@ export function OTPCodeCard() {
     }
     return () => clearInterval(intervalId);
   }, [countDown]);
-  const transport = new GrpcWebFetchTransport({
-    baseUrl: import.meta.env.VITE_BASE_URL
-  });
+
   const onCodeSubmit = (values: FormValues) => {
     setIsLoading(true);
     if (!values.codes.includes('')) {
-      const authService = new AuthServiceClient(transport);
+      const authService = new AuthServiceClient(getTransport());
       if (getQueryParam('inputType') === 'email') {
         authService
           .verifyEmailCode({ email: '', code: values.codes.join('') })
@@ -58,9 +55,7 @@ export function OTPCodeCard() {
               navigate('/signup');
             }
           })
-          .catch((err) => {
-            console.log({ err });
-
+          .catch(() => {
             setIsLoading(false);
             setError(true);
           });
@@ -108,7 +103,7 @@ export function OTPCodeCard() {
       <CardTitle>OTP Code</CardTitle>
       <CardSubtitle>{subTitle}</CardSubtitle>
       <Formik
-        initialValues={{ codes: ['', '', '', '', '', ''] }}
+        initialValues={{ codes: Array(6).fill('') }}
         onSubmit={onCodeSubmit}
         render={() => (
           <Form>

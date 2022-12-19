@@ -3,7 +3,6 @@ import { Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { GrpcWebFetchTransport } from '@protobuf-ts/grpcweb-transport';
 import { Button } from '../../../components/Button';
 import { Card } from '../../../components/Card';
 import Input from '../../../components/Input';
@@ -11,6 +10,7 @@ import CardSubtitle from './CardSubtitle';
 import CardTitle from './CardTitle';
 import { AuthServiceClient } from '../../../api/authpb/v1/auth.client';
 import { RequestEmailLinkRequest_AppType } from '../../../api/authpb/v1/auth';
+import { getTransport } from '../../../constants';
 
 const ErrorMessage = ({ text }: { text: string }): JSX.Element => (
   <span className="text-xs text-error mt-1">{text}</span>
@@ -52,11 +52,9 @@ export default function LoginForm() {
   // const changeInputType = () => {
   //   setInputType((prevInputType) => (prevInputType === 'email' ? 'phone' : 'email'));
   // };
-  const transport = new GrpcWebFetchTransport({
-    baseUrl: import.meta.env.VITE_BASE_URL
-  });
+
   const onFormSubmit = (values: FormValues) => {
-    const authService = new AuthServiceClient(transport);
+    const authService = new AuthServiceClient(getTransport());
     setIsLoading(true);
     authService
       .requestEmailLink({

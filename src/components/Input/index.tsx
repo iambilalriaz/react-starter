@@ -31,7 +31,6 @@ export default function Input({ label, id, type, placeholder = '', field, name }
             type={`${togglePassword ? 'text' : 'password'}`}
             placeholder={placeholder}
             className="input input-bordered w-full"
-            // eslint-disable-next-line react/jsx-props-no-spreading
             {...field}
             name={name}
           />
@@ -55,7 +54,6 @@ export default function Input({ label, id, type, placeholder = '', field, name }
           type={type}
           placeholder={placeholder}
           className="input input-bordered w-full"
-          // eslint-disable-next-line react/jsx-props-no-spreading
           {...field}
         />
       )}

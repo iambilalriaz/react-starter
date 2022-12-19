@@ -21,7 +21,6 @@ function ForgotPasswordCard({
       </CardSubtitle>
       <Formik
         initialValues={{ emailOrPhone: '' }}
-        // validationSchema={SignupSchema}
         onSubmit={() => {
           setActivePageIdx((prevIdx: number) => prevIdx + 1);
         }}

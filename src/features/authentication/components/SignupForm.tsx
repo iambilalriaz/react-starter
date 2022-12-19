@@ -2,13 +2,12 @@
 import * as Yup from 'yup';
 import { Formik, Form, Field } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import { GrpcWebFetchTransport } from '@protobuf-ts/grpcweb-transport';
 import { useState } from 'react';
 import Input from '../../../components/Input';
 import { Card } from '../../../components/Card';
 import { Button } from '../../../components/Button';
 import { AuthServiceClient } from '../../../api/authpb/v1/auth.client';
-import { getQueryParam } from '../../../constants';
+import { getQueryParam, getTransport } from '../../../constants';
 
 type FormValues = {
   phoneNumber: string;
@@ -27,13 +26,9 @@ const SignupSchema = Yup.object().shape({
 export default function SignupForm() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const transport = new GrpcWebFetchTransport({
-    baseUrl: import.meta.env.VITE_BASE_URL
-  });
-  const authService = new AuthServiceClient(transport);
+  const authService = new AuthServiceClient(getTransport());
   const onPhoneSubmit = (values: FormValues) => {
     localStorage.setItem('countDown', '59');
-    console.log(values.phoneNumber);
     navigate(`/code?inputType=phone&phoneNumber=${values.phoneNumber}`, { replace: true });
     authService
       .requestSMSCode({ phoneNumber: values.phoneNumber })
@@ -52,11 +47,9 @@ export default function SignupForm() {
             replace: true
           });
         }
-        console.log('phone :', response);
       })
-      .catch((err) => {
+      .catch(() => {
         setIsLoading(false);
-        console.log(err);
       });
   };
 
