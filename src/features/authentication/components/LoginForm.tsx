@@ -26,7 +26,10 @@ const initialValues = {
 };
 
 export default function LoginForm() {
-  const [inputType, setInputType] = useState('email');
+  const [
+    inputType
+    //  setInputType
+  ] = useState('email');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -46,12 +49,12 @@ export default function LoginForm() {
         }
   );
 
-  const changeInputType = () => {
-    setInputType((prevInputType) => (prevInputType === 'email' ? 'phone' : 'email'));
-  };
+  // const changeInputType = () => {
+  //   setInputType((prevInputType) => (prevInputType === 'email' ? 'phone' : 'email'));
+  // };
   const onFormSubmit = (values: FormValues) => {
     const transport = new GrpcWebFetchTransport({
-      baseUrl: 'http://192.168.100.125:8089'
+      baseUrl: 'http://localhost:8089'
     });
     const authService = new AuthServiceClient(transport);
     setIsLoading(true);
@@ -61,23 +64,23 @@ export default function LoginForm() {
         email: values?.email,
         appType: RequestEmailLinkRequest_AppType.USERS_APP
       })
-      .then((response) => {
+      .then(() => {
         localStorage.setItem('countDown', '59');
         navigate(`/code?inputType=${inputType}`, { replace: true });
         setIsLoading(false);
-        console.log(response);
       })
-      .catch((err) => {
+      .catch(() => {
         setIsLoading(false);
-        console.log(err);
-        // to be removed
-        // navigate(`/code?inputType=${inputType}`, { replace: true });
         localStorage.setItem('countDown', '59');
       });
   };
   return (
     <Formik initialValues={initialValues} validationSchema={FormSchema} onSubmit={onFormSubmit}>
-      {({ setFieldValue, setFieldTouched, errors, touched }) => (
+      {({
+        // setFieldValue, setFieldTouched,
+        errors,
+        touched
+      }) => (
         <Form>
           <Card>
             <div className="flex flex-col mb-11 gap-[15px] items-center justify-center">
@@ -123,7 +126,7 @@ export default function LoginForm() {
               )}
             </div>
             <div className="flex justify-end mt-2">
-              <button
+              {/* <button
                 type="button"
                 onClick={() => {
                   changeInputType();
@@ -134,7 +137,7 @@ export default function LoginForm() {
                 className="underline font-medium text-sm text-black mb-8"
               >
                 use {inputType === 'email' ? 'phone number' : 'email'} instead
-              </button>
+              </button> */}
             </div>
 
             <Button btnState={isLoading ? 'loading' : 'normal'} size="lg" type="submit">

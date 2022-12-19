@@ -23,7 +23,7 @@ type FormValues = {
 export function OTPCodeCard() {
   const [countDown, setCountDown] = useState(+(localStorage.getItem('countDown') || 59));
   const [isLoading, setIsLoading] = useState(false);
-  // const [error, setError] = useState(false);
+  const [error, setError] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -43,15 +43,16 @@ export function OTPCodeCard() {
     setIsLoading(true);
     if (!values.codes.includes('')) {
       const transport = new GrpcWebFetchTransport({
-        baseUrl: 'http://192.168.100.125:8089'
+        baseUrl: 'http://localhost:8089'
       });
       const authService = new AuthServiceClient(transport);
       if (getQueryParam('inputType') === 'email') {
         authService
           .verifyEmailCode({ email: '', code: values.codes.join('') })
           .then(({ response }) => {
-            localStorage.setItem('accessToken', response?.accessToken);
             console.log({ response });
+            localStorage.setItem('accessToken', response?.accessToken);
+            setError(false);
             if (response?.maskedPhoneNumber) {
               navigate('/home', { replace: true });
             } else {
@@ -59,8 +60,10 @@ export function OTPCodeCard() {
             }
           })
           .catch((err) => {
+            console.log({ err });
+
             setIsLoading(false);
-            console.log(err);
+            setError(true);
           });
       } else if (getQueryParam('inputType') === 'phone') {
         const options: RpcOptions = {
@@ -88,10 +91,12 @@ export function OTPCodeCard() {
           )
           .then(() => {
             setIsLoading(false);
+            setError(false);
             navigate('/home');
           })
           .catch(() => {
             setIsLoading(false);
+            setError(true);
           });
       }
     }
@@ -154,7 +159,7 @@ export function OTPCodeCard() {
           </Form>
         )}
       />
-      <Toast message="OTP is not valid" />
+      {error ? <Toast message="OTP is not valid" /> : null}
     </Card>
   );
 }
