@@ -46,7 +46,6 @@ export function OTPCodeCard() {
         authService
           .verifyEmailCode({ email: '', code: values.codes.join('') })
           .then(({ response }) => {
-            console.log({ response });
             localStorage.setItem('accessToken', response?.accessToken);
             setError(false);
             if (response?.maskedPhoneNumber) {
