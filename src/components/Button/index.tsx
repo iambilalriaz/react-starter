@@ -1,17 +1,31 @@
-/* eslint-disable no-unused-vars */
 import { ReactNode } from 'react';
 
-interface IButtonProps {
+export interface IButtonProps {
   children: ReactNode;
-  // eslint-disable-next-line react/require-default-props
   type?: 'submit' | 'reset' | 'button';
+  size?: 'sm' | 'lg';
+  htmlFor?: string;
+  onClick?: () => void;
+  btnState?: 'loading' | 'btn-disabled' | 'normal';
 }
 
-export default function Button({ children, type = 'button' }: IButtonProps) {
+export function Button({
+  children,
+  type = 'button',
+  size,
+  htmlFor,
+  onClick,
+  btnState
+}: IButtonProps): JSX.Element {
   return (
     // eslint-disable-next-line react/button-has-type
-    <button className="btn w-full" type={type}>
-      {children}
+    <button
+      onClick={onClick}
+      className={`btn ${btnState} bg-primary text-white capitalize ${size && 'w-full'}`}
+      // eslint-disable-next-line react/button-has-type
+      type={type}
+    >
+      {htmlFor ? <label htmlFor={htmlFor}>{children}</label> : children}
     </button>
   );
 }
