@@ -33,7 +33,7 @@ const handleAddress = (values) => {
 export function AddLocation() {
   return (
     <Card>
-      <h2 className="text-4xl mb-4">location details</h2>
+      <h2 className="mb-4 text-4xl">location details</h2>
       <Formik
         initialValues={initialValues}
         onSubmit={(values) => {
