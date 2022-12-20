@@ -68,3 +68,17 @@ input[type='number'] {
 .otp-input:focus:-ms-input-placeholder {
   color: transparent;
 } /* IE 10+ */
+
+.animated-icon {
+  animation-name: spin;
+  animation-duration: 1.5s;
+  animation-iteration-count: infinite;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(180deg);
+  }
+}

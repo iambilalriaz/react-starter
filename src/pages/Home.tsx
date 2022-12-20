@@ -9,7 +9,7 @@ export default function Home() {
   const navigate = useNavigate();
   useEffect(() => {
     if (!localStorage.getItem('accessToken')) {
-      navigate('/login', { replace: true });
+      navigate('/auth/login', { replace: true });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -44,7 +44,7 @@ export default function Home() {
             className="btn"
             onClick={() => {
               localStorage.removeItem('accessToken');
-              navigate('/login', { replace: true });
+              navigate('/auth/login', { replace: true });
             }}
           >
             Logout
