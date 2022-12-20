@@ -4,6 +4,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/Card';
+import { LocationCard } from '../features/vendor/components/LocationCard';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -55,6 +56,7 @@ export default function Home() {
         <Card>
           <p className="text-lg">Welcome to your dashboard Home page</p>
         </Card>
+        <LocationCard />
       </div>
     </div>
   );
