@@ -4,7 +4,8 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/Card';
-import { LocationCard } from '../features/vendor/components/LocationCard';
+import { AddLocation } from '../features/vendor/components/AddLocation';
+// import { LocationCard } from '../features/vendor/components/LocationCard';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -52,11 +53,12 @@ export default function Home() {
           </button>
         </div>
       </div>
-      <div className="grid place-items-center h-screen">
+      <div className="grid place-items-center h-screen mb-[50px]">
         <Card>
           <p className="text-lg">Welcome to your dashboard Home page</p>
         </Card>
-        <LocationCard />
+        {/* <LocationCard /> */}
+        <AddLocation />
       </div>
     </div>
   );
