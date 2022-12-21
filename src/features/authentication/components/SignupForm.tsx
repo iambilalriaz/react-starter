@@ -55,9 +55,9 @@ export default function SignupForm() {
 
   return (
     <Card>
-      <div className="flex flex-col mb-11 items-center justify-center">
-        <h2 className="md:text-2xl text-lg">Create Account</h2>
-        <p className="text-accent md:text-base text-lg">Get started with Suforia</p>
+      <div className="mb-11 flex flex-col items-center justify-center">
+        <h2 className="text-lg md:text-2xl">Create Account</h2>
+        <p className="text-lg text-accent md:text-base">Get started with Suforia</p>
       </div>
       {/* inputs */}
       <Formik
@@ -76,7 +76,7 @@ export default function SignupForm() {
                   placeholder="(480) 555-0103"
                   field={field}
                 />
-                <span className="text-error text-xs pt-2">
+                <span className="pt-2 text-xs text-error">
                   {errors?.phoneNumber && touched?.phoneNumber ? (
                     <div>{errors?.phoneNumber}</div>
                   ) : null}

@@ -4,7 +4,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/Card';
-import { AddLocation } from '../features/vendor/components/AddLocation';
 // import { LocationCard } from '../features/vendor/components/LocationCard';
 
 export default function Home() {
@@ -16,11 +15,11 @@ export default function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <div className="grid fixed w-full">
+    <div className="fixed grid w-full">
       <div className="navbar bg-primary text-white">
         <div className="navbar-start">
           <div className="dropdown">
-            <label tabIndex={0} className="btn btn-ghost lg:hidden">
+            <label tabIndex={0} className="btn-ghost btn lg:hidden">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"
@@ -37,7 +36,7 @@ export default function Home() {
               </svg>
             </label>
           </div>
-          <a className="btn btn-ghost normal-case text-xl">Suforia</a>
+          <a className="btn-ghost btn text-xl normal-case">Suforia</a>
         </div>
 
         <div className="navbar-end">
@@ -53,12 +52,12 @@ export default function Home() {
           </button>
         </div>
       </div>
-      <div className="grid place-items-center h-screen mb-[50px]">
+      <div className="mb-[50px] grid h-screen place-items-center">
         <Card>
           <p className="text-lg">Welcome to your dashboard Home page</p>
         </Card>
         {/* <LocationCard /> */}
-        <AddLocation />
+        {/* <AddLocation /> */}
       </div>
     </div>
   );
