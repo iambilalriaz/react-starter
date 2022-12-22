@@ -68,6 +68,7 @@ export function OTPCodeCard() {
           setIsLoading(false);
           setError(false);
           localStorage.setItem('accessToken', response?.accessToken);
+          console.log('verifysmscode token: ', response?.accessToken);
           navigate(getQueryParam('newUser') ? '/auth/business' : '/home', { replace: true });
         })
         .catch(() => {

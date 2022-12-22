@@ -1,5 +1,8 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable dot-notation */
 import { Field, Form, Formik } from 'formik';
 import { v4 as uuidv4 } from 'uuid';
+import type { RpcOptions, UnaryCall } from '@protobuf-ts/runtime-rpc';
 import { Button } from '../../../../components/Button';
 import { Card } from '../../../../components/Card';
 import Input from '../../../../components/Input';
@@ -14,18 +17,38 @@ const initialValues = {
   state: '',
   zip: '',
   country: '',
-  hoursOfOperation: ['3', '2'],
-  vendorId: '3333'
+  hoursOfOperation: ['3', '2']
+  // vendorId: 'gXQtPi0EzGr4eHHfA1T6'
 };
 
 const handleAddress = (values) => {
-  console.log('submited', { ...values, id: uuidv4() });
+  const options: RpcOptions = {
+    interceptors: [
+      {
+        // adds auth header to unary requests
+        interceptUnary(next, method, input, optionsX: RpcOptions): UnaryCall {
+          if (!optionsX.meta) {
+            optionsX.meta = {};
+          }
+          optionsX.meta['Authorization'] = localStorage.getItem('accessToken') || '';
+          return next(method, input, optionsX);
+        }
+      }
+    ]
+  };
   getVendorServiceClient()
-    .addLocation({
-      location: { ...values, id: uuidv4() }
+    .addLocation(
+      {
+        location: { ...values, id: uuidv4(), vendorId: 'hiUTBMkpwKjsoFjF0jEn' }
+      },
+      options
+    )
+    .then((res) => {
+      console.log(res);
     })
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 export function AddLocation() {

@@ -41,7 +41,8 @@ export default function SignupForm() {
           replace: true
         });
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
         setIsLoading(false);
       });
   };

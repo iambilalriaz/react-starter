@@ -1,19 +1,43 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable dot-notation */
+
 import { useEffect } from 'react';
+import type { RpcOptions, UnaryCall } from '@protobuf-ts/runtime-rpc';
 import { Button } from '../../../../components/Button';
 import { getVendorServiceClient } from '../../../../constants';
 
 export function ViewLocation() {
+  const options: RpcOptions = {
+    interceptors: [
+      {
+        // adds auth header to unary requests
+        interceptUnary(next, method, input, optionsX: RpcOptions): UnaryCall {
+          if (!optionsX.meta) {
+            optionsX.meta = {};
+          }
+          optionsX.meta['Authorization'] = localStorage.getItem('accessToken') || '';
+          return next(method, input, optionsX);
+        }
+      }
+    ]
+  };
   useEffect(() => {
     getVendorServiceClient()
-      .listLocations({ vendorId: '1242357813578' })
-      .then((res) => console.log(res))
+      .listLocations({ vendorId: 'hiUTBMkpwKjsoFjF0jEn' }, options)
+      .then(({ response }) => console.log(response.locations))
       .catch((err) => console.log(err));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleDeleteLcation = () => {
     getVendorServiceClient()
-      .deleteLocation({ locationId: '111111111111111', vendorId: '222222222' })
+      .deleteLocation(
+        {
+          locationId: 'a5066e3d-b3fe-4c7d-b125-bd23624154a5',
+          vendorId: 'hiUTBMkpwKjsoFjF0jEn'
+        },
+        options
+      )
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
   };

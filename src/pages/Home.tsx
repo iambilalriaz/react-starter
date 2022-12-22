@@ -4,6 +4,8 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/Card';
+import { AddLocation } from '../features/vendor/components/AddLocation';
+import { ViewLocation } from '../features/vendor/components/ViewLocation';
 // import { LocationCard } from '../features/vendor/components/LocationCard';
 
 export default function Home() {
@@ -56,6 +58,8 @@ export default function Home() {
         <Card>
           <p className="text-lg">Welcome to your dashboard Home page</p>
         </Card>
+        <AddLocation />
+        <ViewLocation />
       </div>
     </div>
   );

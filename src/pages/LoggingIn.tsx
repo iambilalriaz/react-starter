@@ -15,6 +15,7 @@ const LoggingIn = () => {
       })
       .then(({ response }) => {
         const { maskedPhoneNumber, accessToken } = response;
+        console.log('verifyEmailCode token: ', accessToken);
         localStorage.setItem('accessToken', accessToken);
         if (maskedPhoneNumber) {
           navigate(`/auth/otp?phone=${maskedPhoneNumber}`, { replace: true });
@@ -22,8 +23,9 @@ const LoggingIn = () => {
           navigate('/auth/signup?newUser=true', { replace: true });
         }
       })
-      .catch(() => {
+      .catch((err) => {
         setError(true);
+        console.log(err);
       });
   }, [navigate]);
   return (
