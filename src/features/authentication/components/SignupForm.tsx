@@ -6,8 +6,7 @@ import { useState } from 'react';
 import Input from '../../../components/Input';
 import { Card } from '../../../components/Card';
 import { Button } from '../../../components/Button';
-import { AuthServiceClient } from '../../../api/authpb/v1/auth.client';
-import { getQueryParam, getTransport } from '../../../constants';
+import { getQueryParam, getAuthServiceClient } from '../../../constants';
 
 type FormValues = {
   phoneNumber: string;
@@ -16,37 +15,31 @@ const initialValues = {
   phoneNumber: ''
 };
 const SignupSchema = Yup.object().shape({
-  phoneNumber: Yup.string()
-    .matches(/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/, {
-      message: 'Please enter a valid phone number'
-    })
-    .required('Phone number is empty!')
+  // phoneNumber: Yup.string()
+  //   .matches(/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/, {
+  //     message: 'Please enter a valid phone number'
+  //   })
+  //   .required('Phone number is empty!')
 });
 
 export default function SignupForm() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const authService = new AuthServiceClient(getTransport());
+  const authService = getAuthServiceClient();
   const onPhoneSubmit = (values: FormValues) => {
     localStorage.setItem('countDown', '59');
-    navigate(`/code?inputType=phone&phoneNumber=${values.phoneNumber}`, { replace: true });
+    navigate(
+      `/auth/otp?phone=${values.phoneNumber}&${getQueryParam('newUser') ? 'newUser=true' : ''}`,
+      {
+        replace: true
+      }
+    );
     authService
       .requestSMSCode({ phoneNumber: values.phoneNumber })
-      .then(({ response }) => {
-        if (getQueryParam('inputType') === 'email') {
-          if (response?.maskedPhoneNumber) {
-            navigate('/home', { replace: true });
-          } else {
-            navigate('/signup');
-          }
-        } else if (getQueryParam('inputType') === 'phone') {
-          authService.requestSMSCode({
-            phoneNumber: getQueryParam('phoneNumber') || ''
-          });
-          navigate('/home', {
-            replace: true
-          });
-        }
+      .then(() => {
+        navigate('/home', {
+          replace: true
+        });
       })
       .catch(() => {
         setIsLoading(false);

@@ -1,12 +1,10 @@
 import { useEffect } from 'react';
-import { VendorServiceClient } from '../../../../api/vendorpb/v1/vendor.client';
 import { Button } from '../../../../components/Button';
-import { getTransport } from '../../../../constants';
+import { getVendorServiceClient } from '../../../../constants';
 
 export function ViewLocation() {
-  const vendorService = new VendorServiceClient(getTransport());
   useEffect(() => {
-    vendorService
+    getVendorServiceClient()
       .listLocations({ vendorId: '1242357813578' })
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
@@ -14,7 +12,7 @@ export function ViewLocation() {
   }, []);
 
   const handleDeleteLcation = () => {
-    vendorService
+    getVendorServiceClient()
       .deleteLocation({ locationId: '111111111111111', vendorId: '222222222' })
       .then((res) => console.log(res))
       .catch((err) => console.log(err));

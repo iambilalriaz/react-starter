@@ -6,10 +6,10 @@ import AuthHeader from '../features/authentication/components/Header';
 interface ILayoutProps {
   children: React.ReactNode;
 }
-function ForgotPasswordLayout({ children }: ILayoutProps) {
+function OTPLayout({ children }: ILayoutProps) {
   return (
     <section>
-      <div className="fixed w-full top-0 md:hidden">
+      <div className="fixed top-0 w-full md:hidden">
         <AuthHeader />
       </div>
       <header className="px-[76px] py-[37px]">
@@ -17,11 +17,11 @@ function ForgotPasswordLayout({ children }: ILayoutProps) {
       </header>
       <div>
         <Wrapper>
-          <div className="flex justify-center items-center h-[80vh]">{children}</div>
+          <div className="flex h-[80vh] items-center justify-center">{children}</div>
         </Wrapper>
       </div>
     </section>
   );
 }
 
-export default ForgotPasswordLayout;
+export default OTPLayout;

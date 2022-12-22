@@ -1,10 +1,9 @@
 import { Field, Form, Formik } from 'formik';
 import { v4 as uuidv4 } from 'uuid';
-import { VendorServiceClient } from '../../../../api/vendorpb/v1/vendor.client';
 import { Button } from '../../../../components/Button';
 import { Card } from '../../../../components/Card';
 import Input from '../../../../components/Input';
-import { getTransport } from '../../../../constants';
+import { getVendorServiceClient } from '../../../../constants';
 
 import { locationDetails } from '../../../../data/locationDetails';
 
@@ -21,8 +20,7 @@ const initialValues = {
 
 const handleAddress = (values) => {
   console.log('submited', { ...values, id: uuidv4() });
-  const vendorService = new VendorServiceClient(getTransport());
-  vendorService
+  getVendorServiceClient()
     .addLocation({
       location: { ...values, id: uuidv4() }
     })
