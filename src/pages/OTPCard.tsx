@@ -59,7 +59,7 @@ export function OTPCodeCard() {
       authService
         .verifySMSCode(
           {
-            phoneNumber: getQueryParam('phoneNumber') || '',
+            phoneNumber: getQueryParam('phone') || '',
             code: values?.codes?.join('')
           },
           options

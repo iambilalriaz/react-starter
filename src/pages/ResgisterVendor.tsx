@@ -83,7 +83,9 @@ export default function RegisterVendor() {
         setIsLoading(false);
         navigate('/home');
       })
-      .catch(() => setIsLoading(false));
+      .catch(() => {
+        setIsLoading(false);
+      });
   };
 
   useEffect(() => {
