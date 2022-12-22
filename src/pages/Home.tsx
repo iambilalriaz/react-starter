@@ -1,18 +1,11 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
-import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/Card';
 
 export default function Home() {
   const navigate = useNavigate();
-  useEffect(() => {
-    if (!localStorage.getItem('accessToken')) {
-      navigate('/auth/login', { replace: true });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
   return (
     <div className="grid fixed w-full">
       <div className="navbar bg-primary text-white">

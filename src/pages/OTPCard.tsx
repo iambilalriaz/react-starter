@@ -50,7 +50,7 @@ export function OTPCodeCard() {
               if (!optionsX.meta) {
                 optionsX.meta = {};
               }
-              optionsX.meta['Authorization'] = localStorage.getItem('accessToken') || '';
+              optionsX.meta['Authorization'] = localStorage.getItem('emailAccessToken') || '';
               return next(method, input, optionsX);
             }
           }
@@ -68,6 +68,7 @@ export function OTPCodeCard() {
           setIsLoading(false);
           setError(false);
           localStorage.setItem('accessToken', response?.accessToken);
+          localStorage.removeItem('emailAccessToken');
           navigate(getQueryParam('newUser') ? '/auth/business' : '/home', { replace: true });
         })
         .catch(() => {
