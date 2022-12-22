@@ -71,8 +71,7 @@ export function OTPCodeCard() {
           localStorage.removeItem('emailAccessToken');
           navigate(getQueryParam('newUser') ? '/auth/business' : '/home', { replace: true });
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
           setIsLoading(false);
           setError(true);
         });
