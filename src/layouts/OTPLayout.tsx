@@ -6,7 +6,7 @@ import AuthHeader from '../features/authentication/components/Header';
 interface ILayoutProps {
   children: React.ReactNode;
 }
-function ForgotPasswordLayout({ children }: ILayoutProps) {
+function OTPLayout({ children }: ILayoutProps) {
   return (
     <section>
       <div className="fixed w-full top-0 md:hidden">
@@ -24,4 +24,4 @@ function ForgotPasswordLayout({ children }: ILayoutProps) {
   );
 }
 
-export default ForgotPasswordLayout;
+export default OTPLayout;
