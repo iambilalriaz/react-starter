@@ -16,7 +16,6 @@ const LoggingIn = () => {
       .then(({ response }) => {
         const { maskedPhoneNumber, accessToken } = response;
         localStorage.setItem('accessToken', accessToken);
-        console.log(maskedPhoneNumber);
         if (maskedPhoneNumber) {
           navigate(`/auth/otp?phone=${maskedPhoneNumber}`, { replace: true });
         } else {
