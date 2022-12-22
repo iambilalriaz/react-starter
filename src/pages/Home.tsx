@@ -56,8 +56,6 @@ export default function Home() {
         <Card>
           <p className="text-lg">Welcome to your dashboard Home page</p>
         </Card>
-        {/* <LocationCard /> */}
-        {/* <AddLocation /> */}
       </div>
     </div>
   );

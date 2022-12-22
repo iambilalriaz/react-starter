@@ -48,19 +48,19 @@ export const locationDetails = [
     placeholder: 'country'
   }
   // {
-  //   fid: 8,
+  //   fid: 7,
   //   label: 'from',
   //   type: 'text',
-  //   id: 'address',
-  //   name: 'Address 1',
-  //   placeholder: 'Enter your Address 1 here'
+  //   id: 'from',
+  //   name: 'from',
+  //   placeholder: 'from'
   // },
   // {
-  //   fid: 9,
+  //   fid: 8,
   //   label: 'to',
   //   type: 'text',
-  //   id: 'address',
-  //   name: 'Address 1',
-  //   placeholder: 'Enter your Address 1 here'
-  // },
+  //   id: 'to',
+  //   name: 'from',
+  //   placeholder: 'to'
+  // }
 ];

@@ -4,6 +4,9 @@ import AuthHeader from '../features/authentication/components/Header';
 import logo from '../assets/header-logo.svg';
 
 import 'react-intl-tel-input/dist/main.css';
+import { AddLocation } from '../features/vendor/components/AddLocation';
+import { ViewLocation } from '../features/vendor/components/ViewLocation';
+import { LocationCard } from '../features/vendor/components/LocationCard';
 
 function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -11,7 +14,8 @@ function AuthLayout({ children }: { children: React.ReactNode }) {
       <div className="sticky top-0 md:hidden">
         <AuthHeader />
       </div>
-      <div className="mx-auto flex w-[90%] flex-col gap-4 md:h-screen md:w-full md:flex-row md:place-content-center">
+      {/* md:h-screen */}
+      <div className="mx-auto flex w-[90%] flex-col gap-4  md:w-full md:flex-row md:place-content-center">
         <div className="mt-[10px] rounded bg-black p-8 text-white md:mt-0 md:w-[50%] md:rounded-none">
           <div className="md:ml-[100px]">
             <header className="mb-[239px] mt-[76px] hidden  md:block">
@@ -30,6 +34,12 @@ function AuthLayout({ children }: { children: React.ReactNode }) {
           <div className=" mx-auto w-full  md:max-w-[583px] ">{children}</div>
           {/* do not remove this */}
           {/* <IntlTelInput inputClassName="input inputBox input-bordered" separateDialCode format /> */}
+          <h2>Add new location</h2>
+          <AddLocation />
+          <h2>View single location</h2>
+          <ViewLocation />
+          <h2>all Locations card</h2>
+          <LocationCard />
         </div>
       </div>
     </main>

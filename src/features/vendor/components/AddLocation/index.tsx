@@ -1,4 +1,5 @@
 import { Field, Form, Formik } from 'formik';
+import { v4 as uuidv4 } from 'uuid';
 import { VendorServiceClient } from '../../../../api/vendorpb/v1/vendor.client';
 import { Button } from '../../../../components/Button';
 import { Card } from '../../../../components/Card';
@@ -14,17 +15,16 @@ const initialValues = {
   state: '',
   zip: '',
   country: '',
-  id: '12321413',
   hoursOfOperation: ['3', '2'],
   vendorId: '3333'
 };
 
 const handleAddress = (values) => {
-  console.log('submited', values);
+  console.log('submited', { ...values, id: uuidv4() });
   const vendorService = new VendorServiceClient(getTransport());
   vendorService
     .addLocation({
-      location: initialValues
+      location: { ...values, id: uuidv4() }
     })
     .then((res) => console.log(res))
     .catch((err) => console.log(err));
