@@ -34,6 +34,7 @@ export default function Home() {
       .then(({ response }) => {
         setLoading(false);
         if (!response?.vendors?.length) {
+          // register first vendor
           navigate('/auth/business');
         }
       })
