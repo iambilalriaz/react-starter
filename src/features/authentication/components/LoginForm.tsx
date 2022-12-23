@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import { Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../../components/Button';
 import { Card } from '../../../components/Card';
@@ -10,6 +10,7 @@ import CardSubtitle from './CardSubtitle';
 import CardTitle from './CardTitle';
 import { RequestEmailLinkRequest_AppType } from '../../../api/authpb/v1/auth';
 import { getAuthServiceClient } from '../../../constants';
+import { isLoggedIn } from '../../../router/routes';
 
 const ErrorMessage = ({ text }: { text: string }): JSX.Element => (
   <span className="mt-1 text-xs text-error">{text}</span>
@@ -52,6 +53,12 @@ export default function LoginForm() {
   //   setInputType((prevInputType) => (prevInputType === 'email' ? 'phone' : 'email'));
   // };
 
+  useEffect(() => {
+    if (isLoggedIn()) {
+      navigate('/home');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const onFormSubmit = (values: FormValues) => {
     const authService = getAuthServiceClient();
     setIsLoading(true);

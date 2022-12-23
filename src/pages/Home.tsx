@@ -9,6 +9,7 @@ import { TbLoader } from 'react-icons/tb';
 import { VendorlocationsLayout } from '../layouts/VendorlocationsLayout';
 import { getVendorServiceClient } from '../constants';
 import { Wrapper } from '../components/Wrapper';
+import { isLoggedIn } from '../router/routes';
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -31,19 +32,24 @@ export default function Home() {
   };
   const [vendorId, setVendorId] = useState('');
   useEffect(() => {
-    vendorService
-      .listVendors({}, options)
-      .then(({ response }) => {
-        setLoading(false);
-        if (!response?.vendors?.length) {
-          // register first vendor
-          navigate(`/auth/business?referrer=${window.location.href}`);
-        } else {
-          setVendorId(response?.vendors[0]?.id);
-          console.log('first', response?.vendors[0]?.id);
-        }
-      })
-      .catch(() => setLoading(false));
+    if (!isLoggedIn()) {
+      navigate('/auth/login');
+    } else {
+      vendorService
+        .listVendors({}, options)
+        .then(({ response }) => {
+          setLoading(false);
+          if (!response?.vendors?.length) {
+            // register first vendor
+            navigate(`/auth/business?referrer=${window.location.href}`);
+          } else {
+            setVendorId(response?.vendors[0]?.id);
+            console.log('first', response?.vendors[0]?.id);
+          }
+        })
+        .catch(() => setLoading(false));
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (

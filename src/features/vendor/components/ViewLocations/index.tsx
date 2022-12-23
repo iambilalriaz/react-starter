@@ -28,24 +28,10 @@ export function ViewLocations({ vendorId }) {
       .catch((err) => console.log(err));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  console.log(allLocationsData);
-  // const handleDeleteLcation = () => {
-  //   getVendorServiceClient()
-  //     .deleteLocation(
-  //       {
-  //         locationId: 'a5066e3d-b3fe-4c7d-b125-bd23624154a5',
-  //         vendorId
-  //       },
-  //       getOptions()
-  //     )
-  //     .then((res) => console.log(res))
-  //     .catch((err) => console.log(err));
-  // };
   return (
     <div className="grid gap-5 border border-red-400 md:grid-cols-3">
       {allLocationsData?.map((location: ILocationProps) => (
-        <LocationCard key={location?.id} location={location} />
+        <LocationCard key={location?.id} vendorId={vendorId} location={location} />
       ))}
     </div>
   );
