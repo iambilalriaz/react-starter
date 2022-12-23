@@ -1,4 +1,3 @@
-import { Navigate } from 'react-router-dom';
 import CheckEmail from '../pages/CheckEmail';
 import Home from '../pages/Home';
 import LoggingIn from '../pages/LoggingIn';
@@ -7,22 +6,23 @@ import SignUp from '../pages/SignUp';
 import RegisterVendor from '../pages/ResgisterVendor';
 import { OTPCodeCard } from '../pages/OTPCard';
 
-const isLoggedIn = !!localStorage.getItem('accessToken');
+export const isLoggedIn = () => !!localStorage.getItem('accessToken');
+
 export const routes = [
   {
     path: '/',
-    element: isLoggedIn ? <Home /> : <Navigate to="/auth/login" />
+    element: <Home />
   },
   {
     path: '/home',
-    element: isLoggedIn ? <Home /> : <Navigate to="/auth/login" />
+    element: <Home />
   },
   {
     path: '/auth',
     children: [
       {
         path: '/auth/login',
-        element: !isLoggedIn ? <Login /> : <Navigate to="/home" />
+        element: <Login />
       },
       {
         path: '/auth/signup',
@@ -31,7 +31,7 @@ export const routes = [
 
       {
         path: '/auth/email',
-        element: !isLoggedIn ? <CheckEmail /> : <Navigate to="/home" />
+        element: <CheckEmail />
       },
       {
         path: '/auth/logging-in',
@@ -43,7 +43,7 @@ export const routes = [
       },
       {
         path: '/auth/business',
-        element: isLoggedIn ? <RegisterVendor /> : <Navigate to="/auth/login" />
+        element: <RegisterVendor />
       }
     ]
   }

@@ -8,6 +8,7 @@ import type { RpcOptions, UnaryCall } from '@protobuf-ts/runtime-rpc';
 import { TbLoader } from 'react-icons/tb';
 import { Card } from '../components/Card';
 import { getVendorServiceClient } from '../constants';
+import { isLoggedIn } from '../router/routes';
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -29,16 +30,20 @@ export default function Home() {
     ]
   };
   useEffect(() => {
-    vendorService
-      .listVendors({}, options)
-      .then(({ response }) => {
-        setLoading(false);
-        if (!response?.vendors?.length) {
-          // register first vendor
-          navigate(`/auth/business?referrer=${window.location.href}`);
-        }
-      })
-      .catch(() => setLoading(false));
+    if (!isLoggedIn()) {
+      navigate('/auth/login');
+    } else {
+      vendorService
+        .listVendors({}, options)
+        .then(({ response }) => {
+          setLoading(false);
+          if (!response?.vendors?.length) {
+            // register first vendor
+            navigate(`/auth/business?referrer=${window.location.href}`);
+          }
+        })
+        .catch(() => setLoading(false));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
