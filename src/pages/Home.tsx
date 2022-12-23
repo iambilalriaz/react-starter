@@ -3,10 +3,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card } from '../components/Card';
-import { AddLocation } from '../features/vendor/components/AddLocation';
-import { ViewLocation } from '../features/vendor/components/ViewLocation';
-// import { LocationCard } from '../features/vendor/components/LocationCard';
+import { VendorlocationsLayout } from '../layouts/VendorlocationsLayout';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -17,7 +14,7 @@ export default function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <div className="fixed grid w-full">
+    <div className="grid w-full">
       <div className="navbar bg-primary text-white">
         <div className="navbar-start">
           <div className="dropdown">
@@ -54,12 +51,12 @@ export default function Home() {
           </button>
         </div>
       </div>
-      <div className="mb-[50px] grid h-screen place-items-center">
-        <Card>
-          <p className="text-lg">Welcome to your dashboard Home page</p>
-        </Card>
-        <AddLocation />
-        <ViewLocation />
+      {/* h-screen */}
+      <div className="my-10 text-center">
+        <h2 className="my-10 text-lg">Welcome to your dashboard Home page</h2>
+        <div>
+          <VendorlocationsLayout />
+        </div>
       </div>
     </div>
   );

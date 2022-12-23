@@ -1,12 +1,12 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-param-reassign */
 /* eslint-disable dot-notation */
 import { Field, Form, Formik } from 'formik';
 import { v4 as uuidv4 } from 'uuid';
-import type { RpcOptions, UnaryCall } from '@protobuf-ts/runtime-rpc';
 import { Button } from '../../../../components/Button';
 import { Card } from '../../../../components/Card';
 import Input from '../../../../components/Input';
-import { getVendorServiceClient } from '../../../../constants';
+import { getOptions, getVendorServiceClient } from '../../../../constants';
 
 import { locationDetails } from '../../../../data/locationDetails';
 
@@ -17,48 +17,36 @@ const initialValues = {
   state: '',
   zip: '',
   country: '',
-  hoursOfOperation: ['3', '2']
+  hoursOfOperation: ['9', '5']
   // vendorId: 'gXQtPi0EzGr4eHHfA1T6'
 };
 
-const handleAddress = (values) => {
-  const options: RpcOptions = {
-    interceptors: [
-      {
-        // adds auth header to unary requests
-        interceptUnary(next, method, input, optionsX: RpcOptions): UnaryCall {
-          if (!optionsX.meta) {
-            optionsX.meta = {};
-          }
-          optionsX.meta['Authorization'] = localStorage.getItem('accessToken') || '';
-          return next(method, input, optionsX);
-        }
-      }
-    ]
-  };
+const handleAddress = (values, vendorId) => {
   getVendorServiceClient()
     .addLocation(
       {
-        location: { ...values, id: uuidv4(), vendorId: 'hiUTBMkpwKjsoFjF0jEn' }
+        location: { ...values, id: uuidv4(), vendorId }
       },
-      options
+      getOptions()
     )
     .then((res) => {
       console.log(res);
     })
     .catch((err) => {
+      console.log(vendorId);
       console.log(err);
     });
 };
 
-export function AddLocation() {
+export function AddLocation({ vendorId }) {
+  console.log('vid: ', vendorId);
   return (
     <Card>
       <h2 className="mb-4 text-4xl">location details</h2>
       <Formik
         initialValues={initialValues}
         onSubmit={(values) => {
-          handleAddress(values);
+          handleAddress(values, vendorId);
         }}
       >
         <Form>
