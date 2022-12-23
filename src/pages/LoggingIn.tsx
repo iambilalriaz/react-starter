@@ -15,8 +15,7 @@ const LoggingIn = () => {
       })
       .then(({ response }) => {
         const { maskedPhoneNumber, accessToken } = response;
-        console.log('verifyEmailCode token: ', accessToken);
-        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('emailAccessToken', accessToken);
         if (maskedPhoneNumber) {
           navigate(`/auth/otp?phone=${maskedPhoneNumber}`, { replace: true });
         } else {
@@ -32,9 +31,11 @@ const LoggingIn = () => {
     <div className="grid h-screen place-items-center text-center text-xl">
       <div className="card w-96 bg-base-100 shadow-xl">
         <div className="card-body">
-          <div className="animated-icon flex justify-center">
-            <TbLoader size="50" />
-          </div>
+          {error ? null : (
+            <div className="animated-icon flex justify-center">
+              <TbLoader size="50" />
+            </div>
+          )}
           <p>{error ? 'Failed to log in' : 'Logging in...'}</p>
         </div>
       </div>

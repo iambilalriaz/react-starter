@@ -87,11 +87,16 @@ export default function RegisterVendor() {
         setIsLoading(false);
       });
   };
-
   useEffect(() => {
     authService
       .getUser({}, options)
       .then(({ response }: { response: UserProps }) => setUser(response));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useEffect(() => {
+    if (!localStorage.getItem('accessToken')) {
+      navigate('/auth/token');
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

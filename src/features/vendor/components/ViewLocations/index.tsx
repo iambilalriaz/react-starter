@@ -43,7 +43,7 @@ export function ViewLocations({ vendorId }) {
   //     .catch((err) => console.log(err));
   // };
   return (
-    <div className="flex gap-5 border border-red-400">
+    <div className="grid gap-5 border border-red-400 md:grid-cols-3">
       {allLocationsData?.map((location: ILocationProps) => (
         <LocationCard key={location?.id} location={location} />
       ))}

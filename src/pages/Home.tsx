@@ -1,16 +1,49 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import type { RpcOptions, UnaryCall } from '@protobuf-ts/runtime-rpc';
+import { TbLoader } from 'react-icons/tb';
 import { VendorlocationsLayout } from '../layouts/VendorlocationsLayout';
+import { getVendorServiceClient } from '../constants';
+import { Wrapper } from '../components/Wrapper';
 
 export default function Home() {
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+
+  const vendorService = getVendorServiceClient();
+  const options: RpcOptions = {
+    interceptors: [
+      {
+        // adds auth header to unary requests
+        interceptUnary(next, method, input, optionsX: RpcOptions): UnaryCall {
+          if (!optionsX.meta) {
+            optionsX.meta = {};
+          }
+          optionsX.meta.Authorization = localStorage.getItem('accessToken') || '';
+          return next(method, input, optionsX);
+        }
+      }
+    ]
+  };
+  const [vendorId, setVendorId] = useState('');
   useEffect(() => {
-    if (!localStorage.getItem('accessToken')) {
-      navigate('/auth/login', { replace: true });
-    }
+    vendorService
+      .listVendors({}, options)
+      .then(({ response }) => {
+        setLoading(false);
+        if (!response?.vendors?.length) {
+          // register first vendor
+          navigate(`/auth/business?referrer=${window.location.href}`);
+        } else {
+          setVendorId(response?.vendors[0]?.id);
+          console.log('first', response?.vendors[0]?.id);
+        }
+      })
+      .catch(() => setLoading(false));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
@@ -51,12 +84,21 @@ export default function Home() {
           </button>
         </div>
       </div>
-      {/* h-screen */}
-      <div className="my-10 text-center">
-        <h2 className="my-10 text-lg">Welcome to your dashboard Home page</h2>
-        <div>
-          <VendorlocationsLayout />
-        </div>
+      <div className="">
+        <Wrapper>
+          {loading ? (
+            <div>
+              <div className="animated-icon flex justify-center">
+                <TbLoader size="50" />
+              </div>
+            </div>
+          ) : (
+            <>
+              <p className="text-lg">Welcome to your dashboard Home page</p>
+              <VendorlocationsLayout vendorId={vendorId} />
+            </>
+          )}
+        </Wrapper>
       </div>
     </div>
   );
