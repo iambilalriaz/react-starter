@@ -31,6 +31,14 @@ export default function Home() {
     ]
   };
   const [vendorId, setVendorId] = useState('');
+  const [toggleForm, setToggleForm] = useState(false);
+  const [addButtonClicked, setAddButtonClicked] = useState(false);
+
+  const handleForm = () => {
+    setAddButtonClicked(true);
+    setToggleForm((prev) => !prev);
+  };
+  console.log('firsttogg', toggleForm);
   useEffect(() => {
     if (!isLoggedIn()) {
       navigate('/auth/login');
@@ -77,7 +85,10 @@ export default function Home() {
           <a className="btn-ghost btn text-xl normal-case">Suforia</a>
         </div>
 
-        <div className="navbar-end">
+        <div className="navbar-end flex gap-8">
+          <button type="button" className="btn" onClick={handleForm}>
+            add location
+          </button>
           <button
             type="button"
             className="btn"
@@ -101,7 +112,14 @@ export default function Home() {
           ) : (
             <>
               <p className="text-lg">Welcome to your dashboard Home page</p>
-              <VendorlocationsLayout vendorId={vendorId} />
+              <VendorlocationsLayout
+                addButtonClicked={addButtonClicked}
+                setToggleForm={setToggleForm}
+                toggleForm={toggleForm}
+                vendorId={vendorId}
+                handleForm={handleForm}
+                setAddButtonClicked={setAddButtonClicked}
+              />
             </>
           )}
         </Wrapper>

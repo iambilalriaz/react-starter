@@ -1,34 +1,22 @@
 import locationIcon from '../../../../assets/location.svg';
 import { Button } from '../../../../components/Button';
-import { getOptions, getVendorServiceClient } from '../../../../constants';
-// import { Button } from '../../../../components/Button';
 import { ILocationProps } from '../ViewLocations';
 
 export function LocationCard({
   location,
-  vendorId
+  deleteLocation,
+  editlocation,
+  handleForm
 }: {
   location: ILocationProps;
-  vendorId: string;
+  deleteLocation: any;
+  editlocation: any;
+  handleForm: any;
 }) {
-  console.log('location card: ', location, vendorId);
-
-  const deleteLocation = () => {
-    getVendorServiceClient()
-      .deleteLocation(
-        {
-          locationId: location.id,
-          vendorId
-        },
-        getOptions()
-      )
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
-  };
-
+  editlocation(location);
   return (
-    <div className="mb-12 max-w-[700px] rounded-md shadow-5xl">
-      <div className="flex flex-col gap-3 p-4">
+    <div className="mb-12 max-w-[700px] rounded-md p-4 shadow-5xl">
+      <div className="flex flex-col gap-3 ">
         <div>
           <img src={locationIcon} alt="location" />
         </div>
@@ -51,7 +39,10 @@ export function LocationCard({
           <span className="font-bold">country</span>: {location.country}
         </div>
       </div>
-      <Button onClick={deleteLocation}>Delete Location</Button>
+      <div className="mt-6 flex gap-4">
+        <Button onClick={() => deleteLocation(location.id)}>Delete</Button>
+        <Button onClick={handleForm}>Edit</Button>
+      </div>
     </div>
   );
 }

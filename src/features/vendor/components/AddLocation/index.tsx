@@ -17,37 +17,59 @@ const initialValues = {
   state: '',
   zip: '',
   country: '',
-  hoursOfOperation: ['9', '5']
-  // vendorId: 'gXQtPi0EzGr4eHHfA1T6'
+  hoursOfOperation: ['9', '5'],
+  vendorId: ''
 };
+// const savedValues = {
+//   address1: 'acx',
+//   address2: 'xxx',
+//   city: 'aa',
+//   state: 'ww',
+//   zip: '32523',
+//   country: 'xyt',
+//   hoursOfOperation: ['9', '5'],
+//   vendorId: '2wrhruedsrtg'
+// };
 
-const handleAddress = (values, vendorId) => {
-  getVendorServiceClient()
-    .addLocation(
-      {
-        location: { ...values, id: uuidv4(), vendorId }
-      },
-      getOptions()
-    )
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((err) => {
-      console.log(vendorId);
-      console.log(err);
-    });
-};
+export function AddLocation({
+  vendorId,
+  setAllLocationsData,
+  allLocationsData,
+  setToggleForm,
+  selectedLocation,
+  addButtonClicked,
+  setAddButtonClicked
+}) {
+  const addLocation = (values: any) => {
+    getVendorServiceClient()
+      .addLocation(
+        {
+          location: { ...values, id: uuidv4(), vendorId }
+        },
+        getOptions()
+      )
+      .then(() => {
+        setAllLocationsData([...allLocationsData, { ...values, id: uuidv4(), vendorId }]);
+        setToggleForm(false);
+        console.log({ ...values, id: uuidv4(), vendorId });
+        setAddButtonClicked(false);
+      })
+      .catch((err) => {
+        console.log(vendorId);
+        console.log(err);
+      });
+  };
 
-export function AddLocation({ vendorId }) {
-  console.log('vid: ', vendorId);
   return (
     <Card>
       <h2 className="mb-4 text-4xl">location details</h2>
       <Formik
-        initialValues={initialValues}
-        onSubmit={(values) => {
-          handleAddress(values, vendorId);
+        initialValues={!addButtonClicked ? selectedLocation : initialValues}
+        // initialValues={initialValues}
+        onSubmit={(values, actions) => {
+          addLocation(values, vendorId, actions);
         }}
+        enableReinitialize
       >
         <Form>
           <div className="flex flex-col gap-2">
