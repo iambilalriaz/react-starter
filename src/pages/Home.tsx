@@ -2,13 +2,15 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { RpcOptions, UnaryCall } from '@protobuf-ts/runtime-rpc';
+import { TbLoader } from 'react-icons/tb';
 import { Card } from '../components/Card';
 import { getVendorServiceClient } from '../constants';
 
 export default function Home() {
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   const vendorService = getVendorServiceClient();
@@ -27,11 +29,15 @@ export default function Home() {
     ]
   };
   useEffect(() => {
-    vendorService.listVendors({}, options).then(({ response }) => {
-      if (!response?.vendors?.length) {
-        navigate('/auth/business');
-      }
-    });
+    vendorService
+      .listVendors({}, options)
+      .then(({ response }) => {
+        setLoading(false);
+        if (!response?.vendors?.length) {
+          navigate('/auth/business');
+        }
+      })
+      .catch(() => setLoading(false));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
@@ -74,7 +80,15 @@ export default function Home() {
       </div>
       <div className="grid place-items-center h-screen">
         <Card>
-          <p className="text-lg">Welcome to your dashboard Home page</p>
+          {loading ? (
+            <div>
+              <div className="animated-icon flex justify-center">
+                <TbLoader size="50" />
+              </div>
+            </div>
+          ) : (
+            <p className="text-lg">Welcome to your dashboard Home page</p>
+          )}
         </Card>
       </div>
     </div>
