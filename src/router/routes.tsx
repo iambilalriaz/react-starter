@@ -43,7 +43,7 @@ export const routes = [
       },
       {
         path: '/auth/business',
-        element: <RegisterVendor />
+        element: isLoggedIn ? <RegisterVendor /> : <Navigate to="/auth/login" />
       }
     ]
   }

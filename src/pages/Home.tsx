@@ -35,7 +35,7 @@ export default function Home() {
         setLoading(false);
         if (!response?.vendors?.length) {
           // register first vendor
-          navigate('/auth/business');
+          navigate(`/auth/business?referrer=${window.location.href}`);
         }
       })
       .catch(() => setLoading(false));
