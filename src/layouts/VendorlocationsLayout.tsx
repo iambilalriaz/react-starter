@@ -9,8 +9,6 @@ interface IVendorlocationsLayoutProps {
   toggleForm: boolean;
   setToggleForm: boolean;
   handleForm: () => void;
-  addButtonClicked: boolean;
-  setAddButtonClicked: boolean;
 }
 
 export function VendorlocationsLayout({
@@ -18,15 +16,15 @@ export function VendorlocationsLayout({
   toggleForm,
   setToggleForm,
   handleForm,
-  addButtonClicked,
-  setAddButtonClicked
+  initialValues,
+  setFormValues,
+  selectedLocation,
+  editlocation,
+  formValues,
+  setHandleLocationData,
+  handleLocationData
 }: IVendorlocationsLayoutProps) {
   const [allLocationsData, setAllLocationsData] = useState([]);
-  const [selectedLocation, setSelectedLocation] = useState();
-  const editlocation = (currentLocation: any) => {
-    console.log('selected location', selectedLocation);
-    setSelectedLocation(currentLocation);
-  };
   console.log('from layout: ', selectedLocation);
   return (
     <div>
@@ -38,8 +36,12 @@ export function VendorlocationsLayout({
             vendorId={vendorId}
             setToggleForm={setToggleForm}
             selectedLocation={selectedLocation}
-            addButtonClicked={addButtonClicked}
-            setAddButtonClicked={setAddButtonClicked}
+            // addButtonClicked={addButtonClicked}
+            // setAddButtonClicked={setAddButtonClicked}
+            initialValues={initialValues}
+            handleLocationData={handleLocationData}
+            setHandleLocationData={setHandleLocationData}
+            formValues={formValues}
           />
         </div>
       ) : (
@@ -52,7 +54,9 @@ export function VendorlocationsLayout({
         editlocation={editlocation}
         toggleForm={toggleForm}
         handleForm={handleForm}
-        addButtonClicked={addButtonClicked}
+        // addButtonClicked={addButtonClicked}
+        setFormValues={setFormValues}
+        setHandleLocationData={setHandleLocationData}
       />
     </div>
   );

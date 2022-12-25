@@ -2,6 +2,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable dot-notation */
 import { Field, Form, Formik } from 'formik';
+// import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Button } from '../../../../components/Button';
 import { Card } from '../../../../components/Card';
@@ -20,16 +21,6 @@ const initialValues = {
   hoursOfOperation: ['9', '5'],
   vendorId: ''
 };
-// const savedValues = {
-//   address1: 'acx',
-//   address2: 'xxx',
-//   city: 'aa',
-//   state: 'ww',
-//   zip: '32523',
-//   country: 'xyt',
-//   hoursOfOperation: ['9', '5'],
-//   vendorId: '2wrhruedsrtg'
-// };
 
 export function AddLocation({
   vendorId,
@@ -37,37 +28,54 @@ export function AddLocation({
   allLocationsData,
   setToggleForm,
   selectedLocation,
-  addButtonClicked,
-  setAddButtonClicked
+  handleLocationData,
+  formValues,
+  setHandleLocationData
+  // addButtonClicked,
+  // setAddButtonClicked,
 }) {
+  console.log('selectedlocation', selectedLocation);
   const addLocation = (values: any) => {
-    getVendorServiceClient()
-      .addLocation(
-        {
-          location: { ...values, id: uuidv4(), vendorId }
-        },
-        getOptions()
-      )
-      .then(() => {
-        setAllLocationsData([...allLocationsData, { ...values, id: uuidv4(), vendorId }]);
-        setToggleForm(false);
-        console.log({ ...values, id: uuidv4(), vendorId });
-        setAddButtonClicked(false);
-      })
-      .catch((err) => {
-        console.log(vendorId);
-        console.log(err);
-      });
+    if (handleLocationData) {
+      getVendorServiceClient()
+        .updateLocation({ location: { ...selectedLocation, vendorId } }, getOptions())
+        .then((res) => {
+          console.log(res);
+          setHandleLocationData(false);
+          setAllLocationsData([...allLocationsData, { ...selectedLocation, vendorId }]);
+          console.log({ ...selectedLocation, vendorId });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      getVendorServiceClient()
+        .addLocation(
+          {
+            location: { ...values, id: uuidv4(), vendorId }
+          },
+          getOptions()
+        )
+        .then(() => {
+          setAllLocationsData([...allLocationsData, { ...values, id: uuidv4(), vendorId }]);
+          setToggleForm(false);
+          console.log({ ...values, id: uuidv4(), vendorId });
+        })
+        .catch((err) => {
+          console.log(vendorId);
+          console.log(err);
+        });
+    }
   };
 
   return (
     <Card>
       <h2 className="mb-4 text-4xl">location details</h2>
       <Formik
-        initialValues={!addButtonClicked ? selectedLocation : initialValues}
-        // initialValues={initialValues}
-        onSubmit={(values, actions) => {
-          addLocation(values, vendorId, actions);
+        // initialValues={selectedLocation || initialValues}
+        initialValues={formValues || initialValues}
+        onSubmit={(values) => {
+          addLocation(values);
         }}
         enableReinitialize
       >

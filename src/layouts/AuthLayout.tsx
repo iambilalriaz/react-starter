@@ -12,7 +12,7 @@ function AuthLayout({ children }: { children: React.ReactNode }) {
         <AuthHeader />
       </div>
       {/* md:h-screen */}
-      <div className="mx-auto flex w-[90%] flex-col gap-4  md:w-full md:flex-row md:place-content-center">
+      <div className="mx-auto flex w-[90%] flex-col gap-4 md:h-full  md:w-full md:flex-row md:place-content-center">
         <div className="mt-[10px] rounded bg-black p-8 text-white md:mt-0 md:w-[50%] md:rounded-none">
           <div className="md:ml-[100px]">
             <header className="mb-[239px] mt-[76px] hidden  md:block">
@@ -27,7 +27,7 @@ function AuthLayout({ children }: { children: React.ReactNode }) {
             </p>
           </div>
         </div>
-        <div className="flex flex-col justify-center gap-4 md:w-[50%]">
+        <div className="flex h-screen flex-col justify-center gap-4 md:w-[50%]">
           <div className=" mx-auto w-full  md:max-w-[583px] ">{children}</div>
           {/* do not remove this */}
           {/* <IntlTelInput inputClassName="input inputBox input-bordered" separateDialCode format /> */}

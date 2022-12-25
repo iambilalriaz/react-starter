@@ -4,47 +4,49 @@
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import type { RpcOptions, UnaryCall } from '@protobuf-ts/runtime-rpc';
 import { TbLoader } from 'react-icons/tb';
 import { VendorlocationsLayout } from '../layouts/VendorlocationsLayout';
-import { getVendorServiceClient } from '../constants';
+import { getOptions, getVendorServiceClient } from '../constants';
 import { Wrapper } from '../components/Wrapper';
 import { isLoggedIn } from '../router/routes';
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-
-  const vendorService = getVendorServiceClient();
-  const options: RpcOptions = {
-    interceptors: [
-      {
-        // adds auth header to unary requests
-        interceptUnary(next, method, input, optionsX: RpcOptions): UnaryCall {
-          if (!optionsX.meta) {
-            optionsX.meta = {};
-          }
-          optionsX.meta.Authorization = localStorage.getItem('accessToken') || '';
-          return next(method, input, optionsX);
-        }
-      }
-    ]
+  const initialValues = {
+    address1: '',
+    address2: '',
+    city: '',
+    state: '',
+    zip: '',
+    country: '',
+    hoursOfOperation: ['9', '5'],
+    vendorId: ''
   };
   const [vendorId, setVendorId] = useState('');
   const [toggleForm, setToggleForm] = useState(false);
   const [addButtonClicked, setAddButtonClicked] = useState(false);
+  const [formValues, setFormValues] = useState(initialValues);
+  const [selectedLocation, setSelectedLocation] = useState();
+  const [handleLocationData, setHandleLocationData] = useState(false);
+
+  const editlocation = (currentLocation: any) => {
+    console.log('selected location', selectedLocation);
+    setSelectedLocation(currentLocation);
+  };
 
   const handleForm = () => {
     setAddButtonClicked(true);
     setToggleForm((prev) => !prev);
   };
+
   console.log('firsttogg', toggleForm);
   useEffect(() => {
     if (!isLoggedIn()) {
       navigate('/auth/login');
     } else {
-      vendorService
-        .listVendors({}, options)
+      getVendorServiceClient()
+        .listVendors({}, getOptions())
         .then(({ response }) => {
           setLoading(false);
           if (!response?.vendors?.length) {
@@ -86,7 +88,14 @@ export default function Home() {
         </div>
 
         <div className="navbar-end flex gap-8">
-          <button type="button" className="btn" onClick={handleForm}>
+          <button
+            type="button"
+            className="btn"
+            onClick={() => {
+              handleForm();
+              setHandleLocationData(false);
+            }}
+          >
             add location
           </button>
           <button
@@ -119,6 +128,12 @@ export default function Home() {
                 vendorId={vendorId}
                 handleForm={handleForm}
                 setAddButtonClicked={setAddButtonClicked}
+                setFormValues={setFormValues}
+                formValues={formValues}
+                editlocation={editlocation}
+                selectedLocation={selectedLocation}
+                handleLocationData={handleLocationData}
+                setHandleLocationData={setHandleLocationData}
               />
             </>
           )}

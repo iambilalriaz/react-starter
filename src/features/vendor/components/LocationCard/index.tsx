@@ -6,14 +6,17 @@ export function LocationCard({
   location,
   deleteLocation,
   editlocation,
-  handleForm
+  handleForm,
+  setFormValues,
+  setHandleLocationData
 }: {
   location: ILocationProps;
   deleteLocation: any;
   editlocation: any;
   handleForm: any;
+  setFormValues: any;
+  setHandleLocationData: any;
 }) {
-  editlocation(location);
   return (
     <div className="mb-12 max-w-[700px] rounded-md p-4 shadow-5xl">
       <div className="flex flex-col gap-3 ">
@@ -41,7 +44,16 @@ export function LocationCard({
       </div>
       <div className="mt-6 flex gap-4">
         <Button onClick={() => deleteLocation(location.id)}>Delete</Button>
-        <Button onClick={handleForm}>Edit</Button>
+        <Button
+          onClick={() => {
+            handleForm();
+            editlocation(location);
+            setHandleLocationData(true);
+            setFormValues(location);
+          }}
+        >
+          Edit
+        </Button>
       </div>
     </div>
   );

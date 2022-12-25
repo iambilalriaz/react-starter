@@ -21,7 +21,9 @@ export function ViewLocations({
   allLocationsData,
   editlocation,
   toggleForm,
-  handleForm
+  handleForm,
+  setFormValues,
+  setHandleLocationData
 }) {
   const deleteLocation = (locationId) => {
     getVendorServiceClient()
@@ -61,6 +63,8 @@ export function ViewLocations({
           editlocation={editlocation}
           toggleForm={toggleForm}
           handleForm={handleForm}
+          setFormValues={setFormValues}
+          setHandleLocationData={setHandleLocationData}
         />
       ))}
     </div>
