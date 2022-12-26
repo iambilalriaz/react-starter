@@ -4,10 +4,9 @@
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import type { RpcOptions, UnaryCall } from '@protobuf-ts/runtime-rpc';
 import { TbLoader } from 'react-icons/tb';
 import { Card } from '../components/Card';
-import { getVendorServiceClient } from '../constants';
+import { getOptions, getVendorServiceClient } from '../constants';
 import { isLoggedIn } from '../router/routes';
 
 export default function Home() {
@@ -15,34 +14,25 @@ export default function Home() {
   const navigate = useNavigate();
 
   const vendorService = getVendorServiceClient();
-  const options: RpcOptions = {
-    interceptors: [
-      {
-        // adds auth header to unary requests
-        interceptUnary(next, method, input, optionsX: RpcOptions): UnaryCall {
-          if (!optionsX.meta) {
-            optionsX.meta = {};
-          }
-          optionsX.meta.Authorization = localStorage.getItem('accessToken') || '';
-          return next(method, input, optionsX);
+
+  const getAllVendors = async () => {
+    const options = await getOptions();
+    vendorService
+      .listVendors({}, options)
+      .then(({ response }) => {
+        setLoading(false);
+        if (!response?.vendors?.length) {
+          // register first vendor
+          navigate(`/auth/business?referrer=${window.location.href}`);
         }
-      }
-    ]
+      })
+      .catch(() => setLoading(false));
   };
   useEffect(() => {
     if (!isLoggedIn()) {
       navigate('/auth/login');
     } else {
-      vendorService
-        .listVendors({}, options)
-        .then(({ response }) => {
-          setLoading(false);
-          if (!response?.vendors?.length) {
-            // register first vendor
-            navigate(`/auth/business?referrer=${window.location.href}`);
-          }
-        })
-        .catch(() => setLoading(false));
+      getAllVendors();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

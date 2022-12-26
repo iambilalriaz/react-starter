@@ -5,6 +5,7 @@ import { Field, FieldArray, Form, Formik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { RpcOptions, UnaryCall } from '@protobuf-ts/runtime-rpc';
+import moment from 'moment';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { getQueryParam, getAuthServiceClient } from '../constants';
@@ -68,6 +69,8 @@ export function OTPCodeCard() {
           setIsLoading(false);
           setError(false);
           localStorage.setItem('accessToken', response?.accessToken);
+          localStorage.setItem('refreshToken', response?.refreshToken);
+          localStorage.setItem('expiryTime', `${moment().add(25, 'minute')}`);
           localStorage.removeItem('emailAccessToken');
           navigate(getQueryParam('newUser') ? '/auth/business' : '/home', { replace: true });
         })
