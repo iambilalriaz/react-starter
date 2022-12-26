@@ -1,19 +1,22 @@
+/* eslint-disable no-shadow */
+/* eslint-disable no-unused-vars */
 import locationIcon from '../../../../assets/location.svg';
 import { Button } from '../../../../components/Button';
 import { ILocationProps } from '../ViewLocations';
+
+export interface ILocationCardProps {
+  location: ILocationProps;
+  deleteLocation: (locationId: string) => void;
+  editlocation: (location: ILocationProps) => void;
+  handleForm: () => boolean;
+}
 
 export function LocationCard({
   location,
   deleteLocation,
   editlocation,
   handleForm
-}: {
-  location: ILocationProps;
-  deleteLocation: any;
-  editlocation: any;
-  handleForm: any;
-}) {
-  // editlocation(location);
+}: ILocationCardProps) {
   return (
     <div className="mb-12 w-[300px] rounded-md p-4 shadow-5xl">
       <div className="flex flex-col gap-3 ">

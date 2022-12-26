@@ -1,8 +1,7 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useEffect } from 'react';
-// import { Button } from '../../../../components/Button';
 import { getOptions, getVendorServiceClient } from '../../../../constants';
-// import { AddLocation } from '../AddLocation';
 import { LocationCard } from '../LocationCard';
 
 export interface ILocationProps {
@@ -15,17 +14,23 @@ export interface ILocationProps {
   zip: string;
   hoursOfOperation: string[];
 }
+
+interface viewLocationsProps {
+  vendorId: string;
+  handleForm: () => boolean;
+  editlocation: (location: ILocationProps) => void;
+  setAllLocationsData: any;
+  allLocationsData: ILocationProps[];
+}
+
 export function ViewLocations({
   vendorId,
   setAllLocationsData,
   allLocationsData,
   editlocation,
-  toggleForm,
-  handleForm,
-  setFormValues,
-  setHandleLocationData
-}) {
-  const deleteLocation = (locationId) => {
+  handleForm
+}: viewLocationsProps) {
+  const deleteLocation = (locationId: string) => {
     getVendorServiceClient()
       .deleteLocation(
         {
@@ -34,10 +39,10 @@ export function ViewLocations({
         },
         getOptions()
       )
-      .then((res) => {
-        setAllLocationsData(allLocationsData.filter((location) => location.id !== locationId));
-        console.log(res);
-        console.log('inside delete location: ', [...allLocationsData]);
+      .then(() => {
+        setAllLocationsData(
+          allLocationsData.filter((location: ILocationProps) => location.id !== locationId)
+        );
       })
       .catch((err) => console.log(err));
   };
@@ -48,7 +53,6 @@ export function ViewLocations({
       .listLocations({ vendorId }, getOptions())
       .then(({ response }) => {
         setAllLocationsData(response?.locations);
-        // console.log(response.locations);
       })
       .catch((err) => console.log(err));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -59,13 +63,9 @@ export function ViewLocations({
         <LocationCard
           deleteLocation={deleteLocation}
           key={location?.id}
-          vendorId={vendorId}
           location={location}
           editlocation={editlocation}
-          toggleForm={toggleForm}
           handleForm={handleForm}
-          setFormValues={setFormValues}
-          setHandleLocationData={setHandleLocationData}
         />
       ))}
     </div>

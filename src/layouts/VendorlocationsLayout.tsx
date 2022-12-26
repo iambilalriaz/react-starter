@@ -1,15 +1,17 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { AddLocation } from '../features/vendor/components/AddLocation';
 import { EmptyState } from '../features/vendor/components/EmptState';
-import { ViewLocations } from '../features/vendor/components/ViewLocations';
+import { ILocationProps, ViewLocations } from '../features/vendor/components/ViewLocations';
 
 interface IVendorlocationsLayoutProps {
   vendorId: string;
   toggleForm: boolean;
-  setToggleForm: boolean;
+  setToggleForm: React.Dispatch<React.SetStateAction<boolean>>;
   handleForm: () => void;
+  editlocation: () => void;
+  selectedLocation: ILocationProps;
 }
 
 export function VendorlocationsLayout({
@@ -21,7 +23,7 @@ export function VendorlocationsLayout({
   selectedLocation
 }: IVendorlocationsLayoutProps) {
   const [allLocationsData, setAllLocationsData] = useState([]);
-  console.log('location data check: ');
+
   return (
     <div className="grid h-screen place-items-center">
       {toggleForm ? (

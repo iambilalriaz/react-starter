@@ -15,7 +15,7 @@ export default function Home() {
   const [selectedLocation, setSelectedLocation] = useState(null);
 
   const navigate = useNavigate();
-  const editlocation = (currentLocation: any) => {
+  const editlocation = (currentLocation) => {
     setSelectedLocation(currentLocation);
   };
 

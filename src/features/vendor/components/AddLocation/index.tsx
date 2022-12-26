@@ -2,14 +2,14 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable dot-notation */
 import { Field, Form, Formik } from 'formik';
-// import { useState } from 'react';
+import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Button } from '../../../../components/Button';
 import { Card } from '../../../../components/Card';
 import Input from '../../../../components/Input';
 import { getOptions, getVendorServiceClient } from '../../../../constants';
-
 import { locationDetails } from '../../../../data/locationDetails';
+import { ILocationProps } from '../ViewLocations';
 
 const initialValues = {
   address1: '',
@@ -22,15 +22,22 @@ const initialValues = {
   vendorId: ''
 };
 
+interface IAddLocationProps {
+  vendorId: string;
+  selectedLocation: ILocationProps;
+  allLocationsData: string[];
+  setToggleForm: React.Dispatch<React.SetStateAction<boolean>>;
+  setAllLocationsData: React.Dispatch<React.SetStateAction<ILocationProps[]>>;
+}
+
 export function AddLocation({
   vendorId,
   setAllLocationsData,
   allLocationsData,
   setToggleForm,
   selectedLocation
-}) {
-  console.log('selectedlocation', selectedLocation);
-  const addLocation = (values: any) => {
+}: IAddLocationProps) {
+  const addLocation = (values: ILocationProps) => {
     getVendorServiceClient()
       .addLocation(
         {
@@ -43,18 +50,12 @@ export function AddLocation({
           .listLocations({ vendorId }, getOptions())
           .then(({ response }) => {
             setAllLocationsData(response?.locations);
-            // console.log('all locations inside the add', response.locations);
-            // setAllLocationsData([...response.locations, { ...values, id: uuidv4(), vendorId }]);
           });
         setToggleForm(false);
-        console.log('inside add location: ', [
-          ...allLocationsData,
-          { ...values, id: uuidv4(), vendorId }
-        ]);
       })
       .catch(() => {});
   };
-  const editlocation = (values) => {
+  const editlocation = (values: ILocationProps) => {
     getVendorServiceClient()
       .updateLocation(
         {
