@@ -42,9 +42,9 @@ export function AddLocation({
         getVendorServiceClient()
           .listLocations({ vendorId }, getOptions())
           .then(({ response }) => {
-            // setAllLocationsData(response?.locations);
-            console.log('all locations inside the add', response.locations);
-            setAllLocationsData([...response.locations, { ...values, id: uuidv4(), vendorId }]);
+            setAllLocationsData(response?.locations);
+            // console.log('all locations inside the add', response.locations);
+            // setAllLocationsData([...response.locations, { ...values, id: uuidv4(), vendorId }]);
           });
         setToggleForm(false);
         console.log('inside add location: ', [
@@ -77,7 +77,7 @@ export function AddLocation({
   };
   return (
     <Card>
-      <h2 className="mb-4 text-4xl">location details</h2>
+      <h2 className="mb-4 text-center text-2xl">Location Details</h2>
       <Formik
         initialValues={selectedLocation || initialValues}
         onSubmit={(values) => {
@@ -88,7 +88,7 @@ export function AddLocation({
         enableReinitialize
       >
         <Form>
-          <div className="flex flex-col gap-2">
+          <div className="grid grid-cols-2 gap-2">
             {locationDetails.map((location) => (
               <Field name={location.name} key={location.fid}>
                 {({ field }) => (
@@ -103,6 +103,9 @@ export function AddLocation({
                 )}
               </Field>
             ))}
+          </div>
+          <div className="mt-4 flex justify-center gap-4">
+            <Button onClick={() => setToggleForm(false)}>Cancel</Button>
             <Button type="submit">Submit</Button>
           </div>
         </Form>

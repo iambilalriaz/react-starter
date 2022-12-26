@@ -23,9 +23,9 @@ export function VendorlocationsLayout({
   const [allLocationsData, setAllLocationsData] = useState([]);
   console.log('location data check: ');
   return (
-    <div>
+    <div className="grid h-screen place-items-center">
       {toggleForm ? (
-        <div className="fixed top-[10%] left-[35%]">
+        <div>
           <AddLocation
             allLocationsData={allLocationsData}
             setAllLocationsData={setAllLocationsData}
@@ -34,11 +34,7 @@ export function VendorlocationsLayout({
             selectedLocation={selectedLocation}
           />
         </div>
-      ) : (
-        ''
-      )}
-
-      {allLocationsData.length ? (
+      ) : allLocationsData.length ? (
         <ViewLocations
           allLocationsData={allLocationsData}
           setAllLocationsData={setAllLocationsData}
@@ -48,7 +44,7 @@ export function VendorlocationsLayout({
           handleForm={handleForm}
         />
       ) : (
-        <div className="mt-[200px]">
+        <div>
           <EmptyState />
         </div>
       )}

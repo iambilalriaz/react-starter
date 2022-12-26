@@ -102,17 +102,14 @@ export default function Home() {
               </div>
             </div>
           ) : (
-            <>
-              <p className="my-4 text-center text-lg text-2xl">Dashboard overview</p>
-              <VendorlocationsLayout
-                setToggleForm={setToggleForm}
-                toggleForm={toggleForm}
-                vendorId={vendorId}
-                handleForm={handleForm}
-                editlocation={editlocation}
-                selectedLocation={selectedLocation}
-              />
-            </>
+            <VendorlocationsLayout
+              setToggleForm={setToggleForm}
+              toggleForm={toggleForm}
+              vendorId={vendorId}
+              handleForm={handleForm}
+              editlocation={editlocation}
+              selectedLocation={selectedLocation}
+            />
           )}
         </Wrapper>
       </div>

@@ -18,8 +18,8 @@ export function LocationCard({
     <div className="mb-12 w-[300px] rounded-md p-4 shadow-5xl">
       <div className="flex flex-col gap-3 ">
         <div className="mb-4 flex gap-2">
-          <h3 className="text-xl">vendor Location</h3>
           <img src={locationIcon} alt="location" />
+          <h3 className="text-xl font-medium">Vendor Location</h3>
         </div>
 
         <div>
@@ -44,7 +44,6 @@ export function LocationCard({
         </div>
       </div>
       <div className="mt-6 flex gap-4">
-        <Button onClick={() => deleteLocation(location.id)}>Delete</Button>
         <Button
           onClick={() => {
             editlocation(location);
@@ -53,6 +52,7 @@ export function LocationCard({
         >
           Edit
         </Button>
+        <Button onClick={() => deleteLocation(location.id)}>Delete</Button>
       </div>
     </div>
   );
