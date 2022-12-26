@@ -12,35 +12,19 @@ import { isLoggedIn } from '../router/routes';
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
-  const initialValues = {
-    address1: '',
-    address2: '',
-    city: '',
-    state: '',
-    zip: '',
-    country: '',
-    hoursOfOperation: ['9', '5'],
-    vendorId: ''
-  };
-  const [vendorId, setVendorId] = useState('');
-  const [toggleForm, setToggleForm] = useState(false);
-  const [addButtonClicked, setAddButtonClicked] = useState(false);
-  const [formValues, setFormValues] = useState(initialValues);
-  const [selectedLocation, setSelectedLocation] = useState();
-  const [handleLocationData, setHandleLocationData] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState(null);
 
+  const navigate = useNavigate();
   const editlocation = (currentLocation: any) => {
-    console.log('selected location', selectedLocation);
     setSelectedLocation(currentLocation);
   };
 
+  const [vendorId, setVendorId] = useState('');
+  const [toggleForm, setToggleForm] = useState(false);
+
   const handleForm = () => {
-    setAddButtonClicked(true);
     setToggleForm((prev) => !prev);
   };
-
-  console.log('firsttogg', toggleForm);
   useEffect(() => {
     if (!isLoggedIn()) {
       navigate('/auth/login');
@@ -54,7 +38,6 @@ export default function Home() {
             navigate(`/auth/business?referrer=${window.location.href}`);
           } else {
             setVendorId(response?.vendors[0]?.id);
-            console.log('first', response?.vendors[0]?.id);
           }
         })
         .catch(() => setLoading(false));
@@ -92,8 +75,8 @@ export default function Home() {
             type="button"
             className="btn"
             onClick={() => {
+              setSelectedLocation(null);
               handleForm();
-              setHandleLocationData(false);
             }}
           >
             add location
@@ -120,20 +103,14 @@ export default function Home() {
             </div>
           ) : (
             <>
-              <p className="text-lg">Welcome to your dashboard Home page</p>
+              <p className="my-4 text-center text-lg text-2xl">Dashboard overview</p>
               <VendorlocationsLayout
-                addButtonClicked={addButtonClicked}
                 setToggleForm={setToggleForm}
                 toggleForm={toggleForm}
                 vendorId={vendorId}
                 handleForm={handleForm}
-                setAddButtonClicked={setAddButtonClicked}
-                setFormValues={setFormValues}
-                formValues={formValues}
                 editlocation={editlocation}
                 selectedLocation={selectedLocation}
-                handleLocationData={handleLocationData}
-                setHandleLocationData={setHandleLocationData}
               />
             </>
           )}

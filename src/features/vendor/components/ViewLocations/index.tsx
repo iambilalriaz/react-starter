@@ -37,6 +37,7 @@ export function ViewLocations({
       .then((res) => {
         setAllLocationsData(allLocationsData.filter((location) => location.id !== locationId));
         console.log(res);
+        console.log('inside delete location: ', [...allLocationsData]);
       })
       .catch((err) => console.log(err));
   };
@@ -53,7 +54,7 @@ export function ViewLocations({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <div className="grid gap-5 border border-red-400 md:grid-cols-3">
+    <div className="grid gap-5 md:grid-cols-3">
       {allLocationsData?.map((location: ILocationProps) => (
         <LocationCard
           deleteLocation={deleteLocation}

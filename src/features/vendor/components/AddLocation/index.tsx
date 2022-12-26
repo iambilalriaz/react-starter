@@ -27,55 +27,63 @@ export function AddLocation({
   setAllLocationsData,
   allLocationsData,
   setToggleForm,
-  selectedLocation,
-  handleLocationData,
-  formValues,
-  setHandleLocationData
-  // addButtonClicked,
-  // setAddButtonClicked,
+  selectedLocation
 }) {
   console.log('selectedlocation', selectedLocation);
   const addLocation = (values: any) => {
-    if (handleLocationData) {
-      getVendorServiceClient()
-        .updateLocation({ location: { ...selectedLocation, vendorId } }, getOptions())
-        .then((res) => {
-          console.log(res);
-          setHandleLocationData(false);
-          setAllLocationsData([...allLocationsData, { ...selectedLocation, vendorId }]);
-          console.log({ ...selectedLocation, vendorId });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      getVendorServiceClient()
-        .addLocation(
-          {
-            location: { ...values, id: uuidv4(), vendorId }
-          },
-          getOptions()
-        )
-        .then(() => {
-          setAllLocationsData([...allLocationsData, { ...values, id: uuidv4(), vendorId }]);
-          setToggleForm(false);
-          console.log({ ...values, id: uuidv4(), vendorId });
-        })
-        .catch((err) => {
-          console.log(vendorId);
-          console.log(err);
-        });
-    }
+    getVendorServiceClient()
+      .addLocation(
+        {
+          location: { ...values, id: uuidv4(), vendorId }
+        },
+        getOptions()
+      )
+      .then(() => {
+        getVendorServiceClient()
+          .listLocations({ vendorId }, getOptions())
+          .then(({ response }) => {
+            // setAllLocationsData(response?.locations);
+            console.log('all locations inside the add', response.locations);
+            setAllLocationsData([...response.locations, { ...values, id: uuidv4(), vendorId }]);
+          });
+        setToggleForm(false);
+        console.log('inside add location: ', [
+          ...allLocationsData,
+          { ...values, id: uuidv4(), vendorId }
+        ]);
+      })
+      .catch(() => {});
   };
-
+  const editlocation = (values) => {
+    getVendorServiceClient()
+      .updateLocation(
+        {
+          location: { ...values, vendorId }
+        },
+        getOptions()
+      )
+      .then(() => {
+        const updatedLocationsData = allLocationsData?.filter(
+          (loc) => loc?.id !== selectedLocation?.id
+        );
+        setAllLocationsData([...updatedLocationsData, { ...values }]);
+        setToggleForm(false);
+        console.log('inside update location: ', [
+          ...allLocationsData,
+          { ...values, id: uuidv4(), vendorId }
+        ]);
+      })
+      .catch(() => {});
+  };
   return (
     <Card>
       <h2 className="mb-4 text-4xl">location details</h2>
       <Formik
-        // initialValues={selectedLocation || initialValues}
-        initialValues={formValues || initialValues}
+        initialValues={selectedLocation || initialValues}
         onSubmit={(values) => {
-          addLocation(values);
+          if (selectedLocation) {
+            editlocation(values);
+          } else addLocation(values);
         }}
         enableReinitialize
       >

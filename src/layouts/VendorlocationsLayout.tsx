@@ -2,6 +2,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useState } from 'react';
 import { AddLocation } from '../features/vendor/components/AddLocation';
+import { EmptyState } from '../features/vendor/components/EmptState';
 import { ViewLocations } from '../features/vendor/components/ViewLocations';
 
 interface IVendorlocationsLayoutProps {
@@ -16,48 +17,41 @@ export function VendorlocationsLayout({
   toggleForm,
   setToggleForm,
   handleForm,
-  initialValues,
-  setFormValues,
-  selectedLocation,
   editlocation,
-  formValues,
-  setHandleLocationData,
-  handleLocationData
+  selectedLocation
 }: IVendorlocationsLayoutProps) {
   const [allLocationsData, setAllLocationsData] = useState([]);
-  console.log('from layout: ', selectedLocation);
+  console.log('location data check: ');
   return (
     <div>
       {toggleForm ? (
-        <div className="fixed">
+        <div className="fixed top-[10%] left-[35%]">
           <AddLocation
             allLocationsData={allLocationsData}
             setAllLocationsData={setAllLocationsData}
             vendorId={vendorId}
             setToggleForm={setToggleForm}
             selectedLocation={selectedLocation}
-            // addButtonClicked={addButtonClicked}
-            // setAddButtonClicked={setAddButtonClicked}
-            initialValues={initialValues}
-            handleLocationData={handleLocationData}
-            setHandleLocationData={setHandleLocationData}
-            formValues={formValues}
           />
         </div>
       ) : (
         ''
       )}
-      <ViewLocations
-        allLocationsData={allLocationsData}
-        setAllLocationsData={setAllLocationsData}
-        vendorId={vendorId}
-        editlocation={editlocation}
-        toggleForm={toggleForm}
-        handleForm={handleForm}
-        // addButtonClicked={addButtonClicked}
-        setFormValues={setFormValues}
-        setHandleLocationData={setHandleLocationData}
-      />
+
+      {allLocationsData.length ? (
+        <ViewLocations
+          allLocationsData={allLocationsData}
+          setAllLocationsData={setAllLocationsData}
+          vendorId={vendorId}
+          editlocation={editlocation}
+          toggleForm={toggleForm}
+          handleForm={handleForm}
+        />
+      ) : (
+        <div className="mt-[200px]">
+          <EmptyState />
+        </div>
+      )}
     </div>
   );
 }
