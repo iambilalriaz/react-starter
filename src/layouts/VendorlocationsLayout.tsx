@@ -9,8 +9,6 @@ interface IVendorlocationsLayoutProps {
   toggleForm: boolean;
   setToggleForm: boolean;
   handleForm: () => void;
-  addButtonClicked: boolean;
-  setAddButtonClicked: boolean;
 }
 
 export function VendorlocationsLayout({
@@ -18,16 +16,11 @@ export function VendorlocationsLayout({
   toggleForm,
   setToggleForm,
   handleForm,
-  addButtonClicked,
-  setAddButtonClicked
+  editlocation,
+  selectedLocation
 }: IVendorlocationsLayoutProps) {
   const [allLocationsData, setAllLocationsData] = useState([]);
-  const [selectedLocation, setSelectedLocation] = useState();
-  const editlocation = (currentLocation: any) => {
-    console.log('selected location', selectedLocation);
-    setSelectedLocation(currentLocation);
-  };
-  console.log('from layout: ', selectedLocation);
+
   return (
     <div>
       {toggleForm ? (
@@ -38,8 +31,6 @@ export function VendorlocationsLayout({
             vendorId={vendorId}
             setToggleForm={setToggleForm}
             selectedLocation={selectedLocation}
-            addButtonClicked={addButtonClicked}
-            setAddButtonClicked={setAddButtonClicked}
           />
         </div>
       ) : (
@@ -52,7 +43,6 @@ export function VendorlocationsLayout({
         editlocation={editlocation}
         toggleForm={toggleForm}
         handleForm={handleForm}
-        addButtonClicked={addButtonClicked}
       />
     </div>
   );

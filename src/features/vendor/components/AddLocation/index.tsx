@@ -36,9 +36,7 @@ export function AddLocation({
   setAllLocationsData,
   allLocationsData,
   setToggleForm,
-  selectedLocation,
-  addButtonClicked,
-  setAddButtonClicked
+  selectedLocation
 }) {
   const addLocation = (values: any) => {
     getVendorServiceClient()
@@ -51,23 +49,35 @@ export function AddLocation({
       .then(() => {
         setAllLocationsData([...allLocationsData, { ...values, id: uuidv4(), vendorId }]);
         setToggleForm(false);
-        console.log({ ...values, id: uuidv4(), vendorId });
-        setAddButtonClicked(false);
       })
-      .catch((err) => {
-        console.log(vendorId);
-        console.log(err);
-      });
+      .catch(() => {});
   };
-
+  const editlocation = (values) => {
+    getVendorServiceClient()
+      .updateLocation(
+        {
+          location: { ...values, vendorId }
+        },
+        getOptions()
+      )
+      .then(() => {
+        const updatedLocationsData = allLocationsData?.filter(
+          (loc) => loc?.id !== selectedLocation?.id
+        );
+        setAllLocationsData([...updatedLocationsData, { ...values }]);
+        setToggleForm(false);
+      })
+      .catch(() => {});
+  };
   return (
     <Card>
       <h2 className="mb-4 text-4xl">location details</h2>
       <Formik
-        initialValues={!addButtonClicked ? selectedLocation : initialValues}
-        // initialValues={initialValues}
-        onSubmit={(values, actions) => {
-          addLocation(values, vendorId, actions);
+        initialValues={selectedLocation || initialValues}
+        onSubmit={(values) => {
+          if (selectedLocation) {
+            editlocation(values);
+          } else addLocation(values);
         }}
         enableReinitialize
       >

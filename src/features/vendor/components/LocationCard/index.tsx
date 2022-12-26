@@ -13,7 +13,7 @@ export function LocationCard({
   editlocation: any;
   handleForm: any;
 }) {
-  editlocation(location);
+  // editlocation(location);
   return (
     <div className="mb-12 max-w-[700px] rounded-md p-4 shadow-5xl">
       <div className="flex flex-col gap-3 ">
@@ -41,7 +41,14 @@ export function LocationCard({
       </div>
       <div className="mt-6 flex gap-4">
         <Button onClick={() => deleteLocation(location.id)}>Delete</Button>
-        <Button onClick={handleForm}>Edit</Button>
+        <Button
+          onClick={() => {
+            editlocation(location);
+            handleForm();
+          }}
+        >
+          Edit
+        </Button>
       </div>
     </div>
   );

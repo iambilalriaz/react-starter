@@ -13,7 +13,12 @@ import { isLoggedIn } from '../router/routes';
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
+  const [selectedLocation, setSelectedLocation] = useState(null);
+
   const navigate = useNavigate();
+  const editlocation = (currentLocation: any) => {
+    setSelectedLocation(currentLocation);
+  };
 
   const vendorService = getVendorServiceClient();
   const options: RpcOptions = {
@@ -32,13 +37,10 @@ export default function Home() {
   };
   const [vendorId, setVendorId] = useState('');
   const [toggleForm, setToggleForm] = useState(false);
-  const [addButtonClicked, setAddButtonClicked] = useState(false);
 
   const handleForm = () => {
-    setAddButtonClicked(true);
     setToggleForm((prev) => !prev);
   };
-  console.log('firsttogg', toggleForm);
   useEffect(() => {
     if (!isLoggedIn()) {
       navigate('/auth/login');
@@ -52,7 +54,6 @@ export default function Home() {
             navigate(`/auth/business?referrer=${window.location.href}`);
           } else {
             setVendorId(response?.vendors[0]?.id);
-            console.log('first', response?.vendors[0]?.id);
           }
         })
         .catch(() => setLoading(false));
@@ -86,7 +87,14 @@ export default function Home() {
         </div>
 
         <div className="navbar-end flex gap-8">
-          <button type="button" className="btn" onClick={handleForm}>
+          <button
+            type="button"
+            className="btn"
+            onClick={() => {
+              setSelectedLocation(null);
+              handleForm();
+            }}
+          >
             add location
           </button>
           <button
@@ -113,12 +121,12 @@ export default function Home() {
             <>
               <p className="text-lg">Welcome to your dashboard Home page</p>
               <VendorlocationsLayout
-                addButtonClicked={addButtonClicked}
                 setToggleForm={setToggleForm}
                 toggleForm={toggleForm}
                 vendorId={vendorId}
                 handleForm={handleForm}
-                setAddButtonClicked={setAddButtonClicked}
+                editlocation={editlocation}
+                selectedLocation={selectedLocation}
               />
             </>
           )}
