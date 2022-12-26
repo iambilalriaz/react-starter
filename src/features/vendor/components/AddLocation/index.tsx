@@ -29,7 +29,6 @@ export function AddLocation({
   setToggleForm,
   selectedLocation
 }) {
-  console.log('selectedlocation', selectedLocation);
   const addLocation = (values: any) => {
     getVendorServiceClient()
       .addLocation(
@@ -43,14 +42,8 @@ export function AddLocation({
           .listLocations({ vendorId }, getOptions())
           .then(({ response }) => {
             setAllLocationsData(response?.locations);
-            // console.log('all locations inside the add', response.locations);
-            // setAllLocationsData([...response.locations, { ...values, id: uuidv4(), vendorId }]);
           });
         setToggleForm(false);
-        console.log('inside add location: ', [
-          ...allLocationsData,
-          { ...values, id: uuidv4(), vendorId }
-        ]);
       })
       .catch(() => {});
   };

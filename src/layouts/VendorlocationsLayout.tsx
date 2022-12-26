@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getOptions, getVendorServiceClient } from '../constants';
 import { AddLocation } from '../features/vendor/components/AddLocation';
 import { EmptyState } from '../features/vendor/components/EmptState';
 import { ViewLocations } from '../features/vendor/components/ViewLocations';
@@ -21,7 +22,15 @@ export function VendorlocationsLayout({
   selectedLocation
 }: IVendorlocationsLayoutProps) {
   const [allLocationsData, setAllLocationsData] = useState([]);
-  console.log('location data check: ');
+  useEffect(() => {
+    getVendorServiceClient()
+      .listLocations({ vendorId }, getOptions())
+      .then(({ response }) => {
+        console.log(response?.locations);
+        setAllLocationsData(response?.locations);
+      })
+      .catch((err) => console.log(err));
+  }, [vendorId]);
   return (
     <div className="grid h-screen place-items-center">
       {toggleForm ? (

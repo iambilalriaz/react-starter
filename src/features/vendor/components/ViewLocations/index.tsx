@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-import { useEffect } from 'react';
 // import { Button } from '../../../../components/Button';
 import { getOptions, getVendorServiceClient } from '../../../../constants';
 // import { AddLocation } from '../AddLocation';
@@ -42,17 +41,6 @@ export function ViewLocations({
       .catch((err) => console.log(err));
   };
 
-  useEffect(() => {
-    getVendorServiceClient()
-      // eslint-disable-next-line object-shorthand
-      .listLocations({ vendorId }, getOptions())
-      .then(({ response }) => {
-        setAllLocationsData(response?.locations);
-        // console.log(response.locations);
-      })
-      .catch((err) => console.log(err));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
   return (
     <div className="grid gap-5 md:grid-cols-3">
       {allLocationsData?.map((location: ILocationProps) => (
