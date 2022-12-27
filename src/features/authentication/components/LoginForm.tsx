@@ -9,8 +9,8 @@ import Input from '../../../components/Input';
 import CardSubtitle from './CardSubtitle';
 import CardTitle from './CardTitle';
 import { RequestEmailLinkRequest_AppType } from '../../../api/authpb/v1/auth';
-import { getAuthServiceClient } from '../../../constants';
 import { isLoggedIn } from '../../../router/routes';
+import { AuthService } from '../../../services/AuthService';
 
 const ErrorMessage = ({ text }: { text: string }): JSX.Element => (
   <span className="mt-1 text-xs text-error">{text}</span>
@@ -60,7 +60,7 @@ export default function LoginForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const onFormSubmit = (values: FormValues) => {
-    const authService = getAuthServiceClient();
+    const authService = new AuthService();
     setIsLoading(true);
     authService
       .requestEmailLink({

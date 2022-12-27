@@ -6,7 +6,8 @@ import { useState } from 'react';
 import Input from '../../../components/Input';
 import { Card } from '../../../components/Card';
 import { Button } from '../../../components/Button';
-import { getQueryParam, getAuthServiceClient } from '../../../constants';
+import { getQueryParam } from '../../../constants';
+import { AuthService } from '../../../services/AuthService';
 
 type FormValues = {
   phoneNumber: string;
@@ -25,11 +26,13 @@ const SignupSchema = Yup.object().shape({
 export default function SignupForm() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const authService = getAuthServiceClient();
+  const authService = new AuthService();
   const onPhoneSubmit = (values: FormValues) => {
     localStorage.setItem('countDown', '59');
     navigate(
-      `/auth/otp?phone=${values.phoneNumber}&${getQueryParam('newUser') ? 'newUser=true' : ''}`,
+      `/auth/otp?phone=${JSON.stringify(values.phoneNumber)}&${
+        getQueryParam('newUser') ? 'newUser=true' : ''
+      }`,
       {
         replace: true
       }

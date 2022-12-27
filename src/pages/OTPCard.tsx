@@ -4,15 +4,15 @@
 import { Field, FieldArray, Form, Formik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import type { RpcOptions, UnaryCall } from '@protobuf-ts/runtime-rpc';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
-import { getQueryParam, getAuthServiceClient } from '../constants';
+import { getQueryParam } from '../constants';
 import { Toast } from '../components/Toast';
 import CardTitle from '../features/authentication/components/CardTitle';
 import CardSubtitle from '../features/authentication/components/CardSubtitle';
 import OTPInput from '../features/authentication/components/OTPInput';
 import OTPLayout from '../layouts/OTPLayout';
+import { AuthService } from '../services/AuthService';
 
 const CODE_LENGTH = [1, 2, 3, 4, 5, 6];
 type FormValues = {
@@ -41,29 +41,14 @@ export function OTPCodeCard() {
   const onCodeSubmit = (values: FormValues) => {
     setIsLoading(true);
     if (!values.codes.includes('')) {
-      const authService = getAuthServiceClient();
-      const options: RpcOptions = {
-        interceptors: [
-          {
-            // adds auth header to unary requests
-            interceptUnary(next, method, input, optionsX: RpcOptions): UnaryCall {
-              if (!optionsX.meta) {
-                optionsX.meta = {};
-              }
-              optionsX.meta['Authorization'] = localStorage.getItem('emailAccessToken') || '';
-              return next(method, input, optionsX);
-            }
-          }
-        ]
-      };
+      const authService = new AuthService();
       authService
-        .verifySMSCode(
-          {
-            phoneNumber: getQueryParam('phone') || '',
-            code: values?.codes?.join('')
-          },
-          options
-        )
+        .verifySMSCode({
+          phoneNumber:
+            // getQueryParam('phone')
+            '+421112042235' || '',
+          code: values?.codes?.join('')
+        })
         .then(({ response }) => {
           setIsLoading(false);
           setError(false);

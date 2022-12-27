@@ -8,9 +8,10 @@ import type { RpcOptions, UnaryCall } from '@protobuf-ts/runtime-rpc';
 import Input from '../components/Input';
 import { Card } from '../components/Card';
 import { Button } from '../components/Button';
-import { getAuthServiceClient, getVendorServiceClient } from '../constants';
+import { getVendorServiceClient } from '../constants';
 import Select from '../components/Select';
 import AuthLayout from '../layouts/AuthLayout';
+import { AuthService } from '../services/AuthService';
 
 type FormValues = {
   vendorName: string;
@@ -46,7 +47,7 @@ export default function RegisterVendor() {
     email: '',
     phoneNumber: ''
   });
-  const authService = getAuthServiceClient();
+  const authService = new AuthService();
   const options: RpcOptions = {
     interceptors: [
       {
@@ -88,9 +89,7 @@ export default function RegisterVendor() {
       });
   };
   useEffect(() => {
-    authService
-      .getUser({}, options)
-      .then(({ response }: { response: UserProps }) => setUser(response));
+    authService.getUser().then(({ response }: { response: UserProps }) => setUser(response));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
