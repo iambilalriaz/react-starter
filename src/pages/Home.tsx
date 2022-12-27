@@ -9,13 +9,14 @@ import { VendorlocationsLayout } from '../layouts/VendorlocationsLayout';
 import { getOptions, getVendorServiceClient } from '../constants';
 import { Wrapper } from '../components/Wrapper';
 import { isLoggedIn } from '../router/routes';
+import { ILocationProps } from '../features/vendor/components/ViewLocations';
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
-  const [selectedLocation, setSelectedLocation] = useState(null);
+  const [selectedLocation, setSelectedLocation] = useState({});
 
   const navigate = useNavigate();
-  const editlocation = (currentLocation) => {
+  const editlocation = (currentLocation: ILocationProps) => {
     setSelectedLocation(currentLocation);
   };
 

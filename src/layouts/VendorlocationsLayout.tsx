@@ -23,7 +23,7 @@ export function VendorlocationsLayout({
   editlocation,
   selectedLocation
 }: IVendorlocationsLayoutProps) {
-  const [allLocationsData, setAllLocationsData] = useState([]);
+  const [allLocationsData, setAllLocationsData] = useState<ILocationProps[]>([]);
   useEffect(() => {
     getVendorServiceClient()
       .listLocations({ vendorId }, getOptions())
@@ -51,7 +51,6 @@ export function VendorlocationsLayout({
           setAllLocationsData={setAllLocationsData}
           vendorId={vendorId}
           editlocation={editlocation}
-          toggleForm={toggleForm}
           handleForm={handleForm}
         />
       ) : (

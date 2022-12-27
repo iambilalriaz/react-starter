@@ -8,7 +8,7 @@ export interface ILocationCardProps {
   location: ILocationProps;
   deleteLocation: (locationId: string) => void;
   editlocation: (location: ILocationProps) => void;
-  handleForm: () => boolean;
+  handleForm: () => void;
 }
 
 export function LocationCard({

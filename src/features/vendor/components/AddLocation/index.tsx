@@ -25,7 +25,7 @@ const initialValues = {
 interface IAddLocationProps {
   vendorId: string;
   selectedLocation: ILocationProps;
-  allLocationsData: string[];
+  allLocationsData: ILocationProps[];
   setToggleForm: React.Dispatch<React.SetStateAction<boolean>>;
   setAllLocationsData: React.Dispatch<React.SetStateAction<ILocationProps[]>>;
 }

@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
+import React from 'react';
 import { getOptions, getVendorServiceClient } from '../../../../constants';
 import { LocationCard } from '../LocationCard';
 
@@ -16,9 +17,9 @@ export interface ILocationProps {
 
 interface viewLocationsProps {
   vendorId: string;
-  handleForm: () => boolean;
+  handleForm: () => void;
   editlocation: (location: ILocationProps) => void;
-  setAllLocationsData: any;
+  setAllLocationsData: React.Dispatch<React.SetStateAction<ILocationProps[]>>;
   allLocationsData: ILocationProps[];
 }
 
