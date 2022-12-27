@@ -44,7 +44,7 @@ export function AddLocation({
     getVendorServiceClient()
       .addLocation(
         {
-          location: { ...values, id: uuidv4(), vendorId }
+          location: { ...values, id: uuidv4(), vendorId, hoursOfOperation: [''] }
         },
         options
       )

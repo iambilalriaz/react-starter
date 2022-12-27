@@ -49,7 +49,7 @@ export function VendorlocationsLayout({
             selectedLocation={selectedLocation}
           />
         </div>
-      ) : allLocationsData.length ? (
+      ) : allLocationsData?.length ? (
         <ViewLocations
           allLocationsData={allLocationsData}
           setAllLocationsData={setAllLocationsData}
