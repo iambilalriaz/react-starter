@@ -91,14 +91,14 @@ export function AddLocation({
         <Form>
           <div className="grid grid-cols-2 gap-2">
             {locationDetails.map((location) => (
-              <Field name={location.name} key={location.fid}>
+              <Field name={location?.name} key={location?.fid}>
                 {({ field }) => (
                   <Input
-                    id={location.id}
-                    label={location.label}
-                    name={location.name}
-                    type={location.type}
-                    placeholder={location.placeholder}
+                    id={location?.id}
+                    label={location?.label}
+                    name={location?.name}
+                    type={location?.type}
+                    placeholder={location?.placeholder}
                     field={field}
                   />
                 )}

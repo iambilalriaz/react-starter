@@ -47,20 +47,4 @@ export const locationDetails = [
     name: 'country',
     placeholder: 'country'
   }
-  // {
-  //   fid: 7,
-  //   label: 'from',
-  //   type: 'text',
-  //   id: 'from',
-  //   name: 'from',
-  //   placeholder: 'from'
-  // },
-  // {
-  //   fid: 8,
-  //   label: 'to',
-  //   type: 'text',
-  //   id: 'to',
-  //   name: 'from',
-  //   placeholder: 'to'
-  // }
 ];

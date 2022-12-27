@@ -41,8 +41,7 @@ export default function SignupForm() {
           replace: true
         });
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
         setIsLoading(false);
       });
   };
@@ -67,7 +66,7 @@ export default function SignupForm() {
                   label="Phone Number"
                   type="text"
                   id="phoneNumber"
-                  placeholder="(480) 555-0103"
+                  placeholder="+923112345678"
                   field={field}
                 />
                 <span className="pt-2 text-xs text-error">
