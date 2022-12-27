@@ -31,7 +31,7 @@ function OTPInput({ id, placeholder, field }: IOTPInput) {
       type="number"
       id={id}
       placeholder={placeholder}
-      className="otp-input border-b-[1.5px] bg-transparent border-primary outline-0 w-8 text-center pb-2 text-[24px]"
+      className="otp-input w-8 border-b-[1.5px] border-primary bg-transparent pb-2 text-center text-[24px] outline-0"
       {...field}
       onKeyDown={handleBackspace}
       onChange={(e) => {

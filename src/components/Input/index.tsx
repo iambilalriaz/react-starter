@@ -30,7 +30,7 @@ export default function Input({
   return (
     <div className="form-control">
       <label className="label text-primary" htmlFor={id}>
-        <span className="md:text-base text-sm">{label}</span>
+        <span className="text-sm md:text-base">{label}</span>
       </label>
       {type === 'password' ? (
         <div className="relative">
@@ -38,13 +38,13 @@ export default function Input({
             id={id}
             type={`${togglePassword ? 'text' : 'password'}`}
             placeholder={placeholder}
-            className="input input-bordered w-full"
+            className="input-bordered input w-full"
             {...field}
             name={name}
           />
           <div
             onClick={passwordDisplayHandle}
-            className="absolute top-[27%] cursor-pointer right-[6%] p-1 "
+            className="absolute top-[27%] right-[6%] cursor-pointer p-1 "
             role="button"
             tabIndex={0}
             onKeyDown={passwordDisplayHandle}
@@ -61,7 +61,7 @@ export default function Input({
           id={id}
           type={type}
           placeholder={placeholder}
-          className={`input input-bordered w-full ${classes}`}
+          className={`input-bordered input w-full ${classes}`}
           {...field}
         />
       ) : (
@@ -69,7 +69,7 @@ export default function Input({
           id={id}
           type={type}
           placeholder={placeholder}
-          className={`input input-bordered w-full ${classes}`}
+          className={`input-bordered input w-full ${classes}`}
           {...field}
         />
       )}

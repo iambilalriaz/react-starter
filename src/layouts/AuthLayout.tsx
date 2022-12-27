@@ -1,10 +1,9 @@
 // import IntlTelInput from 'react-intl-tel-input';
 import React from 'react';
-// import Logo from '../components/SVGS/Logo';
 import AuthHeader from '../features/authentication/components/Header';
 import logo from '../assets/header-logo.svg';
 
-import 'react-intl-tel-input/dist/main.css';
+// import 'react-intl-tel-input/dist/main.css';
 
 function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -12,22 +11,23 @@ function AuthLayout({ children }: { children: React.ReactNode }) {
       <div className="sticky top-0 md:hidden">
         <AuthHeader />
       </div>
-      <div className="flex gap-4 flex-col w-[90%] md:w-full mx-auto md:flex-row md:h-screen md:place-content-center">
-        <div className="md:w-[50%] rounded md:rounded-none bg-black mt-[10px] md:mt-0 p-8 text-white">
+      {/* md:h-screen */}
+      <div className="mx-auto flex w-[90%] flex-col gap-4 md:h-full  md:w-full md:flex-row md:place-content-center">
+        <div className="mt-[10px] rounded bg-black p-8 text-white md:mt-0 md:w-[50%] md:rounded-none">
           <div className="md:ml-[100px]">
-            <header className="mb-[239px] hidden md:block  mt-[76px]">
+            <header className="mb-[239px] mt-[76px] hidden  md:block">
               <img src={logo} alt="Suforia" />
             </header>
-            <h1 className="md:text-2xl font-semibold md:mb-[18px] text-base text-neutral">
+            <h1 className="font-semibold text-base text-neutral md:mb-[18px] md:text-2xl">
               Welcome to Suforia
             </h1>
-            <p className="text-dark-gray md:text-lg text-xs max-w-[40ch]">
+            <p className="max-w-[40ch] text-xs text-dark-gray md:text-lg">
               Suforia is a state-of-the-art technology platform connecting influencers, brands and
               agencies all over the world.
             </p>
           </div>
         </div>
-        <div className="flex gap-4 flex-col md:w-[50%] justify-center">
+        <div className="flex h-screen flex-col justify-center gap-4 md:w-[50%]">
           <div className=" mx-auto w-full  md:max-w-[583px] ">{children}</div>
           {/* do not remove this */}
           {/* <IntlTelInput inputClassName="input inputBox input-bordered" separateDialCode format /> */}

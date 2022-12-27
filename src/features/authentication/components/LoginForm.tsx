@@ -13,7 +13,7 @@ import { getAuthServiceClient } from '../../../constants';
 import { isLoggedIn } from '../../../router/routes';
 
 const ErrorMessage = ({ text }: { text: string }): JSX.Element => (
-  <span className="text-xs text-error mt-1">{text}</span>
+  <span className="mt-1 text-xs text-error">{text}</span>
 );
 
 type FormValues = {
@@ -87,7 +87,7 @@ export default function LoginForm() {
       }) => (
         <Form>
           <Card>
-            <div className="flex flex-col mb-11 gap-[15px] items-center justify-center">
+            <div className="mb-11 flex flex-col items-center justify-center gap-[15px]">
               <CardTitle>Log In</CardTitle>
               <CardSubtitle>Log In to continue to suforia</CardSubtitle>
             </div>
@@ -129,7 +129,7 @@ export default function LoginForm() {
                 </Field>
               )}
             </div>
-            <div className="flex justify-end mt-2">
+            <div className="mt-2 flex justify-end">
               {/* <button
                 type="button"
                 onClick={() => {

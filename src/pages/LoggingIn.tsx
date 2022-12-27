@@ -27,7 +27,7 @@ const LoggingIn = () => {
       });
   }, [navigate]);
   return (
-    <div className="h-screen grid place-items-center text-xl text-center">
+    <div className="grid h-screen place-items-center text-center text-xl">
       <div className="card w-96 bg-base-100 shadow-xl">
         <div className="card-body">
           {error ? null : (
