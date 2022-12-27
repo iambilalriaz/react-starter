@@ -9,6 +9,7 @@ import { Card } from '../../../../components/Card';
 import Input from '../../../../components/Input';
 import { getOptions, getVendorServiceClient } from '../../../../constants';
 import { locationDetails } from '../../../../data/locationDetails';
+import { FormikField } from '../../../../types';
 import { ILocationProps } from '../ViewLocations';
 
 const initialValues = {
@@ -37,17 +38,19 @@ export function AddLocation({
   setToggleForm,
   selectedLocation
 }: IAddLocationProps) {
-  const addLocation = (values: ILocationProps) => {
+  const addLocation = async (values: ILocationProps) => {
+    const options = await getOptions();
+
     getVendorServiceClient()
       .addLocation(
         {
-          location: { ...values, id: uuidv4(), vendorId }
+          location: { ...values, id: uuidv4(), vendorId, hoursOfOperation: [''] }
         },
-        getOptions()
+        options
       )
       .then(() => {
         getVendorServiceClient()
-          .listLocations({ vendorId }, getOptions())
+          .listLocations({ vendorId }, options)
           .then(({ response }) => {
             setAllLocationsData(response?.locations);
           });
@@ -55,13 +58,14 @@ export function AddLocation({
       })
       .catch(() => {});
   };
-  const editlocation = (values: ILocationProps) => {
+  const editLocation = async (values: ILocationProps) => {
+    const options = await getOptions();
     getVendorServiceClient()
       .updateLocation(
         {
           location: { ...values, vendorId }
         },
-        getOptions()
+        options
       )
       .then(() => {
         const updatedLocationsData = allLocationsData?.filter(
@@ -69,12 +73,17 @@ export function AddLocation({
         );
         setAllLocationsData([...updatedLocationsData, { ...values }]);
         setToggleForm(false);
-        console.log('inside update location: ', [
-          ...allLocationsData,
-          { ...values, id: uuidv4(), vendorId }
-        ]);
       })
       .catch(() => {});
+  };
+  const isSelectedLocationEmpty = () => {
+    let flag = true;
+    Object.values(selectedLocation)?.forEach((value) => {
+      if (!!value && typeof value !== 'object') {
+        flag = false;
+      }
+    });
+    return flag;
   };
   return (
     <Card>
@@ -82,9 +91,9 @@ export function AddLocation({
       <Formik
         initialValues={selectedLocation || initialValues}
         onSubmit={(values) => {
-          if (selectedLocation) {
-            editlocation(values);
-          } else addLocation(values);
+          if (isSelectedLocationEmpty()) {
+            addLocation(values);
+          } else editLocation(values);
         }}
         enableReinitialize
       >
@@ -92,7 +101,7 @@ export function AddLocation({
           <div className="grid grid-cols-2 gap-2">
             {locationDetails.map((location) => (
               <Field name={location?.name} key={location?.fid}>
-                {({ field }) => (
+                {({ field }: { field: FormikField }) => (
                   <Input
                     id={location?.id}
                     label={location?.label}

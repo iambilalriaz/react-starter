@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { getOptions, getVendorServiceClient } from '../constants';
 import { AddLocation } from '../features/vendor/components/AddLocation';
 import { EmptyState } from '../features/vendor/components/EmptState';
@@ -11,7 +11,8 @@ interface IVendorlocationsLayoutProps {
   toggleForm: boolean;
   setToggleForm: React.Dispatch<React.SetStateAction<boolean>>;
   handleForm: () => void;
-  editlocation: () => void;
+  // eslint-disable-next-line no-unused-vars
+  editLocation: (currentLocation: ILocationProps) => void;
   selectedLocation: ILocationProps;
 }
 
@@ -20,19 +21,23 @@ export function VendorlocationsLayout({
   toggleForm,
   setToggleForm,
   handleForm,
-  editlocation,
+  editLocation,
   selectedLocation
 }: IVendorlocationsLayoutProps) {
   const [allLocationsData, setAllLocationsData] = useState<ILocationProps[]>([]);
-  useEffect(() => {
+
+  const getAllLocations = useCallback(async () => {
+    const options = await getOptions();
     getVendorServiceClient()
-      .listLocations({ vendorId }, getOptions())
+      .listLocations({ vendorId }, options)
       .then(({ response }) => {
-        console.log(response?.locations);
         setAllLocationsData(response?.locations);
-      })
-      .catch((err) => console.log(err));
+      });
   }, [vendorId]);
+
+  useEffect(() => {
+    getAllLocations();
+  }, [getAllLocations]);
   return (
     <div className="grid h-screen place-items-center">
       {toggleForm ? (
@@ -45,12 +50,12 @@ export function VendorlocationsLayout({
             selectedLocation={selectedLocation}
           />
         </div>
-      ) : allLocationsData.length ? (
+      ) : allLocationsData?.length ? (
         <ViewLocations
           allLocationsData={allLocationsData}
           setAllLocationsData={setAllLocationsData}
           vendorId={vendorId}
-          editlocation={editlocation}
+          editLocation={editLocation}
           handleForm={handleForm}
         />
       ) : (
