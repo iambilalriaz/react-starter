@@ -22,9 +22,8 @@ const LoggingIn = () => {
           navigate('/auth/signup?newUser=true', { replace: true });
         }
       })
-      .catch((err) => {
+      .catch(() => {
         setError(true);
-        console.log(err);
       });
   }, [navigate]);
   return (
