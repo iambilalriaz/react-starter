@@ -11,7 +11,7 @@ import { Wrapper } from '../components/Wrapper';
 import { isLoggedIn } from '../router/routes';
 import { ILocationProps } from '../features/vendor/components/ViewLocations';
 
-export const initialLocationData = {
+const initialLocationData = {
   id: '',
   address1: '',
   address2: '',
