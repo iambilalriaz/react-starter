@@ -11,7 +11,8 @@ interface IVendorlocationsLayoutProps {
   toggleForm: boolean;
   setToggleForm: React.Dispatch<React.SetStateAction<boolean>>;
   handleForm: () => void;
-  editLocation: () => void;
+  // eslint-disable-next-line no-unused-vars
+  editLocation: (currentLocation: ILocationProps) => void;
   selectedLocation: ILocationProps;
 }
 

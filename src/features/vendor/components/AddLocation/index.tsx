@@ -76,15 +76,24 @@ export function AddLocation({
       })
       .catch(() => {});
   };
+  const isSelectedLocationEmpty = () => {
+    let flag = true;
+    Object.values(selectedLocation)?.forEach((value) => {
+      if (!!value && typeof value !== 'object') {
+        flag = false;
+      }
+    });
+    return flag;
+  };
   return (
     <Card>
       <h2 className="mb-4 text-center text-2xl">Location Details</h2>
       <Formik
         initialValues={selectedLocation || initialValues}
         onSubmit={(values) => {
-          if (Object.keys(selectedLocation)?.length) {
-            editLocation(values);
-          } else addLocation(values);
+          if (isSelectedLocationEmpty()) {
+            addLocation(values);
+          } else editLocation(values);
         }}
         enableReinitialize
       >

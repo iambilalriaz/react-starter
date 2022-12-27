@@ -11,9 +11,19 @@ import { Wrapper } from '../components/Wrapper';
 import { isLoggedIn } from '../router/routes';
 import { ILocationProps } from '../features/vendor/components/ViewLocations';
 
+export const initialLocationData = {
+  id: '',
+  address1: '',
+  address2: '',
+  city: '',
+  country: '',
+  state: '',
+  zip: '',
+  hoursOfOperation: ['']
+};
 export default function Home() {
   const [loading, setLoading] = useState(true);
-  const [selectedLocation, setSelectedLocation] = useState({});
+  const [selectedLocation, setSelectedLocation] = useState(initialLocationData);
   const [vendorId, setVendorId] = useState('');
   const [toggleForm, setToggleForm] = useState(false);
   const vendorService = getVendorServiceClient();
@@ -53,7 +63,7 @@ export default function Home() {
   }, []);
   return (
     <div className="grid w-full">
-      <div className="navbar bg-primary text-white">
+      <div className="navbar sticky top-0 bg-primary text-white">
         <div className="navbar-start">
           <div className="dropdown">
             <label tabIndex={0} className="btn-ghost btn lg:hidden">
@@ -81,7 +91,7 @@ export default function Home() {
             type="button"
             className="btn"
             onClick={() => {
-              setSelectedLocation({});
+              setSelectedLocation(initialLocationData);
               handleForm();
             }}
           >
