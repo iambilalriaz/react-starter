@@ -11,9 +11,10 @@ import CardTitle from './CardTitle';
 import { RequestEmailLinkRequest_AppType } from '../../../api/authpb/v1/auth';
 import { getAuthServiceClient } from '../../../constants';
 import { isLoggedIn } from '../../../router/routes';
+import { FormikField } from '../../../types';
 
 const ErrorMessage = ({ text }: { text: string }): JSX.Element => (
-  <span className="text-xs text-error mt-1">{text}</span>
+  <span className="mt-1 text-xs text-error">{text}</span>
 );
 
 type FormValues = {
@@ -87,7 +88,7 @@ export default function LoginForm() {
       }) => (
         <Form>
           <Card>
-            <div className="flex flex-col mb-11 gap-[15px] items-center justify-center">
+            <div className="mb-11 flex flex-col items-center justify-center gap-[15px]">
               <CardTitle>Log In</CardTitle>
               <CardSubtitle>Log In to continue to suforia</CardSubtitle>
             </div>
@@ -95,22 +96,28 @@ export default function LoginForm() {
             <div className="grid gap-x-4">
               {inputType === 'email' ? (
                 <Field name="email">
-                  {({ field }: any) => (
-                    <>
-                      <Input
-                        label="Email"
-                        type=""
-                        id="email"
-                        placeholder="bill.sanders@example.com"
-                        field={field}
-                      />
-                      {touched?.email && errors?.email ? <ErrorMessage text={errors?.email} /> : ''}
-                    </>
-                  )}
+                  {({ field }: { field: FormikField }) => {
+                    return (
+                      <>
+                        <Input
+                          label="Email"
+                          type=""
+                          id="email"
+                          placeholder="bill.sanders@example.com"
+                          field={field}
+                        />
+                        {touched?.email && errors?.email ? (
+                          <ErrorMessage text={errors?.email} />
+                        ) : (
+                          ''
+                        )}
+                      </>
+                    );
+                  }}
                 </Field>
               ) : (
                 <Field name="phoneNumber">
-                  {({ field }: any) => (
+                  {({ field }: { field: FormikField }) => (
                     <>
                       <Input
                         label="Phone Number"
@@ -129,7 +136,7 @@ export default function LoginForm() {
                 </Field>
               )}
             </div>
-            <div className="flex justify-end mt-2">
+            <div className="mt-2 flex justify-end">
               {/* <button
                 type="button"
                 onClick={() => {

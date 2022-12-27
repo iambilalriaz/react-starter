@@ -103,9 +103,9 @@ export default function RegisterVendor() {
   return (
     <AuthLayout>
       <Card>
-        <div className="flex flex-col mb-11 items-center justify-center">
-          <h2 className="md:text-2xl text-lg">Register Your Business</h2>
-          <p className="text-accent md:text-base text-lg">Get started with Suforia</p>
+        <div className="mb-11 flex flex-col items-center justify-center">
+          <h2 className="text-lg md:text-2xl">Register Your Business</h2>
+          <p className="text-lg text-accent md:text-base">Get started with Suforia</p>
         </div>
         {/* inputs */}
         <Formik
@@ -124,7 +124,7 @@ export default function RegisterVendor() {
                     placeholder="Datum Brain"
                     field={field}
                   />
-                  <span className="text-error text-xs pt-2">
+                  <span className="pt-2 text-xs text-error">
                     {errors?.vendorName && touched?.vendorName ? (
                       <div>{errors?.vendorName}</div>
                     ) : null}
@@ -142,7 +142,7 @@ export default function RegisterVendor() {
                     field={field}
                     options={['Hotels', 'Restaurants', 'SPA', 'Fitness']}
                   />
-                  <span className="text-error text-xs pt-2">
+                  <span className="pt-2 text-xs text-error">
                     {errors?.vendorCategory && touched?.vendorCategory ? (
                       <div>{errors?.vendorCategory}</div>
                     ) : null}
@@ -161,7 +161,7 @@ export default function RegisterVendor() {
                     field={field}
                     classes="min-h-[10rem] py-[1rem]"
                   />
-                  <span className="text-error text-xs pt-2">
+                  <span className="pt-2 text-xs text-error">
                     {errors?.vendorDesc && touched?.vendorDesc ? (
                       <div>{errors?.vendorDesc}</div>
                     ) : null}

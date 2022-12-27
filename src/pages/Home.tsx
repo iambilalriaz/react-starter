@@ -5,15 +5,20 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TbLoader } from 'react-icons/tb';
-import { Card } from '../components/Card';
+import { VendorlocationsLayout } from '../layouts/VendorlocationsLayout';
 import { getOptions, getVendorServiceClient } from '../constants';
+import { Wrapper } from '../components/Wrapper';
 import { isLoggedIn } from '../router/routes';
+import { ILocationProps } from '../features/vendor/components/ViewLocations';
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
-
+  const [selectedLocation, setSelectedLocation] = useState({});
+  const [vendorId, setVendorId] = useState('');
+  const [toggleForm, setToggleForm] = useState(false);
   const vendorService = getVendorServiceClient();
+
+  const navigate = useNavigate();
 
   const getAllVendors = async () => {
     const options = await getOptions();
@@ -24,9 +29,18 @@ export default function Home() {
         if (!response?.vendors?.length) {
           // register first vendor
           navigate(`/auth/business?referrer=${window.location.href}`);
+        } else {
+          setVendorId(response?.vendors?.[0]?.id);
         }
       })
       .catch(() => setLoading(false));
+  };
+  const editLocation = (currentLocation: ILocationProps) => {
+    setSelectedLocation(currentLocation);
+  };
+
+  const handleForm = () => {
+    setToggleForm((prev) => !prev);
   };
   useEffect(() => {
     if (!isLoggedIn()) {
@@ -34,14 +48,15 @@ export default function Home() {
     } else {
       getAllVendors();
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <div className="grid fixed w-full">
+    <div className="grid w-full">
       <div className="navbar bg-primary text-white">
         <div className="navbar-start">
           <div className="dropdown">
-            <label tabIndex={0} className="btn btn-ghost lg:hidden">
+            <label tabIndex={0} className="btn-ghost btn lg:hidden">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"
@@ -58,10 +73,20 @@ export default function Home() {
               </svg>
             </label>
           </div>
-          <a className="btn btn-ghost normal-case text-xl">Suforia</a>
+          <a className="btn-ghost btn text-xl normal-case">Suforia</a>
         </div>
 
-        <div className="navbar-end">
+        <div className="navbar-end flex gap-8">
+          <button
+            type="button"
+            className="btn"
+            onClick={() => {
+              setSelectedLocation({});
+              handleForm();
+            }}
+          >
+            add location
+          </button>
           <button
             type="button"
             className="btn"
@@ -74,8 +99,8 @@ export default function Home() {
           </button>
         </div>
       </div>
-      <div className="grid place-items-center h-screen">
-        <Card>
+      <div className="">
+        <Wrapper>
           {loading ? (
             <div>
               <div className="animated-icon flex justify-center">
@@ -83,9 +108,16 @@ export default function Home() {
               </div>
             </div>
           ) : (
-            <p className="text-lg">Welcome to your dashboard Home page</p>
+            <VendorlocationsLayout
+              setToggleForm={setToggleForm}
+              toggleForm={toggleForm}
+              vendorId={vendorId}
+              handleForm={handleForm}
+              editLocation={editLocation}
+              selectedLocation={selectedLocation}
+            />
           )}
-        </Card>
+        </Wrapper>
       </div>
     </div>
   );

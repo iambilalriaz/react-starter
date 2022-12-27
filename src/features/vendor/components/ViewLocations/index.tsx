@@ -1,0 +1,63 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
+import React from 'react';
+import { getOptions, getVendorServiceClient } from '../../../../constants';
+import { LocationCard } from '../LocationCard';
+
+export interface ILocationProps {
+  id: string;
+  address1: string;
+  address2: string;
+  city: string;
+  country: string;
+  state: string;
+  zip: string;
+  hoursOfOperation: string[];
+}
+
+interface viewLocationsProps {
+  vendorId: string;
+  handleForm: () => void;
+  editLocation: (location: ILocationProps) => void;
+  setAllLocationsData: React.Dispatch<React.SetStateAction<ILocationProps[]>>;
+  allLocationsData: ILocationProps[];
+}
+
+export function ViewLocations({
+  vendorId,
+  setAllLocationsData,
+  allLocationsData,
+  editLocation,
+  handleForm
+}: viewLocationsProps) {
+  const deleteLocation = async (locationId: string) => {
+    const options = await getOptions();
+    getVendorServiceClient()
+      .deleteLocation(
+        {
+          locationId,
+          vendorId
+        },
+        options
+      )
+      .then(() => {
+        setAllLocationsData(
+          allLocationsData.filter((location: ILocationProps) => location.id !== locationId)
+        );
+      });
+  };
+
+  return (
+    <div className="grid gap-5 md:grid-cols-3">
+      {allLocationsData?.map((location: ILocationProps) => (
+        <LocationCard
+          deleteLocation={deleteLocation}
+          key={location?.id}
+          location={location}
+          editLocation={editLocation}
+          handleForm={handleForm}
+        />
+      ))}
+    </div>
+  );
+}

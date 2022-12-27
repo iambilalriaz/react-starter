@@ -9,9 +9,9 @@ const Select = ({ label, options, id, field, placeholder }: SelectProps) => {
   return (
     <div className="form-control">
       <label className="label text-primary" htmlFor={id}>
-        <span className="md:text-base text-sm">{label}</span>
+        <span className="text-sm md:text-base">{label}</span>
       </label>
-      <select id={id} className="select select-bordered w-full font-normal" {...field}>
+      <select id={id} className="select-bordered select w-full font-normal" {...field}>
         <option value="" disabled selected>
           {placeholder}
         </option>

@@ -96,14 +96,14 @@ export function OTPCodeCard() {
               <FieldArray
                 name="codes"
                 render={() => (
-                  <div className="flex justify-between w-[70%] mx-[15%] my-[3rem]">
+                  <div className="mx-[15%] my-[3rem] flex w-[70%] justify-between">
                     {CODE_LENGTH?.map((code, index) => (
                       <div key={`${code + index}`} className="w-[20px]">
                         <Field name={`codes.${index}`}>
                           {({ field, form: { touched, errors } }: any) => (
                             <>
                               <OTPInput id={code.toString()} placeholder="0" field={field} />
-                              <span className="text-error text-xs pt-2">
+                              <span className="pt-2 text-xs text-error">
                                 {errors.emailOrPhone && touched.emailOrPhone ? (
                                   <div>{errors.emailOrPhone}</div>
                                 ) : null}
@@ -116,10 +116,10 @@ export function OTPCodeCard() {
                   </div>
                 )}
               />
-              <p className="text-center text-[15px] text-accent font-normal leading-[11px]">
+              <p className="text-center text-[15px] font-normal leading-[11px] text-accent">
                 <button
                   type="button"
-                  className={`${countDown > 1 ? 'pointer-events-none disabled' : 'cursor-pointer'}`}
+                  className={`${countDown > 1 ? 'disabled pointer-events-none' : 'cursor-pointer'}`}
                   onClick={() => {
                     setCountDown(59);
                     localStorage.setItem('countDown', '59');
@@ -128,7 +128,7 @@ export function OTPCodeCard() {
                   Resend OTP
                 </button>{' '}
                 {countDown ? (
-                  <span className="text-primary font-normal leading-[14px]">({countDown}s)</span>
+                  <span className="font-normal leading-[14px] text-primary">({countDown}s)</span>
                 ) : null}
               </p>
               <div className="mt-16">
