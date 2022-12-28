@@ -13,7 +13,9 @@ module.exports = {
         success: '#15CF74',
         warning: '#FBBD23',
         error: '#ea4335',
-        base: 'dad9d9'
+        base: 'dad9d9',
+        'mine-shaft': '#232323',
+        grey: '#818181'
       },
       boxShadow: {
         '4xl': '0px 0px 34px rgba(0, 0, 0, 0.1)',

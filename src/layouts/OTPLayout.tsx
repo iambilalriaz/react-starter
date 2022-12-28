@@ -12,12 +12,12 @@ function OTPLayout({ children }: ILayoutProps) {
       <div className="fixed top-0 w-full md:hidden">
         <AuthHeader />
       </div>
-      <header className="px-[76px] py-[37px]">
+      <header className="fixed top-0 px-[76px] py-[37px]">
         <img src={logo} alt="suforia" />
       </header>
       <div>
         <Wrapper>
-          <div className="flex h-[80vh] items-center justify-center">{children}</div>
+          <div className="flex h-screen items-center justify-center">{children}</div>
         </Wrapper>
       </div>
     </section>

@@ -40,7 +40,7 @@ export default function SignupForm() {
     authService
       .requestSMSCode({ phoneNumber: values.phoneNumber })
       .then(() => {
-        navigate('/home', {
+        navigate('/dashboard', {
           replace: true
         });
       })

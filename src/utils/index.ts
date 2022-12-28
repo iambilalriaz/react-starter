@@ -15,3 +15,8 @@ export const getAccessToken = async () => {
   localStorage.setItem('expiryTime', `${moment().add(25, 'minute')}`);
   return response?.accessToken;
 };
+
+export const getSelectedItem = (pathname: string) => {
+  const selectedItem = pathname.slice(1);
+  return `${selectedItem?.[0]?.toUpperCase()}${selectedItem.slice(1)}`;
+};
