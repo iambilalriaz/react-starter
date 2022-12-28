@@ -7,14 +7,14 @@ import { ILocationProps } from '../ViewLocations';
 export interface ILocationCardProps {
   location: ILocationProps;
   deleteLocation: (locationId: string) => void;
-  editlocation: (location: ILocationProps) => void;
+  editLocation: (location: ILocationProps) => void;
   handleForm: () => void;
 }
 
 export function LocationCard({
   location,
   deleteLocation,
-  editlocation,
+  editLocation,
   handleForm
 }: ILocationCardProps) {
   return (
@@ -49,7 +49,7 @@ export function LocationCard({
       <div className="mt-6 flex gap-4">
         <Button
           onClick={() => {
-            editlocation(location);
+            editLocation(location);
             handleForm();
           }}
         >

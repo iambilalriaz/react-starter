@@ -11,6 +11,7 @@ import CardTitle from './CardTitle';
 import { RequestEmailLinkRequest_AppType } from '../../../api/authpb/v1/auth';
 import { isLoggedIn } from '../../../router/routes';
 import { AuthService } from '../../../services/AuthService';
+import { FormikField } from '../../../types';
 
 const ErrorMessage = ({ text }: { text: string }): JSX.Element => (
   <span className="mt-1 text-xs text-error">{text}</span>
@@ -95,22 +96,28 @@ export default function LoginForm() {
             <div className="grid gap-x-4">
               {inputType === 'email' ? (
                 <Field name="email">
-                  {({ field }: any) => (
-                    <>
-                      <Input
-                        label="Email"
-                        type=""
-                        id="email"
-                        placeholder="bill.sanders@example.com"
-                        field={field}
-                      />
-                      {touched?.email && errors?.email ? <ErrorMessage text={errors?.email} /> : ''}
-                    </>
-                  )}
+                  {({ field }: { field: FormikField }) => {
+                    return (
+                      <>
+                        <Input
+                          label="Email"
+                          type=""
+                          id="email"
+                          placeholder="bill.sanders@example.com"
+                          field={field}
+                        />
+                        {touched?.email && errors?.email ? (
+                          <ErrorMessage text={errors?.email} />
+                        ) : (
+                          ''
+                        )}
+                      </>
+                    );
+                  }}
                 </Field>
               ) : (
                 <Field name="phoneNumber">
-                  {({ field }: any) => (
+                  {({ field }: { field: FormikField }) => (
                     <>
                       <Input
                         label="Phone Number"

@@ -1,9 +1,9 @@
 /* eslint-disable no-param-reassign */
-/* eslint-disable dot-notation */
-import type { RpcOptions, UnaryCall } from '@protobuf-ts/runtime-rpc';
 import { GrpcWebFetchTransport } from '@protobuf-ts/grpcweb-transport';
+import type { RpcOptions, UnaryCall } from '@protobuf-ts/runtime-rpc';
 import { AuthServiceClient } from '../api/authpb/v1/auth.client';
 import { VendorServiceClient } from '../api/vendorpb/v1/vendor.client';
+import { getAccessToken } from '../utils';
 
 export const getQueryParam = (param: string) => {
   const urlParams = new URLSearchParams(window.location.search);
@@ -23,7 +23,8 @@ export const getVendorServiceClient = () => {
   return new VendorServiceClient(transport);
 };
 
-export const getOptions = () => {
+export const getOptions = async () => {
+  const accessToken = await getAccessToken();
   const options: RpcOptions = {
     interceptors: [
       {
@@ -32,7 +33,7 @@ export const getOptions = () => {
           if (!optionsX.meta) {
             optionsX.meta = {};
           }
-          optionsX.meta['Authorization'] = localStorage.getItem('accessToken') || '';
+          optionsX.meta.Authorization = accessToken || '';
           return next(method, input, optionsX);
         }
       }

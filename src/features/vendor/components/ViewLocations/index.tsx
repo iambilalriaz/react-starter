@@ -18,7 +18,7 @@ export interface ILocationProps {
 interface viewLocationsProps {
   vendorId: string;
   handleForm: () => void;
-  editlocation: (location: ILocationProps) => void;
+  editLocation: (location: ILocationProps) => void;
   setAllLocationsData: React.Dispatch<React.SetStateAction<ILocationProps[]>>;
   allLocationsData: ILocationProps[];
 }
@@ -27,24 +27,24 @@ export function ViewLocations({
   vendorId,
   setAllLocationsData,
   allLocationsData,
-  editlocation,
+  editLocation,
   handleForm
 }: viewLocationsProps) {
-  const deleteLocation = (locationId: string) => {
+  const deleteLocation = async (locationId: string) => {
+    const options = await getOptions();
     getVendorServiceClient()
       .deleteLocation(
         {
           locationId,
           vendorId
         },
-        getOptions()
+        options
       )
       .then(() => {
         setAllLocationsData(
           allLocationsData.filter((location: ILocationProps) => location.id !== locationId)
         );
-      })
-      .catch((err) => console.log(err));
+      });
   };
 
   return (
@@ -54,7 +54,7 @@ export function ViewLocations({
           deleteLocation={deleteLocation}
           key={location?.id}
           location={location}
-          editlocation={editlocation}
+          editLocation={editLocation}
           handleForm={handleForm}
         />
       ))}

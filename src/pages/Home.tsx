@@ -11,17 +11,43 @@ import { Wrapper } from '../components/Wrapper';
 import { isLoggedIn } from '../router/routes';
 import { ILocationProps } from '../features/vendor/components/ViewLocations';
 
+const initialLocationData = {
+  id: '',
+  address1: '',
+  address2: '',
+  city: '',
+  country: '',
+  state: '',
+  zip: '',
+  hoursOfOperation: ['']
+};
 export default function Home() {
   const [loading, setLoading] = useState(true);
-  const [selectedLocation, setSelectedLocation] = useState({});
-
-  const navigate = useNavigate();
-  const editlocation = (currentLocation: ILocationProps) => {
-    setSelectedLocation(currentLocation);
-  };
-
+  const [selectedLocation, setSelectedLocation] = useState(initialLocationData);
   const [vendorId, setVendorId] = useState('');
   const [toggleForm, setToggleForm] = useState(false);
+  const vendorService = getVendorServiceClient();
+
+  const navigate = useNavigate();
+
+  const getAllVendors = async () => {
+    const options = await getOptions();
+    vendorService
+      .listVendors({}, options)
+      .then(({ response }) => {
+        setLoading(false);
+        if (!response?.vendors?.length) {
+          // register first vendor
+          navigate(`/auth/business?referrer=${window.location.href}`);
+        } else {
+          setVendorId(response?.vendors?.[0]?.id);
+        }
+      })
+      .catch(() => setLoading(false));
+  };
+  const editLocation = (currentLocation: ILocationProps) => {
+    setSelectedLocation(currentLocation);
+  };
 
   const handleForm = () => {
     setToggleForm((prev) => !prev);
@@ -30,25 +56,14 @@ export default function Home() {
     if (!isLoggedIn()) {
       navigate('/auth/login');
     } else {
-      getVendorServiceClient()
-        .listVendors({}, getOptions())
-        .then(({ response }) => {
-          setLoading(false);
-          if (!response?.vendors?.length) {
-            // register first vendor
-            navigate(`/auth/business?referrer=${window.location.href}`);
-          } else {
-            setVendorId(response?.vendors[0]?.id);
-          }
-        })
-        .catch(() => setLoading(false));
+      getAllVendors();
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div className="grid w-full">
-      <div className="navbar bg-primary text-white">
+      <div className="navbar sticky top-0 bg-primary text-white">
         <div className="navbar-start">
           <div className="dropdown">
             <label tabIndex={0} className="btn-ghost btn lg:hidden">
@@ -76,7 +91,7 @@ export default function Home() {
             type="button"
             className="btn"
             onClick={() => {
-              setSelectedLocation(null);
+              setSelectedLocation(initialLocationData);
               handleForm();
             }}
           >
@@ -108,7 +123,7 @@ export default function Home() {
               toggleForm={toggleForm}
               vendorId={vendorId}
               handleForm={handleForm}
-              editlocation={editlocation}
+              editLocation={editLocation}
               selectedLocation={selectedLocation}
             />
           )}
