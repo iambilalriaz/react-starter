@@ -7,8 +7,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { Button } from '../../../../components/Button';
 import { Card } from '../../../../components/Card';
 import Input from '../../../../components/Input';
-import { getOptions, getVendorServiceClient } from '../../../../constants';
 import { locationDetails } from '../../../../data/locationDetails';
+import { VendorService } from '../../../../services/VendorService';
 import { FormikField } from '../../../../types';
 import { ILocationProps } from '../ViewLocations';
 
@@ -38,35 +38,26 @@ export function AddLocation({
   setToggleForm,
   selectedLocation
 }: IAddLocationProps) {
-  const addLocation = async (values: ILocationProps) => {
-    const options = await getOptions();
-
-    getVendorServiceClient()
-      .addLocation(
-        {
-          location: { ...values, id: uuidv4(), vendorId, hoursOfOperation: [''] }
-        },
-        options
-      )
+  const addLocation = (values: ILocationProps) => {
+    const vendorService = new VendorService();
+    vendorService
+      .addLocation({
+        location: { ...values, id: uuidv4(), vendorId, hoursOfOperation: [''] }
+      })
       .then(() => {
-        getVendorServiceClient()
-          .listLocations({ vendorId }, options)
-          .then(({ response }) => {
-            setAllLocationsData(response?.locations);
-          });
+        vendorService.listLocations(vendorId).then(({ response }) => {
+          setAllLocationsData(response?.locations);
+        });
         setToggleForm(false);
       })
       .catch(() => {});
   };
-  const editLocation = async (values: ILocationProps) => {
-    const options = await getOptions();
-    getVendorServiceClient()
-      .updateLocation(
-        {
-          location: { ...values, vendorId }
-        },
-        options
-      )
+  const editLocation = (values: ILocationProps) => {
+    const vendorService = new VendorService();
+    vendorService
+      .updateLocation({
+        location: { ...values, vendorId }
+      })
       .then(() => {
         const updatedLocationsData = allLocationsData?.filter(
           (loc) => loc?.id !== selectedLocation?.id

@@ -10,6 +10,7 @@ import {
 } from '../api/authpb/v1/auth';
 import type { IAuthServiceClient } from '../api/authpb/v1/auth.client';
 import { AuthServiceClient } from '../api/authpb/v1/auth.client';
+import { getAccessToken } from '../utils';
 
 export class AuthService {
   private authService: IAuthServiceClient;
@@ -21,7 +22,12 @@ export class AuthService {
     this.authService = new AuthServiceClient(transport);
   }
 
-  private getAuthOptions(tokenType: string) {
+  private async getAuthOptions(tokenType: string) {
+    let accessToken = '';
+    if (tokenType === 'accessToken') {
+      accessToken = (await getAccessToken()) || '';
+    }
+
     const options: RpcOptions = {
       interceptors: [
         {
@@ -30,13 +36,20 @@ export class AuthService {
             if (!optionsX.meta) {
               optionsX.meta = {};
             }
-            optionsX.meta.Authorization = localStorage.getItem(tokenType) || '';
+            optionsX.meta.Authorization =
+              tokenType === 'emailAccessToken'
+                ? localStorage.getItem('emailAccessToken') || ''
+                : accessToken;
             return next(method, input, optionsX);
           }
         }
       ]
     };
     return options;
+  }
+
+  refreshToken(refToken: string) {
+    return this.authService.refreshToken({ refreshToken: refToken });
   }
 
   requestEmailLink({ email, appType }: RequestEmailLinkRequest) {
@@ -51,14 +64,14 @@ export class AuthService {
     return this.authService.verifyEmailCode({ email, code });
   }
 
-  verifySMSCode({ phoneNumber, code }: VerifySMSCodeRequest) {
-    return this.authService.verifySMSCode(
-      { phoneNumber, code },
-      this.getAuthOptions('emailAccessToken')
-    );
+  async verifySMSCode({ phoneNumber, code }: VerifySMSCodeRequest) {
+    const authOptions = await this.getAuthOptions('emailAccessToken');
+    return this.authService.verifySMSCode({ phoneNumber, code }, authOptions);
   }
 
-  getUser() {
-    return this.authService.getUser({}, this.getAuthOptions('accessToken'));
+  async getUser() {
+    const authOptions = await this.getAuthOptions('accessToken');
+
+    return this.authService.getUser({}, authOptions);
   }
 }

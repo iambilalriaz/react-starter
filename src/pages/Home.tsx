@@ -6,10 +6,10 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TbLoader } from 'react-icons/tb';
 import { VendorlocationsLayout } from '../layouts/VendorlocationsLayout';
-import { getOptions, getVendorServiceClient } from '../constants';
 import { Wrapper } from '../components/Wrapper';
 import { isLoggedIn } from '../router/routes';
 import { ILocationProps } from '../features/vendor/components/ViewLocations';
+import { VendorService } from '../services/VendorService';
 
 const initialLocationData = {
   id: '',
@@ -26,14 +26,13 @@ export default function Home() {
   const [selectedLocation, setSelectedLocation] = useState(initialLocationData);
   const [vendorId, setVendorId] = useState('');
   const [toggleForm, setToggleForm] = useState(false);
-  const vendorService = getVendorServiceClient();
 
   const navigate = useNavigate();
 
-  const getAllVendors = async () => {
-    const options = await getOptions();
+  const getAllVendors = () => {
+    const vendorService = new VendorService();
     vendorService
-      .listVendors({}, options)
+      .listVendors()
       .then(({ response }) => {
         setLoading(false);
         if (!response?.vendors?.length) {
