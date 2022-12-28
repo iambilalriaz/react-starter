@@ -25,7 +25,7 @@ export const locationDetails = [
   },
   {
     fid: 4,
-    label: 'state',
+    label: 'State',
     type: 'text',
     id: 'state',
     name: 'state',
@@ -33,7 +33,7 @@ export const locationDetails = [
   },
   {
     fid: 5,
-    label: 'zip',
+    label: 'Zip',
     type: 'text',
     id: 'zip',
     name: 'zip',
@@ -41,7 +41,7 @@ export const locationDetails = [
   },
   {
     fid: 6,
-    label: 'country',
+    label: 'Country',
     type: 'text',
     id: 'country',
     name: 'country',

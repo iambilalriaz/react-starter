@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 import { TbLoader } from 'react-icons/tb';
 import { useNavigate } from 'react-router-dom';
-import { getAuthServiceClient, getQueryParam } from '../constants';
+import { getQueryParam } from '../constants';
+import { AuthService } from '../services/AuthService';
 
 const LoggingIn = () => {
   const navigate = useNavigate();
   const [error, setError] = useState(false);
   useEffect(() => {
-    const authService = getAuthServiceClient();
+    const authService = new AuthService();
     authService
       .verifyEmailCode({
         email: getQueryParam('email') || '',

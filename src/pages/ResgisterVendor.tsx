@@ -4,13 +4,13 @@ import * as Yup from 'yup';
 import { Formik, Form, Field } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import type { RpcOptions, UnaryCall } from '@protobuf-ts/runtime-rpc';
 import Input from '../components/Input';
 import { Card } from '../components/Card';
 import { Button } from '../components/Button';
-import { getAuthServiceClient, getVendorServiceClient } from '../constants';
 import Select from '../components/Select';
 import AuthLayout from '../layouts/AuthLayout';
+import { AuthService } from '../services/AuthService';
+import { VendorService } from '../services/VendorService';
 
 type FormValues = {
   vendorName: string;
@@ -46,39 +46,21 @@ export default function RegisterVendor() {
     email: '',
     phoneNumber: ''
   });
-  const authService = getAuthServiceClient();
-  const options: RpcOptions = {
-    interceptors: [
-      {
-        // adds auth header to unary requests
-        interceptUnary(next, method, input, optionsX: RpcOptions): UnaryCall {
-          if (!optionsX.meta) {
-            optionsX.meta = {};
-          }
-          optionsX.meta.Authorization = localStorage.getItem('accessToken') || '';
-          return next(method, input, optionsX);
-        }
-      }
-    ]
-  };
+  const authService = new AuthService();
+
   const onRegister = (values: FormValues) => {
     setIsLoading(true);
-    const vendorService = getVendorServiceClient();
+    const vendorService = new VendorService();
     vendorService
-      .registerVendor(
-        {
-          vendor: {
-            id: user?.userId,
-            name: values?.vendorName,
-            description: values?.vendorDesc,
-            category: values?.vendorCategory,
-            subCategory: '',
-            imageUrl: '',
-            locations: []
-          }
-        },
-        options
-      )
+      .registerVendor({
+        id: user?.userId,
+        name: values?.vendorName,
+        description: values?.vendorDesc,
+        category: values?.vendorCategory,
+        subCategory: '',
+        imageUrl: '',
+        locations: []
+      })
       .then(() => {
         setIsLoading(false);
         navigate('/home');
@@ -88,9 +70,7 @@ export default function RegisterVendor() {
       });
   };
   useEffect(() => {
-    authService
-      .getUser({}, options)
-      .then(({ response }: { response: UserProps }) => setUser(response));
+    authService.getUser().then(({ response }: { response: UserProps }) => setUser(response));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {

@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { getOptions, getVendorServiceClient } from '../../../../constants';
+import { VendorService } from '../../../../services/VendorService';
 import { LocationCard } from '../LocationCard';
 
 export interface ILocationProps {
@@ -31,18 +31,15 @@ export function ViewLocations({
   handleForm
 }: viewLocationsProps) {
   const deleteLocation = async (locationId: string) => {
-    const options = await getOptions();
-    getVendorServiceClient()
-      .deleteLocation(
-        {
-          locationId,
-          vendorId
-        },
-        options
-      )
+    const vendorService = new VendorService();
+    vendorService
+      .deleteLocation({
+        locationId,
+        vendorId
+      })
       .then(() => {
         setAllLocationsData(
-          allLocationsData.filter((location: ILocationProps) => location.id !== locationId)
+          allLocationsData?.filter((location: ILocationProps) => location.id !== locationId)
         );
       });
   };
