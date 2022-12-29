@@ -90,7 +90,7 @@ export function AddLocation({
       >
         <Form>
           <div className="grid grid-cols-2 gap-2">
-            {locationDetails.map((location) => (
+            {locationDetails?.map((location) => (
               <Field name={location?.name} key={location?.fid}>
                 {({ field }: { field: FormikField }) => (
                   <Input

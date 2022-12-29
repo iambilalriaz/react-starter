@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { TbLoader } from 'react-icons/tb';
 import { useNavigate } from 'react-router-dom';
+import { Button } from '../components/Button';
 import { Wrapper } from '../components/Wrapper';
 import { ILocationProps } from '../features/vendor/components/ViewLocations';
 import UserLayout from '../layouts/UserLayout';
@@ -60,7 +61,24 @@ const Locations = () => {
 
   return (
     <UserLayout>
-      <div className="">
+      <>
+        {!toggleForm ? (
+          <div className="fixed right-6 top-2">
+            <Button
+              type="button"
+              classes="w-full"
+              size="lg"
+              onClick={() => {
+                setSelectedLocation(initialLocationData);
+                handleForm();
+              }}
+            >
+              + Add
+            </Button>
+          </div>
+        ) : (
+          ''
+        )}
         <Wrapper>
           {loading ? (
             <div>
@@ -79,7 +97,7 @@ const Locations = () => {
             />
           )}
         </Wrapper>
-      </div>
+      </>
     </UserLayout>
   );
 };

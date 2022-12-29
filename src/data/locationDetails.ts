@@ -37,7 +37,7 @@ export const locationDetails = [
     type: 'text',
     id: 'zip',
     name: 'zip',
-    placeholder: 'Enter your zip number'
+    placeholder: 'Enter your zip code'
   },
   {
     fid: 6,
@@ -45,6 +45,6 @@ export const locationDetails = [
     type: 'text',
     id: 'country',
     name: 'country',
-    placeholder: 'country'
+    placeholder: 'Enter your country'
   }
 ];
