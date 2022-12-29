@@ -6,7 +6,7 @@ import SignUp from '../pages/SignUp';
 import RegisterVendor from '../pages/ResgisterVendor';
 import { OTPCodeCard } from '../pages/OTPCard';
 import Locations from '../pages/Locations';
-import Staff from '../pages/Staff';
+import Users from '../pages/Users';
 
 export const isLoggedIn = () => !!localStorage.getItem('accessToken');
 
@@ -24,8 +24,8 @@ export const routes = [
     element: <Locations />
   },
   {
-    path: '/staff',
-    element: <Staff />
+    path: '/users',
+    element: <Users />
   },
   {
     path: '/auth',

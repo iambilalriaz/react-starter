@@ -8,6 +8,7 @@ import { Card } from '../../../components/Card';
 import { Button } from '../../../components/Button';
 import { getQueryParam } from '../../../constants';
 import { AuthService } from '../../../services/AuthService';
+import { FormikField } from '../../../types';
 
 type FormValues = {
   phoneNumber: string;
@@ -63,7 +64,16 @@ export default function SignupForm() {
       >
         <Form>
           <Field name="phoneNumber">
-            {({ field, form: { touched, errors } }: any) => (
+            {({
+              field,
+              form: { touched, errors }
+            }: {
+              field: FormikField;
+              form: {
+                touched: FormValues;
+                errors: FormValues;
+              };
+            }) => (
               <div className="mb-4">
                 <Input
                   label="Phone Number"

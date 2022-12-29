@@ -14,6 +14,7 @@ import CardSubtitle from '../features/authentication/components/CardSubtitle';
 import OTPInput from '../features/authentication/components/OTPInput';
 import OTPLayout from '../layouts/OTPLayout';
 import { AuthService } from '../services/AuthService';
+import { FormikField } from '../types';
 
 const CODE_LENGTH = [1, 2, 3, 4, 5, 6];
 type FormValues = {
@@ -53,10 +54,20 @@ export function OTPCodeCard() {
         .then(({ response }) => {
           setIsLoading(false);
           setError(false);
+
+          localStorage.setItem(
+            'user',
+            JSON.stringify({
+              email: localStorage.getItem('userEmail'),
+              phoneNumber: '+421112042235'
+            })
+          );
           localStorage.setItem('accessToken', response?.accessToken);
           localStorage.setItem('refreshToken', response?.refreshToken);
           localStorage.setItem('expiryTime', `${moment().add(25, 'minute')}`);
           localStorage.removeItem('emailAccessToken');
+          localStorage.removeItem('userEmail');
+          localStorage.removeItem('countDown');
           navigate(getQueryParam('newUser') ? '/auth/business' : '/dashboard', { replace: true });
         })
         .catch(() => {
@@ -85,15 +96,8 @@ export function OTPCodeCard() {
                     {CODE_LENGTH?.map((code, index) => (
                       <div key={`${code + index}`} className="w-[20px]">
                         <Field name={`codes.${index}`}>
-                          {({ field, form: { touched, errors } }: any) => (
-                            <>
-                              <OTPInput id={code.toString()} placeholder="0" field={field} />
-                              <span className="pt-2 text-xs text-error">
-                                {errors.emailOrPhone && touched.emailOrPhone ? (
-                                  <div>{errors.emailOrPhone}</div>
-                                ) : null}
-                              </span>
-                            </>
+                          {({ field }: { field: FormikField }) => (
+                            <OTPInput id={code.toString()} placeholder="0" field={field} />
                           )}
                         </Field>
                       </div>

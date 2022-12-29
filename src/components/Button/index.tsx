@@ -8,6 +8,7 @@ export interface IButtonProps {
   onClick?: () => void;
   btnState?: 'loading' | 'btn-disabled' | 'normal';
   classes?: string;
+  variant?: 'primary' | 'secondary';
 }
 
 export function Button({
@@ -17,13 +18,18 @@ export function Button({
   htmlFor,
   onClick,
   btnState,
-  classes
+  classes,
+  variant
 }: IButtonProps): JSX.Element {
   return (
     // eslint-disable-next-line react/button-has-type
     <button
       onClick={onClick}
-      className={`btn ${btnState} ${classes} bg-primary capitalize text-white ${size && 'w-full'}`}
+      className={`btn ${btnState} ${classes} ${
+        variant === 'secondary'
+          ? 'border border-primary bg-white text-primary hover:bg-white'
+          : 'bg-primary'
+      } capitalize text-white ${size && 'w-full'}`}
       // eslint-disable-next-line react/button-has-type
       type={type}
     >

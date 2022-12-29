@@ -2,6 +2,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { VendorService } from '../../../../services/VendorService';
+import { getVendorId } from '../../../../utils';
 import { LocationCard } from '../LocationCard';
 
 export interface ILocationProps {
@@ -16,7 +17,6 @@ export interface ILocationProps {
 }
 
 interface viewLocationsProps {
-  vendorId: string;
   handleForm: () => void;
   editLocation: (location: ILocationProps) => void;
   setAllLocationsData: React.Dispatch<React.SetStateAction<ILocationProps[]>>;
@@ -24,7 +24,6 @@ interface viewLocationsProps {
 }
 
 export function ViewLocations({
-  vendorId,
   setAllLocationsData,
   allLocationsData,
   editLocation,
@@ -35,7 +34,7 @@ export function ViewLocations({
     vendorService
       .deleteLocation({
         locationId,
-        vendorId
+        vendorId: getVendorId()
       })
       .then(() => {
         setAllLocationsData(
@@ -45,7 +44,7 @@ export function ViewLocations({
   };
 
   return (
-    <div className="1 mt-24  grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+    <div className="mt-24 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
       {allLocationsData?.map((location: ILocationProps) => (
         <LocationCard
           deleteLocation={deleteLocation}

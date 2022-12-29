@@ -18,7 +18,7 @@ const UserLayout = ({ children }: { children: JSX.Element }) => {
       </div>
       <div className="w-[80%]">
         <Navbar />
-        <div className="grid h-screen place-items-center">{children}</div>
+        {children}
       </div>
     </div>
   );

@@ -5,9 +5,9 @@ import { AddLocation } from '../features/vendor/components/AddLocation';
 import { EmptyState } from '../features/vendor/components/EmptState';
 import { ILocationProps, ViewLocations } from '../features/vendor/components/ViewLocations';
 import { VendorService } from '../services/VendorService';
+import { getVendorId } from '../utils';
 
 interface IVendorlocationsLayoutProps {
-  vendorId: string;
   toggleForm: boolean;
   setToggleForm: React.Dispatch<React.SetStateAction<boolean>>;
   handleForm: () => void;
@@ -17,7 +17,6 @@ interface IVendorlocationsLayoutProps {
 }
 
 export function VendorlocationsLayout({
-  vendorId,
   toggleForm,
   setToggleForm,
   handleForm,
@@ -28,10 +27,10 @@ export function VendorlocationsLayout({
 
   const getAllLocations = useCallback(() => {
     const vendorService = new VendorService();
-    vendorService.listLocations(vendorId).then(({ response }) => {
+    vendorService.listLocations(getVendorId()).then(({ response }) => {
       setAllLocationsData(response?.locations);
     });
-  }, [vendorId]);
+  }, []);
 
   useEffect(() => {
     getAllLocations();
@@ -42,7 +41,6 @@ export function VendorlocationsLayout({
         <AddLocation
           allLocationsData={allLocationsData}
           setAllLocationsData={setAllLocationsData}
-          vendorId={vendorId}
           setToggleForm={setToggleForm}
           selectedLocation={selectedLocation}
         />
@@ -50,7 +48,6 @@ export function VendorlocationsLayout({
         <ViewLocations
           allLocationsData={allLocationsData}
           setAllLocationsData={setAllLocationsData}
-          vendorId={vendorId}
           editLocation={editLocation}
           handleForm={handleForm}
         />

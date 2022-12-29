@@ -20,3 +20,6 @@ export const getSelectedItem = (pathname: string) => {
   const selectedItem = pathname.slice(1);
   return `${selectedItem?.[0]?.toUpperCase()}${selectedItem.slice(1)}`;
 };
+
+export const getVendorId = () => localStorage?.getItem('vendorId') || '';
+export const getLoggedInUser = () => localStorage?.getItem('user') || null;

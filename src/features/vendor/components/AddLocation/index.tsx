@@ -10,6 +10,7 @@ import Input from '../../../../components/Input';
 import { locationDetails } from '../../../../data/locationDetails';
 import { VendorService } from '../../../../services/VendorService';
 import { FormikField } from '../../../../types';
+import { getVendorId } from '../../../../utils';
 import { ILocationProps } from '../ViewLocations';
 
 const initialValues = {
@@ -24,7 +25,6 @@ const initialValues = {
 };
 
 interface IAddLocationProps {
-  vendorId: string;
   selectedLocation: ILocationProps;
   allLocationsData: ILocationProps[];
   setToggleForm: React.Dispatch<React.SetStateAction<boolean>>;
@@ -32,7 +32,6 @@ interface IAddLocationProps {
 }
 
 export function AddLocation({
-  vendorId,
   setAllLocationsData,
   allLocationsData,
   setToggleForm,
@@ -42,10 +41,10 @@ export function AddLocation({
     const vendorService = new VendorService();
     vendorService
       .addLocation({
-        location: { ...values, id: uuidv4(), vendorId, hoursOfOperation: [''] }
+        location: { ...values, id: uuidv4(), vendorId: getVendorId(), hoursOfOperation: [''] }
       })
       .then(() => {
-        vendorService.listLocations(vendorId).then(({ response }) => {
+        vendorService.listLocations(getVendorId()).then(({ response }) => {
           setAllLocationsData(response?.locations);
         });
         setToggleForm(false);
@@ -56,7 +55,7 @@ export function AddLocation({
     const vendorService = new VendorService();
     vendorService
       .updateLocation({
-        location: { ...values, vendorId }
+        location: { ...values, vendorId: getVendorId() }
       })
       .then(() => {
         const updatedLocationsData = allLocationsData?.filter(
