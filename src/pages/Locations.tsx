@@ -1,17 +1,15 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/label-has-associated-control */
-/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { TbLoader } from 'react-icons/tb';
-import { VendorlocationsLayout } from '../layouts/VendorlocationsLayout';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '../components/Button';
 import { Wrapper } from '../components/Wrapper';
-import { isLoggedIn } from '../router/routes';
 import { ILocationProps } from '../features/vendor/components/ViewLocations';
+import UserLayout from '../layouts/UserLayout';
+import { VendorlocationsLayout } from '../layouts/VendorlocationsLayout';
+import { isLoggedIn } from '../router/routes';
 import { VendorService } from '../services/VendorService';
 
-const initialLocationData = {
+export const initialLocationData = {
   id: '',
   address1: '',
   address2: '',
@@ -21,7 +19,7 @@ const initialLocationData = {
   zip: '',
   hoursOfOperation: ['']
 };
-export default function Home() {
+const Locations = () => {
   const [loading, setLoading] = useState(true);
   const [selectedLocation, setSelectedLocation] = useState(initialLocationData);
   const [vendorId, setVendorId] = useState('');
@@ -60,55 +58,27 @@ export default function Home() {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  return (
-    <div className="grid w-full">
-      <div className="navbar sticky top-0 bg-primary text-white">
-        <div className="navbar-start">
-          <div className="dropdown">
-            <label tabIndex={0} className="btn-ghost btn lg:hidden">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h8m-8 6h16"
-                />
-              </svg>
-            </label>
-          </div>
-          <a className="btn-ghost btn text-xl normal-case">Suforia</a>
-        </div>
 
-        <div className="navbar-end flex gap-8">
-          <button
-            type="button"
-            className="btn"
-            onClick={() => {
-              setSelectedLocation(initialLocationData);
-              handleForm();
-            }}
-          >
-            add location
-          </button>
-          <button
-            type="button"
-            className="btn"
-            onClick={() => {
-              localStorage.removeItem('accessToken');
-              navigate('/auth/login', { replace: true });
-            }}
-          >
-            Logout
-          </button>
-        </div>
-      </div>
-      <div className="">
+  return (
+    <UserLayout>
+      <>
+        {!toggleForm ? (
+          <div className="fixed right-6 top-2">
+            <Button
+              type="button"
+              classes="w-full"
+              size="lg"
+              onClick={() => {
+                setSelectedLocation(initialLocationData);
+                handleForm();
+              }}
+            >
+              + Add
+            </Button>
+          </div>
+        ) : (
+          ''
+        )}
         <Wrapper>
           {loading ? (
             <div>
@@ -127,7 +97,9 @@ export default function Home() {
             />
           )}
         </Wrapper>
-      </div>
-    </div>
+      </>
+    </UserLayout>
   );
-}
+};
+
+export default Locations;

@@ -57,7 +57,7 @@ export function OTPCodeCard() {
           localStorage.setItem('refreshToken', response?.refreshToken);
           localStorage.setItem('expiryTime', `${moment().add(25, 'minute')}`);
           localStorage.removeItem('emailAccessToken');
-          navigate(getQueryParam('newUser') ? '/auth/business' : '/home', { replace: true });
+          navigate(getQueryParam('newUser') ? '/auth/business' : '/dashboard', { replace: true });
         })
         .catch(() => {
           setIsLoading(false);

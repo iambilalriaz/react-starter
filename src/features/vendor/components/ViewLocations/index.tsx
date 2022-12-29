@@ -45,7 +45,7 @@ export function ViewLocations({
   };
 
   return (
-    <div className="grid gap-5 md:grid-cols-3">
+    <div className="1 mt-24  grid gap-5 md:grid-cols-2 lg:grid-cols-3">
       {allLocationsData?.map((location: ILocationProps) => (
         <LocationCard
           deleteLocation={deleteLocation}
