@@ -4,15 +4,14 @@
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { useSelector } from 'react-redux';
 import { Button } from '../../../../components/Button';
 import { Card } from '../../../../components/Card';
 import Input from '../../../../components/Input';
 import { locationDetails } from '../../../../data/locationDetails';
 import { VendorService } from '../../../../services/VendorService';
 import { FormikField } from '../../../../types';
+import { getVendorId } from '../../../../utils';
 import { ILocationProps } from '../ViewLocations';
-import { RootState } from '../../../../app/store';
 
 const initialValues = {
   address1: '',
@@ -26,7 +25,6 @@ const initialValues = {
 };
 
 interface IAddLocationProps {
-  vendorId: string;
   selectedLocation: ILocationProps;
   allLocationsData: ILocationProps[];
   setToggleForm: React.Dispatch<React.SetStateAction<boolean>>;
@@ -39,16 +37,14 @@ export function AddLocation({
   setToggleForm,
   selectedLocation
 }: IAddLocationProps) {
-  const vendorId = useSelector((state: RootState) => state.vendorId.value);
-
   const addLocation = (values: ILocationProps) => {
     const vendorService = new VendorService();
     vendorService
       .addLocation({
-        location: { ...values, id: uuidv4(), vendorId, hoursOfOperation: [''] }
+        location: { ...values, id: uuidv4(), vendorId: getVendorId(), hoursOfOperation: [''] }
       })
       .then(() => {
-        vendorService.listLocations(vendorId).then(({ response }) => {
+        vendorService.listLocations(getVendorId()).then(({ response }) => {
           setAllLocationsData(response?.locations);
         });
         setToggleForm(false);
@@ -59,7 +55,7 @@ export function AddLocation({
     const vendorService = new VendorService();
     vendorService
       .updateLocation({
-        location: { ...values, vendorId }
+        location: { ...values, vendorId: getVendorId() }
       })
       .then(() => {
         const updatedLocationsData = allLocationsData?.filter(

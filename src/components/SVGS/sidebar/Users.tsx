@@ -1,4 +1,4 @@
-const Staff = ({ color }: { color: string }) => {
+const Users = ({ color }: { color: string }) => {
   return (
     <svg width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -21,4 +21,4 @@ const Staff = ({ color }: { color: string }) => {
   );
 };
 
-export default Staff;
+export default Users;

@@ -4,6 +4,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../app/store';
 import { VendorService } from '../../../../services/VendorService';
+import { getVendorId } from '../../../../utils';
 import { LocationCard } from '../LocationCard';
 
 export interface ILocationProps {
@@ -37,7 +38,7 @@ export function ViewLocations({
     vendorService
       .deleteLocation({
         locationId,
-        vendorId
+        vendorId: getVendorId()
       })
       .then(() => {
         setAllLocationsData(
@@ -47,7 +48,7 @@ export function ViewLocations({
   };
 
   return (
-    <div className="1 mt-24  grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+    <div className="mt-24 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
       {allLocationsData?.map((location: ILocationProps) => (
         <LocationCard
           deleteLocation={deleteLocation}

@@ -1,6 +1,6 @@
 import Dashboard from '../SVGS/sidebar/Dashboard';
 import Locations from '../SVGS/sidebar/Locations';
-import Staff from '../SVGS/sidebar/Staff';
+import Users from '../SVGS/sidebar/Users';
 
 export const items = [
   {
@@ -12,7 +12,7 @@ export const items = [
     Icon: (props: { color: string }) => <Locations {...props} />
   },
   {
-    label: 'Staff',
-    Icon: (props: { color: string }) => <Staff {...props} />
+    label: 'Users',
+    Icon: (props: { color: string }) => <Users {...props} />
   }
 ];

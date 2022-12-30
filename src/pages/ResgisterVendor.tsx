@@ -11,6 +11,7 @@ import Select from '../components/Select';
 import AuthLayout from '../layouts/AuthLayout';
 import { AuthService } from '../services/AuthService';
 import { VendorService } from '../services/VendorService';
+import { FormikField } from '../types';
 
 type FormValues = {
   vendorName: string;
@@ -95,7 +96,16 @@ export default function RegisterVendor() {
         >
           <Form>
             <Field name="vendorName">
-              {({ field, form: { touched, errors } }: any) => (
+              {({
+                field,
+                form: { touched, errors }
+              }: {
+                field: FormikField;
+                form: {
+                  touched: FormValues;
+                  errors: FormValues;
+                };
+              }) => (
                 <div className="mb-4">
                   <Input
                     label="Name"
@@ -113,7 +123,16 @@ export default function RegisterVendor() {
               )}
             </Field>
             <Field name="vendorCategory">
-              {({ field, form: { touched, errors } }: any) => (
+              {({
+                field,
+                form: { touched, errors }
+              }: {
+                field: FormikField;
+                form: {
+                  touched: FormValues;
+                  errors: FormValues;
+                };
+              }) => (
                 <div className="mb-4">
                   <Select
                     label="Category"
@@ -131,7 +150,16 @@ export default function RegisterVendor() {
               )}
             </Field>
             <Field name="vendorDesc" as="textarea">
-              {({ field, form: { touched, errors } }: any) => (
+              {({
+                field,
+                form: { touched, errors }
+              }: {
+                field: FormikField;
+                form: {
+                  touched: FormValues;
+                  errors: FormValues;
+                };
+              }) => (
                 <div className="mb-4">
                   <Input
                     label="Description"

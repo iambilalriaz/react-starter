@@ -9,7 +9,8 @@ import {
   AddLocationRequest,
   UpdateLocationRequest,
   DeleteLocationRequest,
-  Vendor
+  Vendor,
+  InviteUserRequest
 } from '../api/vendorpb/v1/vendor';
 
 export class VendorService {
@@ -70,5 +71,23 @@ export class VendorService {
   async listVendors() {
     const authOptions = await this.getAuthOptions();
     return this.vendorService.listVendors({}, authOptions);
+  }
+
+  async inviteUser({ id, vendorId, email, phoneNumber, permissions }: InviteUserRequest) {
+    const authOptions = await this.getAuthOptions();
+    return this.vendorService.inviteUser(
+      { id, vendorId, email, phoneNumber, permissions },
+      authOptions
+    );
+  }
+
+  async listPendingInvites(vendorId: string) {
+    const authOptions = await this.getAuthOptions();
+    return this.vendorService.listPendingInvites({ vendorId }, authOptions);
+  }
+
+  async acceptInvite(inviteId: string) {
+    const authOptions = await this.getAuthOptions();
+    return this.vendorService.acceptInvite({ id: inviteId }, authOptions);
   }
 }
