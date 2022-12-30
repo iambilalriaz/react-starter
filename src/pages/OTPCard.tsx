@@ -15,6 +15,7 @@ import OTPInput from '../features/authentication/components/OTPInput';
 import OTPLayout from '../layouts/OTPLayout';
 import { AuthService } from '../services/AuthService';
 import { FormikField } from '../types';
+import { VendorService } from '../services/VendorService';
 
 const CODE_LENGTH = [1, 2, 3, 4, 5, 6];
 type FormValues = {
@@ -46,9 +47,7 @@ export function OTPCodeCard() {
       const authService = new AuthService();
       authService
         .verifySMSCode({
-          phoneNumber:
-            // getQueryParam('phone')
-            '+421112042235' || '',
+          phoneNumber: localStorage.getItem('phoneNumber') || '',
           code: values?.codes?.join('')
         })
         .then(({ response }) => {
@@ -59,7 +58,7 @@ export function OTPCodeCard() {
             'user',
             JSON.stringify({
               email: localStorage.getItem('userEmail'),
-              phoneNumber: '+421112042235'
+              phoneNumber: localStorage.getItem('phoneNumber') || ''
             })
           );
           localStorage.setItem('accessToken', response?.accessToken);
@@ -68,7 +67,15 @@ export function OTPCodeCard() {
           localStorage.removeItem('emailAccessToken');
           localStorage.removeItem('userEmail');
           localStorage.removeItem('countDown');
-          navigate(getQueryParam('newUser') ? '/auth/business' : '/dashboard', { replace: true });
+          localStorage.removeItem('phoneNumber');
+          if (getQueryParam('newUser')) {
+            navigate('/auth/business');
+          } else {
+            const vendorService = new VendorService();
+            vendorService.acceptInvite(localStorage.getItem('inviteCode') as string).then(() => {
+              navigate('/dashboard');
+            });
+          }
         })
         .catch(() => {
           setIsLoading(false);
@@ -76,8 +83,8 @@ export function OTPCodeCard() {
         });
     }
   };
-  const subTitle = `A 6 digit OTP Code has been send to your ${getQueryParam(
-    'phone'
+  const subTitle = `A 6 digit OTP Code has been send to your ${localStorage.getItem(
+    'phoneNumber'
   )} given by you`;
   return (
     <OTPLayout>

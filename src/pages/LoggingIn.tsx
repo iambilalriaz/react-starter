@@ -19,7 +19,8 @@ const LoggingIn = () => {
         localStorage.setItem('emailAccessToken', accessToken);
         localStorage.setItem('userEmail', getQueryParam('email') || '');
         if (maskedPhoneNumber) {
-          navigate(`/auth/otp?phone=${maskedPhoneNumber}`, { replace: true });
+          localStorage.setItem('phoneNumber', maskedPhoneNumber);
+          navigate(`/auth/otp`, { replace: true });
         } else {
           navigate('/auth/signup?newUser=true', { replace: true });
         }

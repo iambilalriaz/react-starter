@@ -85,4 +85,9 @@ export class VendorService {
     const authOptions = await this.getAuthOptions();
     return this.vendorService.listPendingInvites({ vendorId }, authOptions);
   }
+
+  async acceptInvite(inviteId: string) {
+    const authOptions = await this.getAuthOptions();
+    return this.vendorService.acceptInvite({ id: inviteId }, authOptions);
+  }
 }

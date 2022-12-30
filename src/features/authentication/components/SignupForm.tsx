@@ -30,14 +30,10 @@ export default function SignupForm() {
   const authService = new AuthService();
   const onPhoneSubmit = (values: FormValues) => {
     localStorage.setItem('countDown', '59');
-    navigate(
-      `/auth/otp?phone=${JSON.stringify(values.phoneNumber)}&${
-        getQueryParam('newUser') ? 'newUser=true' : ''
-      }`,
-      {
-        replace: true
-      }
-    );
+    localStorage.setItem('phoneNumber', values.phoneNumber);
+    navigate(`/auth/otp?${getQueryParam('newUser') ? 'newUser=true' : ''}`, {
+      replace: true
+    });
     authService
       .requestSMSCode({ phoneNumber: values.phoneNumber })
       .then(() => {

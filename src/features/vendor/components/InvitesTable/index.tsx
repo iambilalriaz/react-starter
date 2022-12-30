@@ -26,8 +26,8 @@ const InvitesTable = ({ setInvitingUser }: InviteTableProps) => {
 
   return (
     <>
-      <div className="flex items-center justify-between p-4">
-        <p className="text-lg font-medium text-primary">Invites</p>
+      <div className="flex items-center justify-between">
+        <p className="text-lg font-medium text-primary">Pending Invites</p>
         <Button onClick={() => setInvitingUser(true)}>Invite</Button>
       </div>
       {pendingInvites?.length ? (

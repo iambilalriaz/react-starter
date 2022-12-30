@@ -52,16 +52,16 @@ const InviteUser = ({ setInvitingUser }: InviteUserProps) => {
             }
           }
           const vendorService = new VendorService();
+
           vendorService
             .inviteUser({
               id: uuidv4(),
               vendorId: getVendorId(),
               email: values?.userEmail,
-              phoneNumber: '+923060756432',
+              phoneNumber: '',
               permissions
             })
-            .then(() => setInvitingUser(false))
-            .catch((err) => console.log(err));
+            .then(() => setInvitingUser(false));
         }}
       >
         {() => (

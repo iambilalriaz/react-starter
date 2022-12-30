@@ -7,6 +7,7 @@ import RegisterVendor from '../pages/ResgisterVendor';
 import { OTPCodeCard } from '../pages/OTPCard';
 import Locations from '../pages/Locations';
 import Users from '../pages/Users';
+import AcceptingInvite from '../pages/AcceptingInvite';
 
 export const isLoggedIn = () => !!localStorage.getItem('accessToken');
 
@@ -26,6 +27,10 @@ export const routes = [
   {
     path: '/users',
     element: <Users />
+  },
+  {
+    path: '/vendor/invite',
+    element: <AcceptingInvite />
   },
   {
     path: '/auth',
