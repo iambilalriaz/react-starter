@@ -9,7 +9,6 @@ import { ILocationProps, ViewLocations } from '../features/vendor/components/Vie
 import { VendorService } from '../services/VendorService';
 
 interface IVendorlocationsLayoutProps {
-  vendorId: string;
   toggleForm: boolean;
   setToggleForm: React.Dispatch<React.SetStateAction<boolean>>;
   handleForm: () => void;
@@ -19,7 +18,6 @@ interface IVendorlocationsLayoutProps {
 }
 
 export function VendorlocationsLayout({
-  // vendorId,
   toggleForm,
   setToggleForm,
   handleForm,

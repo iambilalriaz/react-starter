@@ -25,7 +25,6 @@ const Locations = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [selectedLocation, setSelectedLocation] = useState(initialLocationData);
-  // const [vendorId, setVendorId] = useState('');
   const [toggleForm, setToggleForm] = useState(false);
 
   const navigate = useNavigate();
