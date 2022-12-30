@@ -18,7 +18,7 @@ const Users = () => {
   }, []);
   return (
     <UserLayout>
-      <div className="mt-20 w-full px-4">
+      <div className="mt-20 mb-4 w-full px-4">
         <Card classes="px-0 py-0">
           {invitingUser ? (
             <InviteUser setInvitingUser={setInvitingUser} />

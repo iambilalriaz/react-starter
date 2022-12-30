@@ -1,6 +1,7 @@
 import { Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { v4 as uuidv4 } from 'uuid';
+import { toast } from 'react-toastify';
 import { Button } from '../../../../components/Button';
 import Input from '../../../../components/Input';
 import Select from '../../../../components/Select';
@@ -36,7 +37,12 @@ const initialValues = {
 };
 
 const FormValidations = Yup.object().shape({
-  userEmail: Yup.string().required('Email address is empty')
+  userEmail: Yup.string()
+    .matches(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      { message: 'Email is invalid' }
+    )
+    .required('Email address is empty')
 });
 const InviteUser = ({ setInvitingUser }: InviteUserProps) => {
   return (
@@ -61,7 +67,13 @@ const InviteUser = ({ setInvitingUser }: InviteUserProps) => {
               phoneNumber: '',
               permissions
             })
-            .then(() => setInvitingUser(false));
+            .then(() => {
+              toast.success('Invition sent.');
+              setInvitingUser(false);
+            })
+            .catch((err) => {
+              toast.error(err?.message);
+            });
         }}
       >
         {() => (
@@ -82,9 +94,9 @@ const InviteUser = ({ setInvitingUser }: InviteUserProps) => {
               }) => (
                 <>
                   <Input id="userEmail" label="Email" placeholder="Enter Email" field={field} />
-                  <span className="pt-2 text-xs text-error">
-                    {errors?.userEmail && touched.userEmail ? <div>{errors.userEmail}</div> : null}
-                  </span>
+                  <div className="mt-1 text-xs text-error">
+                    {errors?.userEmail && touched.userEmail ? <div>{errors?.userEmail}</div> : null}
+                  </div>
                 </>
               )}
             </Field>

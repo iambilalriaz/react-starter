@@ -5,10 +5,10 @@ import { Field, FieldArray, Form, Formik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
+import { toast } from 'react-toastify';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { getQueryParam } from '../constants';
-import { Toast } from '../components/Toast';
 import CardTitle from '../features/authentication/components/CardTitle';
 import CardSubtitle from '../features/authentication/components/CardSubtitle';
 import OTPInput from '../features/authentication/components/OTPInput';
@@ -25,7 +25,6 @@ type FormValues = {
 export function OTPCodeCard() {
   const [countDown, setCountDown] = useState(+(localStorage.getItem('countDown') || 59));
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -52,7 +51,6 @@ export function OTPCodeCard() {
         })
         .then(({ response }) => {
           setIsLoading(false);
-          setError(false);
 
           localStorage.setItem(
             'user',
@@ -72,14 +70,17 @@ export function OTPCodeCard() {
             navigate('/auth/business');
           } else {
             const vendorService = new VendorService();
-            vendorService.acceptInvite(localStorage.getItem('inviteCode') as string).then(() => {
-              navigate('/dashboard');
-            });
+            vendorService
+              .acceptInvite(localStorage.getItem('inviteCode') as string)
+              .then(() => {
+                navigate('/dashboard');
+              })
+              .catch((err) => toast.error(err?.message));
           }
         })
         .catch(() => {
           setIsLoading(false);
-          setError(true);
+          toast.error('Unable to accept invite.');
         });
     }
   };
@@ -135,7 +136,6 @@ export function OTPCodeCard() {
             </Form>
           )}
         />
-        {error ? <Toast message="OTP is not valid" /> : null}
       </Card>
     </OTPLayout>
   );
