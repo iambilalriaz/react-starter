@@ -2,7 +2,7 @@ type SelectProps = {
   label: string;
   options: string[];
   id: string;
-  placeholder: string;
+  placeholder?: string;
   field: any;
 };
 const Select = ({ label, options, id, field, placeholder }: SelectProps) => {

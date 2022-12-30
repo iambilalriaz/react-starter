@@ -5,15 +5,17 @@ import { Field, FieldArray, Form, Formik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
+import { toast } from 'react-toastify';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { getQueryParam } from '../constants';
-import { Toast } from '../components/Toast';
 import CardTitle from '../features/authentication/components/CardTitle';
 import CardSubtitle from '../features/authentication/components/CardSubtitle';
 import OTPInput from '../features/authentication/components/OTPInput';
 import OTPLayout from '../layouts/OTPLayout';
 import { AuthService } from '../services/AuthService';
+import { FormikField } from '../types';
+import { VendorService } from '../services/VendorService';
 
 const CODE_LENGTH = [1, 2, 3, 4, 5, 6];
 type FormValues = {
@@ -23,7 +25,6 @@ type FormValues = {
 export function OTPCodeCard() {
   const [countDown, setCountDown] = useState(+(localStorage.getItem('countDown') || 59));
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -45,28 +46,46 @@ export function OTPCodeCard() {
       const authService = new AuthService();
       authService
         .verifySMSCode({
-          phoneNumber:
-            // getQueryParam('phone')
-            '+421112042235' || '',
+          phoneNumber: localStorage.getItem('phoneNumber') || '',
           code: values?.codes?.join('')
         })
         .then(({ response }) => {
           setIsLoading(false);
-          setError(false);
+
+          localStorage.setItem(
+            'user',
+            JSON.stringify({
+              email: localStorage.getItem('userEmail'),
+              phoneNumber: localStorage.getItem('phoneNumber') || ''
+            })
+          );
           localStorage.setItem('accessToken', response?.accessToken);
           localStorage.setItem('refreshToken', response?.refreshToken);
           localStorage.setItem('expiryTime', `${moment().add(25, 'minute')}`);
           localStorage.removeItem('emailAccessToken');
-          navigate(getQueryParam('newUser') ? '/auth/business' : '/dashboard', { replace: true });
+          localStorage.removeItem('userEmail');
+          localStorage.removeItem('countDown');
+          localStorage.removeItem('phoneNumber');
+          if (getQueryParam('newUser')) {
+            navigate('/auth/business');
+          } else {
+            const vendorService = new VendorService();
+            vendorService
+              .acceptInvite(localStorage.getItem('inviteCode') as string)
+              .then(() => {
+                navigate('/dashboard');
+              })
+              .catch((err) => toast.error(err?.message));
+          }
         })
         .catch(() => {
           setIsLoading(false);
-          setError(true);
+          toast.error('Unable to accept invite.');
         });
     }
   };
-  const subTitle = `A 6 digit OTP Code has been send to your ${getQueryParam(
-    'phone'
+  const subTitle = `A 6 digit OTP Code has been send to your ${localStorage.getItem(
+    'phoneNumber'
   )} given by you`;
   return (
     <OTPLayout>
@@ -85,15 +104,8 @@ export function OTPCodeCard() {
                     {CODE_LENGTH?.map((code, index) => (
                       <div key={`${code + index}`} className="w-[20px]">
                         <Field name={`codes.${index}`}>
-                          {({ field, form: { touched, errors } }: any) => (
-                            <>
-                              <OTPInput id={code.toString()} placeholder="0" field={field} />
-                              <span className="pt-2 text-xs text-error">
-                                {errors.emailOrPhone && touched.emailOrPhone ? (
-                                  <div>{errors.emailOrPhone}</div>
-                                ) : null}
-                              </span>
-                            </>
+                          {({ field }: { field: FormikField }) => (
+                            <OTPInput id={code.toString()} placeholder="0" field={field} />
                           )}
                         </Field>
                       </div>
@@ -124,7 +136,6 @@ export function OTPCodeCard() {
             </Form>
           )}
         />
-        {error ? <Toast message="OTP is not valid" /> : null}
       </Card>
     </OTPLayout>
   );
