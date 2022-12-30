@@ -1,6 +1,8 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../app/store';
 import { VendorService } from '../../../../services/VendorService';
 import { LocationCard } from '../LocationCard';
 
@@ -16,7 +18,6 @@ export interface ILocationProps {
 }
 
 interface viewLocationsProps {
-  vendorId: string;
   handleForm: () => void;
   editLocation: (location: ILocationProps) => void;
   setAllLocationsData: React.Dispatch<React.SetStateAction<ILocationProps[]>>;
@@ -24,12 +25,13 @@ interface viewLocationsProps {
 }
 
 export function ViewLocations({
-  vendorId,
   setAllLocationsData,
   allLocationsData,
   editLocation,
   handleForm
 }: viewLocationsProps) {
+  const vendorId = useSelector((state: RootState) => state.vendorId.value);
+
   const deleteLocation = async (locationId: string) => {
     const vendorService = new VendorService();
     vendorService

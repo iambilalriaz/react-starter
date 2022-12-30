@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { TbLoader } from 'react-icons/tb';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { Button } from '../components/Button';
 import { Wrapper } from '../components/Wrapper';
 import { ILocationProps } from '../features/vendor/components/ViewLocations';
@@ -8,6 +9,7 @@ import UserLayout from '../layouts/UserLayout';
 import { VendorlocationsLayout } from '../layouts/VendorlocationsLayout';
 import { isLoggedIn } from '../router/routes';
 import { VendorService } from '../services/VendorService';
+import { getVendorId } from '../features/vendor/vendorSlices/vendorIdSlice';
 
 export const initialLocationData = {
   id: '',
@@ -20,9 +22,10 @@ export const initialLocationData = {
   hoursOfOperation: ['']
 };
 const Locations = () => {
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [selectedLocation, setSelectedLocation] = useState(initialLocationData);
-  const [vendorId, setVendorId] = useState('');
+  // const [vendorId, setVendorId] = useState('');
   const [toggleForm, setToggleForm] = useState(false);
 
   const navigate = useNavigate();
@@ -37,7 +40,7 @@ const Locations = () => {
           // register first vendor
           navigate(`/auth/business?referrer=${window.location.href}`);
         } else {
-          setVendorId(response?.vendors?.[0]?.id);
+          dispatch(getVendorId(response?.vendors?.[0]?.id));
         }
       })
       .catch(() => setLoading(false));
@@ -90,7 +93,6 @@ const Locations = () => {
             <VendorlocationsLayout
               setToggleForm={setToggleForm}
               toggleForm={toggleForm}
-              vendorId={vendorId}
               handleForm={handleForm}
               editLocation={editLocation}
               selectedLocation={selectedLocation}

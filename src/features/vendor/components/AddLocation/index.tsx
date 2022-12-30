@@ -4,6 +4,7 @@
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { useSelector } from 'react-redux';
 import { Button } from '../../../../components/Button';
 import { Card } from '../../../../components/Card';
 import Input from '../../../../components/Input';
@@ -11,6 +12,7 @@ import { locationDetails } from '../../../../data/locationDetails';
 import { VendorService } from '../../../../services/VendorService';
 import { FormikField } from '../../../../types';
 import { ILocationProps } from '../ViewLocations';
+import { RootState } from '../../../../app/store';
 
 const initialValues = {
   address1: '',
@@ -32,12 +34,13 @@ interface IAddLocationProps {
 }
 
 export function AddLocation({
-  vendorId,
   setAllLocationsData,
   allLocationsData,
   setToggleForm,
   selectedLocation
 }: IAddLocationProps) {
+  const vendorId = useSelector((state: RootState) => state.vendorId.value);
+
   const addLocation = (values: ILocationProps) => {
     const vendorService = new VendorService();
     vendorService

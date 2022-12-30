@@ -1,6 +1,8 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../app/store';
 import { AddLocation } from '../features/vendor/components/AddLocation';
 import { EmptyState } from '../features/vendor/components/EmptState';
 import { ILocationProps, ViewLocations } from '../features/vendor/components/ViewLocations';
@@ -17,13 +19,14 @@ interface IVendorlocationsLayoutProps {
 }
 
 export function VendorlocationsLayout({
-  vendorId,
+  // vendorId,
   toggleForm,
   setToggleForm,
   handleForm,
   editLocation,
   selectedLocation
 }: IVendorlocationsLayoutProps) {
+  const vendorId = useSelector((state: RootState) => state.vendorId.value);
   const [allLocationsData, setAllLocationsData] = useState<ILocationProps[]>([]);
 
   const getAllLocations = useCallback(() => {
@@ -42,7 +45,6 @@ export function VendorlocationsLayout({
         <AddLocation
           allLocationsData={allLocationsData}
           setAllLocationsData={setAllLocationsData}
-          vendorId={vendorId}
           setToggleForm={setToggleForm}
           selectedLocation={selectedLocation}
         />
@@ -50,7 +52,6 @@ export function VendorlocationsLayout({
         <ViewLocations
           allLocationsData={allLocationsData}
           setAllLocationsData={setAllLocationsData}
-          vendorId={vendorId}
           editLocation={editLocation}
           handleForm={handleForm}
         />
