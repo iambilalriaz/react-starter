@@ -20,8 +20,12 @@ export const initialLocationData = {
   hoursOfOperation: ['']
 };
 const Locations = () => {
-  const locations = useSelector((state: RootState) => state.allLocationsData);
-  console.log(locations);
+  // const locations = useSelector((state: RootState) => state.allLocationsData);
+
+  const selectedLocation1 = useSelector((state: RootState) => state.selectedLocation);
+
+  console.log(selectedLocation1);
+
   const [selectedLocation, setSelectedLocation] = useState(initialLocationData);
   const [toggleForm, setToggleForm] = useState(false);
 
