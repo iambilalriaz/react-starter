@@ -1,9 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import vendorIdReducer from '../features/vendor/vendorSlices/vendorIdSlice';
+import locationReducer from '../features/vendor/vendorSlices/locationSlice';
 
 export const store = configureStore({
-  reducer: { vendorId: vendorIdReducer }
+  reducer: { vendorId: vendorIdReducer, allLocationsData: locationReducer }
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

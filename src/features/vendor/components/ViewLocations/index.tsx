@@ -1,11 +1,12 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../app/store';
 import { VendorService } from '../../../../services/VendorService';
 import { getVendorId } from '../../../../utils';
 import { LocationCard } from '../LocationCard';
+import { getAllLocationsData } from '../../vendorSlices/locationSlice';
 
 export interface ILocationProps {
   id: string;
@@ -21,17 +22,11 @@ export interface ILocationProps {
 interface viewLocationsProps {
   handleForm: () => void;
   editLocation: (location: ILocationProps) => void;
-  setAllLocationsData: React.Dispatch<React.SetStateAction<ILocationProps[]>>;
-  allLocationsData: ILocationProps[];
 }
 
-export function ViewLocations({
-  setAllLocationsData,
-  allLocationsData,
-  editLocation,
-  handleForm
-}: viewLocationsProps) {
-  const vendorId = useSelector((state: RootState) => state.vendorId.value);
+export function ViewLocations({ editLocation, handleForm }: viewLocationsProps) {
+  const dispatch = useDispatch();
+  const allLocationsData = useSelector((state: RootState) => state.allLocationsData);
 
   const deleteLocation = async (locationId: string) => {
     const vendorService = new VendorService();
@@ -41,9 +36,14 @@ export function ViewLocations({
         vendorId: getVendorId()
       })
       .then(() => {
-        setAllLocationsData(
-          allLocationsData?.filter((location: ILocationProps) => location.id !== locationId)
+        dispatch(
+          getAllLocationsData(
+            allLocationsData?.filter((location: ILocationProps) => location.id !== locationId)
+          )
         );
+        // setAllLocationsData(
+        //   allLocationsData?.filter((location: ILocationProps) => location.id !== locationId)
+        // );
       });
   };
 

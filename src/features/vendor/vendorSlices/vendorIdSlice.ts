@@ -20,7 +20,6 @@ export const vendorIdSlice = createSlice({
   }
 });
 
-// Action creators are generated for each case reducer function
 export const { getVendorId } = vendorIdSlice.actions;
 
 export default vendorIdSlice.reducer;

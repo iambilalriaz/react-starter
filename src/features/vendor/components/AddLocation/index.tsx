@@ -4,6 +4,7 @@
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '../../../../components/Button';
 import { Card } from '../../../../components/Card';
 import Input from '../../../../components/Input';
@@ -12,6 +13,9 @@ import { VendorService } from '../../../../services/VendorService';
 import { FormikField } from '../../../../types';
 import { getVendorId } from '../../../../utils';
 import { ILocationProps } from '../ViewLocations';
+
+import { getAllLocationsData } from '../../vendorSlices/locationSlice';
+import { RootState } from '../../../../app/store';
 
 const initialValues = {
   address1: '',
@@ -26,17 +30,14 @@ const initialValues = {
 
 interface IAddLocationProps {
   selectedLocation: ILocationProps;
-  allLocationsData: ILocationProps[];
   setToggleForm: React.Dispatch<React.SetStateAction<boolean>>;
-  setAllLocationsData: React.Dispatch<React.SetStateAction<ILocationProps[]>>;
 }
 
-export function AddLocation({
-  setAllLocationsData,
-  allLocationsData,
-  setToggleForm,
-  selectedLocation
-}: IAddLocationProps) {
+export function AddLocation({ setToggleForm, selectedLocation }: IAddLocationProps) {
+  const dispatch = useDispatch();
+
+  const allLocationsData = useSelector((state: RootState) => state.allLocationsData);
+
   const addLocation = (values: ILocationProps) => {
     const vendorService = new VendorService();
     vendorService
@@ -45,12 +46,13 @@ export function AddLocation({
       })
       .then(() => {
         vendorService.listLocations(getVendorId()).then(({ response }) => {
-          setAllLocationsData(response?.locations);
+          dispatch(getAllLocationsData(response?.locations));
         });
         setToggleForm(false);
       })
       .catch(() => {});
   };
+
   const editLocation = (values: ILocationProps) => {
     const vendorService = new VendorService();
     vendorService
@@ -61,11 +63,12 @@ export function AddLocation({
         const updatedLocationsData = allLocationsData?.filter(
           (loc) => loc?.id !== selectedLocation?.id
         );
-        setAllLocationsData([...updatedLocationsData, { ...values }]);
+        dispatch(getAllLocationsData([...updatedLocationsData, { ...values }]));
         setToggleForm(false);
       })
       .catch(() => {});
   };
+
   const isSelectedLocationEmpty = () => {
     let flag = true;
     Object.values(selectedLocation)?.forEach((value) => {
@@ -75,6 +78,7 @@ export function AddLocation({
     });
     return flag;
   };
+
   return (
     <Card>
       <h2 className="mb-4 text-center text-2xl">Location Details</h2>
