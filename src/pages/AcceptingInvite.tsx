@@ -20,7 +20,7 @@ const AcceptingInvite = () => {
         .acceptInvite(inviteCode)
         .then(() => {
           setError(false);
-          navigate('/dashboard');
+          navigate('/dashboard/vendor');
         })
         .catch(() => {
           setError(true);

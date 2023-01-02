@@ -9,7 +9,9 @@ const UserLayout = ({ children }: { children: JSX.Element }) => {
   const [selectedItem, setSelectedItem] = useState('Dashboard');
 
   useEffect(() => {
-    setSelectedItem(getSelectedItem(pathname));
+    setSelectedItem(
+      getSelectedItem(pathname)?.includes('Dashboard') ? 'Dashboard' : getSelectedItem(pathname)
+    );
   }, [pathname]);
   return (
     <div className="flex">

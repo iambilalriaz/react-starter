@@ -4,8 +4,9 @@ import UserLayout from '../layouts/UserLayout';
 import { Card } from '../components/Card';
 import { isLoggedIn } from '../router/routes';
 import { VendorService } from '../services/VendorService';
+import { getLoggedInUser } from '../utils';
 
-export default function Dashboard() {
+export default function VendorDashboard() {
   const navigate = useNavigate();
   const getAllVendors = () => {
     const vendorService = new VendorService();
@@ -20,7 +21,7 @@ export default function Dashboard() {
   };
   useEffect(() => {
     if (isLoggedIn()) {
-      navigate('/dashboard');
+      navigate(`/dashboard/${getLoggedInUser()?.role}`);
       getAllVendors();
     } else {
       navigate('/auth/login');
@@ -29,7 +30,7 @@ export default function Dashboard() {
   return (
     <UserLayout>
       <div className="grid h-screen place-items-center">
-        <Card>Welcome to dashboard!</Card>
+        <Card>Welcome to vendor dashboard!</Card>
       </div>
     </UserLayout>
   );

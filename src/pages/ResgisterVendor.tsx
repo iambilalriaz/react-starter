@@ -64,7 +64,7 @@ export default function RegisterVendor() {
       })
       .then(() => {
         setIsLoading(false);
-        navigate('/dashboard');
+        navigate('/dashboard/user');
       })
       .catch(() => {
         setIsLoading(false);
