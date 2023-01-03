@@ -60,9 +60,7 @@ const Sidebar = ({ vendorPermissions, selectedItem, setSelectedItem }: SidebarPr
         if (!vendorPermissions?.includes('manage_users')) {
           setVendorSidebarItems(vendorItems?.filter((item) => item?.label !== 'Users'));
         } else {
-          setVendorSidebarItems(
-            vendorItems?.filter((item) => ['Dashboard', 'Users']?.includes(item?.label))
-          );
+          setVendorSidebarItems(vendorItems);
         }
       } else {
         setVendorSidebarItems(vendorItems);

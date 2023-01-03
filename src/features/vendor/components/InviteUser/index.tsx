@@ -156,7 +156,7 @@ const InviteUser = ({ setInvitingUser }: InviteUserProps) => {
                   </div>
                 )}
               </Field>
-              <Field name="permissions.billing_manager">
+              {/* <Field name="permissions.billing_manager">
                 {({ field }: { field: FormikField }) => (
                   <div className="mb-4">
                     <Select
@@ -167,9 +167,9 @@ const InviteUser = ({ setInvitingUser }: InviteUserProps) => {
                     />
                   </div>
                 )}
-              </Field>
+              </Field> */}
 
-              <Field name="permissions.manage_campaigns">
+              {/* <Field name="permissions.manage_campaigns">
                 {({ field }: { field: FormikField }) => (
                   <div className="mb-4">
                     <Select
@@ -180,7 +180,7 @@ const InviteUser = ({ setInvitingUser }: InviteUserProps) => {
                     />
                   </div>
                 )}
-              </Field>
+              </Field> */}
               <Field name="permissions.manage_users">
                 {({ field }: { field: FormikField }) => (
                   <div className="mb-4">
@@ -193,18 +193,18 @@ const InviteUser = ({ setInvitingUser }: InviteUserProps) => {
                   </div>
                 )}
               </Field>
-              <Field name="permissions.message_users">
+              {/* <Field name="permissions.message_users">
                 {({ field }: { field: FormikField }) => (
                   <div className="mb-4">
                     <Select
-                      label="Message Users"
+                      label="Message"
                       id="message_users"
                       field={field}
                       options={['Disabled', 'Enabled']}
                     />
                   </div>
                 )}
-              </Field>
+              </Field> */}
             </div>
             <div className="mt-4 flex justify-end">
               <Button variant="secondary" onClick={() => setInvitingUser(false)}>
