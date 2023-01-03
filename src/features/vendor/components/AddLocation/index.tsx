@@ -42,9 +42,9 @@ export function AddLocation() {
         location: { ...values, id: uuidv4(), vendorId: getVendorId(), hoursOfOperation: [''] }
       })
       .then(() => {
-        // vendorService.listLocations(getVendorId()).then(({ response }) => {
-        //   dispatch(getAllLocationsData(response?.locations));
-        // });
+        vendorService.listLocations(getVendorId()).then(({ response }) => {
+          dispatch(getAllLocationsData(response?.locations));
+        });
         dispatch(toggleForm(false));
       })
       .catch(() => {});
