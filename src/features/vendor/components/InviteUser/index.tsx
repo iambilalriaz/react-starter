@@ -15,6 +15,7 @@ type InviteUserProps = {
 };
 type FormValues = {
   userEmail: string;
+  userPhoneNumber: string;
   permissions: {
     billing_manager: string;
     admin: string;
@@ -25,6 +26,7 @@ type FormValues = {
 };
 const initialValues = {
   userEmail: '',
+  userPhoneNumber: '',
   permissions: {
     billing_manager: 'disabled',
     admin: 'disabled',
@@ -40,7 +42,12 @@ const FormValidations = Yup.object().shape({
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       { message: 'Email is invalid' }
     )
-    .required('Email address is empty')
+    .required('Email address is empty'),
+  userPhoneNumber: Yup.string()
+    .matches(/^\+[1-9]\d{1,14}$/, {
+      message: 'Please enter a valid phone number'
+    })
+    .required('Phone number is empty!')
 });
 const InviteUser = ({ setInvitingUser }: InviteUserProps) => {
   const onUserInvite = (values: FormValues) => {
@@ -57,7 +64,7 @@ const InviteUser = ({ setInvitingUser }: InviteUserProps) => {
         id: uuidv4(),
         vendorId: getVendorId(),
         email: values?.userEmail,
-        phoneNumber: '',
+        phoneNumber: values?.userPhoneNumber,
         permissions
       })
       .then(() => {
@@ -80,26 +87,59 @@ const InviteUser = ({ setInvitingUser }: InviteUserProps) => {
             <p className="mb-10 rounded border-l-8 border-accent pl-4 text-lg font-medium text-primary">
               Invite New Employee
             </p>
-            <Field name="userEmail">
-              {({
-                field,
-                form: { touched, errors }
-              }: {
-                field: FormikField;
-                form: {
-                  touched: FormValues;
-                  errors: FormValues;
-                };
-              }) => (
-                <>
-                  <Input id="userEmail" label="Email" placeholder="Enter Email" field={field} />
-                  <div className="mt-1 text-xs text-error">
-                    {errors?.userEmail && touched.userEmail ? <div>{errors?.userEmail}</div> : null}
-                  </div>
-                </>
-              )}
-            </Field>
-
+            <div className="grid grid-cols-2 gap-x-4">
+              <div>
+                <Field name="userEmail">
+                  {({
+                    field,
+                    form: { touched, errors }
+                  }: {
+                    field: FormikField;
+                    form: {
+                      touched: FormValues;
+                      errors: FormValues;
+                    };
+                  }) => (
+                    <>
+                      <Input id="userEmail" label="Email" placeholder="Enter Email" field={field} />
+                      <div className="mt-1 text-xs text-error">
+                        {errors?.userEmail && touched.userEmail ? (
+                          <div>{errors?.userEmail}</div>
+                        ) : null}
+                      </div>
+                    </>
+                  )}
+                </Field>
+              </div>
+              <div>
+                <Field name="userPhoneNumber">
+                  {({
+                    field,
+                    form: { touched, errors }
+                  }: {
+                    field: FormikField;
+                    form: {
+                      touched: FormValues;
+                      errors: FormValues;
+                    };
+                  }) => (
+                    <>
+                      <Input
+                        id="userPhoneNumber"
+                        label="Phone Number"
+                        placeholder="Enter Phone Number"
+                        field={field}
+                      />
+                      <div className="mt-1 text-xs text-error">
+                        {errors?.userPhoneNumber && touched.userPhoneNumber ? (
+                          <div>{errors?.userPhoneNumber}</div>
+                        ) : null}
+                      </div>
+                    </>
+                  )}
+                </Field>
+              </div>
+            </div>
             <p className="my-10 rounded border-l-8 border-accent pl-4 text-lg font-medium text-primary">
               Permissions
             </p>

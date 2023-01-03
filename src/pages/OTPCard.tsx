@@ -81,7 +81,7 @@ export function OTPCodeCard() {
         })
         .catch(() => {
           setIsLoading(false);
-          toast.error('Unable to accept invite.');
+          toast.error('Unable to verify code.');
         });
     }
   };

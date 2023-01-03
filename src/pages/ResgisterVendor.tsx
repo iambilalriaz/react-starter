@@ -76,7 +76,7 @@ export default function RegisterVendor() {
   }, []);
   useEffect(() => {
     if (!localStorage.getItem('accessToken')) {
-      navigate('/auth/token');
+      navigate('/auth/login');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

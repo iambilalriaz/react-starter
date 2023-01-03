@@ -42,7 +42,7 @@ const Locations = () => {
   return (
     <UserLayout vendorPermissions={getVendorPermissions()}>
       <>
-        {!toggleForm && getVendorPermissions()?.includes('admin') ? (
+        {getVendorPermissions()?.includes('admin') ? (
           <div className="fixed right-6 top-2">
             <Button
               type="button"

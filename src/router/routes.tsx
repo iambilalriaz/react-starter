@@ -1,4 +1,3 @@
-import { Navigate } from 'react-router-dom';
 import CheckEmail from '../pages/CheckEmail';
 import LoggingIn from '../pages/LoggingIn';
 import Login from '../pages/Login';
@@ -10,7 +9,6 @@ import Users from '../pages/Users';
 import AcceptingInvite from '../pages/AcceptingInvite';
 import UserDashboard from '../pages/UserDashboard';
 import VendorDashboard from '../pages/VendorDashboard';
-import { getVendorPermissions } from '../utils';
 
 export const isLoggedIn = () => !!localStorage.getItem('accessToken');
 
@@ -38,11 +36,7 @@ export const routes = [
   },
   {
     path: '/users',
-    element: getVendorPermissions()?.includes('admin') ? (
-      <Users />
-    ) : (
-      <Navigate to="/dashboard/vendor" />
-    )
+    element: <Users />
   },
   {
     path: '/vendor/invite',

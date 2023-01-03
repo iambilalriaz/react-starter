@@ -42,7 +42,7 @@ const Sidebar = ({ vendorPermissions, selectedItem, setSelectedItem }: SidebarPr
   useEffect(() => {
     if (currentRole === 'vendor') {
       if (!vendorPermissions?.includes('admin')) {
-        if (!vendorPermissions?.includes('manage_user')) {
+        if (!vendorPermissions?.includes('manage_users')) {
           setVendorSidebarItems(vendorItems?.filter((item) => item?.label !== 'Users'));
         } else {
           setVendorSidebarItems(

@@ -4,7 +4,7 @@ import UserLayout from '../layouts/UserLayout';
 import { Card } from '../components/Card';
 import { isLoggedIn } from '../router/routes';
 import { VendorService } from '../services/VendorService';
-import { getLoggedInUser, getVendorPermissions } from '../utils';
+import { getVendorPermissions } from '../utils';
 
 export default function VendorDashboard() {
   const [vendorPermissions, setVendorPermissions] = useState<string[]>([]);
@@ -28,7 +28,7 @@ export default function VendorDashboard() {
   };
   useEffect(() => {
     if (isLoggedIn()) {
-      navigate(`/dashboard/${getLoggedInUser()?.role}`);
+      navigate('/dashboard/vendor');
       getAllVendors();
       setVendorPermissions(getVendorPermissions());
     } else {

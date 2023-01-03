@@ -14,7 +14,12 @@ const Users = () => {
     if (!isLoggedIn()) {
       navigate('/auth/login');
     }
-
+    if (
+      !getVendorPermissions()?.includes('admin') &&
+      !getVendorPermissions()?.includes('manage_users')
+    ) {
+      navigate('/dashboard/vendor');
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (

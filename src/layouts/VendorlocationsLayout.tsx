@@ -39,7 +39,6 @@ export function VendorlocationsLayout({
     <div className="grid h-screen place-items-center">
       {toggleForm ? (
         <AddLocation
-          allLocationsData={allLocationsData}
           setAllLocationsData={setAllLocationsData}
           setToggleForm={setToggleForm}
           selectedLocation={selectedLocation}

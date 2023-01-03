@@ -93,6 +93,6 @@ export class VendorService {
 
   async getVendorPermissions(vendorId: string) {
     const authOptions = await this.getAuthOptions();
-    return this.vendorService.getVendorPermissions({ vendorId }, authOptions);
+    return this.vendorService.getPermissionsForUser({ vendorId }, authOptions);
   }
 }

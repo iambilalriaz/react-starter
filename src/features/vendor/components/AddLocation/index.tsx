@@ -26,14 +26,12 @@ const initialValues = {
 
 interface IAddLocationProps {
   selectedLocation: ILocationProps;
-  allLocationsData: ILocationProps[];
   setToggleForm: React.Dispatch<React.SetStateAction<boolean>>;
   setAllLocationsData: React.Dispatch<React.SetStateAction<ILocationProps[]>>;
 }
 
 export function AddLocation({
   setAllLocationsData,
-  allLocationsData,
   setToggleForm,
   selectedLocation
 }: IAddLocationProps) {
@@ -53,18 +51,17 @@ export function AddLocation({
   };
   const editLocation = (values: ILocationProps) => {
     const vendorService = new VendorService();
+
     vendorService
       .updateLocation({
         location: { ...values, vendorId: getVendorId() }
       })
       .then(() => {
-        const updatedLocationsData = allLocationsData?.filter(
-          (loc) => loc?.id !== selectedLocation?.id
-        );
-        setAllLocationsData([...updatedLocationsData, { ...values }]);
+        vendorService.listLocations(getVendorId()).then(({ response }) => {
+          setAllLocationsData(response?.locations);
+        });
         setToggleForm(false);
-      })
-      .catch(() => {});
+      });
   };
   const isSelectedLocationEmpty = () => {
     let flag = true;
