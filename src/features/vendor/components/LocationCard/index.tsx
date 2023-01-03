@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-vars */
 import locationIcon from '../../../../assets/location.svg';
 import { Button } from '../../../../components/Button';
+import { getVendorPermissions } from '../../../../utils';
 import { ILocationProps } from '../ViewLocations';
 
 export interface ILocationCardProps {
@@ -46,17 +47,19 @@ export function LocationCard({
           <span>Country</span>: <span className="font-bold">{location.country}</span>
         </div>
       </div>
-      <div className="mt-6 flex gap-4">
-        <Button
-          onClick={() => {
-            editLocation(location);
-            handleForm();
-          }}
-        >
-          Edit
-        </Button>
-        <Button onClick={() => deleteLocation(location.id)}>Delete</Button>
-      </div>
+      {getVendorPermissions()?.includes('admin') ? (
+        <div className="mt-6 flex gap-4">
+          <Button
+            onClick={() => {
+              editLocation(location);
+              handleForm();
+            }}
+          >
+            Edit
+          </Button>
+          <Button onClick={() => deleteLocation(location.id)}>Delete</Button>
+        </div>
+      ) : null}
     </div>
   );
 }

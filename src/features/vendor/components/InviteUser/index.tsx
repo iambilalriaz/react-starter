@@ -18,7 +18,6 @@ type FormValues = {
   permissions: {
     billing_manager: string;
     admin: string;
-    view: string;
     manage_campaigns: string;
     manage_users: string;
     message_users: string;
@@ -29,7 +28,6 @@ const initialValues = {
   permissions: {
     billing_manager: 'disabled',
     admin: 'disabled',
-    view: 'disabled',
     manage_campaigns: 'disabled',
     manage_users: 'disabled',
     message_users: 'disabled'
@@ -45,36 +43,37 @@ const FormValidations = Yup.object().shape({
     .required('Email address is empty')
 });
 const InviteUser = ({ setInvitingUser }: InviteUserProps) => {
+  const onUserInvite = (values: FormValues) => {
+    const permissions = ['view'];
+    for (const key in values?.permissions) {
+      if (values?.permissions?.[key] === 'Enabled') {
+        permissions.push(key);
+      }
+    }
+    const vendorService = new VendorService();
+
+    vendorService
+      .inviteUser({
+        id: uuidv4(),
+        vendorId: getVendorId(),
+        email: values?.userEmail,
+        phoneNumber: '',
+        permissions
+      })
+      .then(() => {
+        toast.success('Invition sent.');
+        setInvitingUser(false);
+      })
+      .catch((err) => {
+        toast.error(err?.message);
+      });
+  };
   return (
     <div className="p-6">
       <Formik
         initialValues={initialValues}
         validationSchema={FormValidations}
-        onSubmit={(values: FormValues) => {
-          const permissions = [];
-          for (const key in values?.permissions) {
-            if (values?.permissions?.[key] === 'Enabled') {
-              permissions.push(key);
-            }
-          }
-          const vendorService = new VendorService();
-
-          vendorService
-            .inviteUser({
-              id: uuidv4(),
-              vendorId: getVendorId(),
-              email: values?.userEmail,
-              phoneNumber: '',
-              permissions
-            })
-            .then(() => {
-              toast.success('Invition sent.');
-              setInvitingUser(false);
-            })
-            .catch((err) => {
-              toast.error(err?.message);
-            });
-        }}
+        onSubmit={onUserInvite}
       >
         {() => (
           <Form>
@@ -105,19 +104,6 @@ const InviteUser = ({ setInvitingUser }: InviteUserProps) => {
               Permissions
             </p>
             <div className="grid grid-cols-2 gap-x-4">
-              <Field name="permissions.billing_manager">
-                {({ field }: { field: FormikField }) => (
-                  <div className="mb-4">
-                    <Select
-                      label="Billing Manager"
-                      id="billing_manager"
-                      field={field}
-                      options={['Disabled', 'Enabled']}
-                    />
-                  </div>
-                )}
-              </Field>
-
               <Field name="permissions.admin">
                 {({ field }: { field: FormikField }) => (
                   <div className="mb-4">
@@ -130,18 +116,19 @@ const InviteUser = ({ setInvitingUser }: InviteUserProps) => {
                   </div>
                 )}
               </Field>
-              <Field name="permissions.view">
+              <Field name="permissions.billing_manager">
                 {({ field }: { field: FormikField }) => (
                   <div className="mb-4">
                     <Select
-                      label="View"
-                      id="view"
+                      label="Manage Billing"
+                      id="billing_manager"
                       field={field}
                       options={['Disabled', 'Enabled']}
                     />
                   </div>
                 )}
               </Field>
+
               <Field name="permissions.manage_campaigns">
                 {({ field }: { field: FormikField }) => (
                   <div className="mb-4">

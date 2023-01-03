@@ -1,17 +1,28 @@
+/* eslint-disable no-unused-vars */
 import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import Logo from '../SVGS/Logo';
 import Logout from '../SVGS/sidebar/Logout';
 import { userItems, vendorItems } from './items';
 import { getLoggedInUser } from '../../utils';
 import { Switch } from '../SVGS/sidebar/Switch';
+import { VendorService } from '../../services/VendorService';
 
 type SidebarProps = {
   selectedItem: string;
   // eslint-disable-next-line no-unused-vars
   setSelectedItem: (item: string) => void;
+  vendorPermissions: string[];
 };
 
-const Sidebar = ({ selectedItem, setSelectedItem }: SidebarProps) => {
+type ItemType = {
+  label: string;
+  Icon: (props: { color: string }) => JSX.Element;
+};
+const Sidebar = ({ vendorPermissions, selectedItem, setSelectedItem }: SidebarProps) => {
+  const [vendorSidebarItems, setVendorSidebarItems] = useState<ItemType[]>([]);
+  const [currentRole, setCurrentRole] = useState(getLoggedInUser()?.role);
+
   const navigate = useNavigate();
 
   const onLogout = () => {
@@ -19,12 +30,8 @@ const Sidebar = ({ selectedItem, setSelectedItem }: SidebarProps) => {
     navigate('/auth/login', { replace: true });
   };
   const onSwitch = () => {
-    const switchedRole =
-      getLoggedInUser()?.role === 'user'
-        ? 'vendor'
-        : getLoggedInUser()?.role === 'vendor'
-        ? 'user'
-        : '';
+    setCurrentRole((prevRole: string) => (prevRole === 'user' ? 'vendor' : 'user'));
+    const switchedRole = currentRole === 'user' ? 'vendor' : currentRole === 'vendor' ? 'user' : '';
     const updatedUser = {
       ...getLoggedInUser(),
       role: switchedRole
@@ -32,6 +39,21 @@ const Sidebar = ({ selectedItem, setSelectedItem }: SidebarProps) => {
     localStorage.setItem('user', JSON.stringify(updatedUser));
     navigate(`/dashboard/${switchedRole}`);
   };
+  useEffect(() => {
+    if (currentRole === 'vendor') {
+      if (!vendorPermissions?.includes('admin')) {
+        if (!vendorPermissions?.includes('manage_user')) {
+          setVendorSidebarItems(vendorItems?.filter((item) => item?.label !== 'Users'));
+        } else {
+          setVendorSidebarItems(
+            vendorItems?.filter((item) => ['Dashboard', 'Users']?.includes(item?.label))
+          );
+        }
+      } else {
+        setVendorSidebarItems(vendorItems);
+      }
+    }
+  }, [currentRole, vendorPermissions]);
 
   return (
     <div className="fixed left-0 flex h-screen w-[20%] flex-col justify-between bg-primary text-white">
@@ -40,9 +62,9 @@ const Sidebar = ({ selectedItem, setSelectedItem }: SidebarProps) => {
           <Logo width={154} height={22} />
         </div>
         <div className="text-grey">
-          {(getLoggedInUser()?.role === 'vendor'
-            ? vendorItems
-            : getLoggedInUser()?.role === 'user'
+          {(currentRole === 'vendor'
+            ? vendorSidebarItems
+            : currentRole === 'user'
             ? userItems
             : []
           )?.map(({ label, Icon }) => (
@@ -57,7 +79,7 @@ const Sidebar = ({ selectedItem, setSelectedItem }: SidebarProps) => {
               onClick={() => {
                 setSelectedItem(label);
                 if (label === 'Dashboard') {
-                  navigate(`/${label?.toLowerCase()}/${getLoggedInUser()?.role}`);
+                  navigate(`/${label?.toLowerCase()}/${currentRole}`);
                 } else {
                   navigate(`/${label?.toLowerCase()}`);
                 }

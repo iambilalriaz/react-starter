@@ -6,6 +6,7 @@ import { ILocationProps } from '../features/vendor/components/ViewLocations';
 import UserLayout from '../layouts/UserLayout';
 import { VendorlocationsLayout } from '../layouts/VendorlocationsLayout';
 import { isLoggedIn } from '../router/routes';
+import { getVendorPermissions } from '../utils';
 
 export const initialLocationData = {
   id: '',
@@ -39,9 +40,9 @@ const Locations = () => {
   }, []);
 
   return (
-    <UserLayout>
+    <UserLayout vendorPermissions={getVendorPermissions()}>
       <>
-        {!toggleForm ? (
+        {!toggleForm && getVendorPermissions()?.includes('admin') ? (
           <div className="fixed right-6 top-2">
             <Button
               type="button"
