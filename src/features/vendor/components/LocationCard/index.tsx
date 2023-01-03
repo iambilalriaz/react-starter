@@ -3,11 +3,11 @@
 import { useDispatch } from 'react-redux';
 import locationIcon from '../../../../assets/location.svg';
 import { Button } from '../../../../components/Button';
+import { ILocationInterface } from '../../../../lib/types';
 import { getSelectedLocation } from '../../vendorSlices/selectedLocationSlice';
-import { ILocationProps } from '../ViewLocations';
 
 export interface ILocationCardProps {
-  location: ILocationProps;
+  location: ILocationInterface;
   deleteLocation: (locationId: string) => void;
   handleForm: () => void;
 }

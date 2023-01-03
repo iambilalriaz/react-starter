@@ -12,10 +12,10 @@ import { locationDetails } from '../../../../data/locationDetails';
 import { VendorService } from '../../../../services/VendorService';
 import { FormikField } from '../../../../types';
 import { getVendorId } from '../../../../utils';
-import { ILocationProps } from '../ViewLocations';
 
 import { getAllLocationsData } from '../../vendorSlices/locationSlice';
 import { RootState } from '../../../../app/store';
+import { ILocationInterface } from '../../../../lib/types';
 
 const initialValues = {
   address1: '',
@@ -38,7 +38,7 @@ export function AddLocation({ setToggleForm }: IAddLocationProps) {
   const selectedLocation = useSelector((state: RootState) => state.selectedLocation);
   const allLocationsData = useSelector((state: RootState) => state.allLocationsData);
 
-  const addLocation = (values: ILocationProps) => {
+  const addLocation = (values: ILocationInterface) => {
     const vendorService = new VendorService();
     vendorService
       .addLocation({
@@ -53,7 +53,7 @@ export function AddLocation({ setToggleForm }: IAddLocationProps) {
       .catch(() => {});
   };
 
-  const editLocation = (values: ILocationProps) => {
+  const editLocation = (values: ILocationInterface) => {
     const vendorService = new VendorService();
     vendorService
       .updateLocation({

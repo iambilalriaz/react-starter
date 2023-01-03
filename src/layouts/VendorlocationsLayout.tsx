@@ -23,9 +23,7 @@ export function VendorlocationsLayout({
   toggleForm,
   setToggleForm,
   handleForm
-}: // editLocation,
-// selectedLocation
-IVendorlocationsLayoutProps) {
+}: IVendorlocationsLayoutProps) {
   const dispatch = useDispatch();
   const allLocationsData = useSelector((state: RootState) => state.allLocationsData);
 
