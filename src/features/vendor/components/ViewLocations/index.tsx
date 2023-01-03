@@ -3,6 +3,7 @@
 import React from 'react';
 import { VendorService } from '../../../../services/VendorService';
 import { getVendorId } from '../../../../utils';
+import { EmptyState } from '../EmptState';
 import { LocationCard } from '../LocationCard';
 
 export interface ILocationProps {
@@ -44,16 +45,22 @@ export function ViewLocations({
   };
 
   return (
-    <div className="mt-24 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-      {allLocationsData?.map((location: ILocationProps) => (
-        <LocationCard
-          deleteLocation={deleteLocation}
-          key={location?.id}
-          location={location}
-          editLocation={editLocation}
-          handleForm={handleForm}
-        />
-      ))}
+    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+      {allLocationsData?.length ? (
+        allLocationsData?.map((location: ILocationProps) => (
+          <LocationCard
+            deleteLocation={deleteLocation}
+            key={location?.id}
+            location={location}
+            editLocation={editLocation}
+            handleForm={handleForm}
+          />
+        ))
+      ) : (
+        <div className="pb-16">
+          <EmptyState />
+        </div>
+      )}
     </div>
   );
 }

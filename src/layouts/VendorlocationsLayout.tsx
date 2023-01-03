@@ -36,7 +36,7 @@ export function VendorlocationsLayout({
     getAllLocations();
   }, [getAllLocations]);
   return (
-    <div className="grid h-screen place-items-center">
+    <div className="grid place-items-center">
       {toggleForm ? (
         <AddLocation
           setAllLocationsData={setAllLocationsData}

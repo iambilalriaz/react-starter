@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/Button';
+import { Card } from '../components/Card';
 import { Wrapper } from '../components/Wrapper';
 import { ILocationProps } from '../features/vendor/components/ViewLocations';
 import UserLayout from '../layouts/UserLayout';
@@ -41,34 +42,39 @@ const Locations = () => {
 
   return (
     <UserLayout vendorPermissions={getVendorPermissions()}>
-      <>
-        {getVendorPermissions()?.includes('admin') ? (
-          <div className="fixed right-6 top-2">
-            <Button
-              type="button"
-              classes="w-full"
-              size="lg"
-              onClick={() => {
-                setSelectedLocation(initialLocationData);
-                handleForm();
-              }}
-            >
-              + Add
-            </Button>
+      <div className="mt-20 mb-4 w-full px-4">
+        <Card classes="px-0 py-0">
+          <div className="flex items-center justify-between pb-2">
+            <p className="text-lg font-medium text-primary" />
+            {getVendorPermissions()?.includes('admin') ? (
+              <div>
+                <Button
+                  type="button"
+                  classes="w-full mb-4"
+                  size="lg"
+                  onClick={() => {
+                    setSelectedLocation(initialLocationData);
+                    handleForm();
+                  }}
+                >
+                  + Add
+                </Button>
+              </div>
+            ) : (
+              ''
+            )}
           </div>
-        ) : (
-          ''
-        )}
-        <Wrapper>
-          <VendorlocationsLayout
-            setToggleForm={setToggleForm}
-            toggleForm={toggleForm}
-            handleForm={handleForm}
-            editLocation={editLocation}
-            selectedLocation={selectedLocation}
-          />
-        </Wrapper>
-      </>
+          <Wrapper>
+            <VendorlocationsLayout
+              setToggleForm={setToggleForm}
+              toggleForm={toggleForm}
+              handleForm={handleForm}
+              editLocation={editLocation}
+              selectedLocation={selectedLocation}
+            />
+          </Wrapper>
+        </Card>
+      </div>
     </UserLayout>
   );
 };
