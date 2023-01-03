@@ -1,22 +1,20 @@
 /* eslint-disable no-shadow */
 /* eslint-disable no-unused-vars */
+import { useDispatch } from 'react-redux';
 import locationIcon from '../../../../assets/location.svg';
 import { Button } from '../../../../components/Button';
+import { getSelectedLocation } from '../../vendorSlices/selectedLocationSlice';
 import { ILocationProps } from '../ViewLocations';
 
 export interface ILocationCardProps {
   location: ILocationProps;
   deleteLocation: (locationId: string) => void;
-  editLocation: (location: ILocationProps) => void;
   handleForm: () => void;
 }
 
-export function LocationCard({
-  location,
-  deleteLocation,
-  editLocation,
-  handleForm
-}: ILocationCardProps) {
+export function LocationCard({ location, deleteLocation, handleForm }: ILocationCardProps) {
+  const dispatch = useDispatch();
+
   return (
     <div className="mb-12 w-[300px] rounded-md p-4 shadow-5xl">
       <div className="flex flex-col gap-3 ">
@@ -49,7 +47,7 @@ export function LocationCard({
       <div className="mt-6 flex gap-4">
         <Button
           onClick={() => {
-            editLocation(location);
+            dispatch(getSelectedLocation(location));
             handleForm();
           }}
         >

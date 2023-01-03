@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Button } from '../components/Button';
 import { Wrapper } from '../components/Wrapper';
-import { ILocationProps } from '../features/vendor/components/ViewLocations';
 import UserLayout from '../layouts/UserLayout';
 import { VendorlocationsLayout } from '../layouts/VendorlocationsLayout';
 import { isLoggedIn } from '../router/routes';
-import { RootState } from '../app/store';
+import { getSelectedLocation } from '../features/vendor/vendorSlices/selectedLocationSlice';
 
 export const initialLocationData = {
   id: '',
@@ -20,20 +19,11 @@ export const initialLocationData = {
   hoursOfOperation: ['']
 };
 const Locations = () => {
-  // const locations = useSelector((state: RootState) => state.allLocationsData);
+  const dispatch = useDispatch();
 
-  const selectedLocation1 = useSelector((state: RootState) => state.selectedLocation);
-
-  console.log(selectedLocation1);
-
-  const [selectedLocation, setSelectedLocation] = useState(initialLocationData);
   const [toggleForm, setToggleForm] = useState(false);
 
   const navigate = useNavigate();
-
-  const editLocation = (currentLocation: ILocationProps) => {
-    setSelectedLocation(currentLocation);
-  };
 
   const handleForm = () => {
     setToggleForm((prev) => !prev);
@@ -56,7 +46,7 @@ const Locations = () => {
               classes="w-full"
               size="lg"
               onClick={() => {
-                setSelectedLocation(initialLocationData);
+                dispatch(getSelectedLocation(initialLocationData));
                 handleForm();
               }}
             >
@@ -71,8 +61,6 @@ const Locations = () => {
             setToggleForm={setToggleForm}
             toggleForm={toggleForm}
             handleForm={handleForm}
-            editLocation={editLocation}
-            selectedLocation={selectedLocation}
           />
         </Wrapper>
       </>

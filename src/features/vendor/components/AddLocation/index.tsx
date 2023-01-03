@@ -29,13 +29,13 @@ const initialValues = {
 };
 
 interface IAddLocationProps {
-  selectedLocation: ILocationProps;
   setToggleForm: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export function AddLocation({ setToggleForm, selectedLocation }: IAddLocationProps) {
+export function AddLocation({ setToggleForm }: IAddLocationProps) {
   const dispatch = useDispatch();
 
+  const selectedLocation = useSelector((state: RootState) => state.selectedLocation);
   const allLocationsData = useSelector((state: RootState) => state.allLocationsData);
 
   const addLocation = (values: ILocationProps) => {
