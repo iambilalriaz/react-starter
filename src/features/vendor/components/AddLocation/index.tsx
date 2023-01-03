@@ -2,7 +2,6 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable dot-notation */
 import { Field, Form, Formik } from 'formik';
-import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '../../../../components/Button';
@@ -17,6 +16,8 @@ import { getAllLocationsData } from '../../vendorSlices/locationSlice';
 import { RootState } from '../../../../app/store';
 import { ILocationInterface } from '../../../../lib/types';
 
+import { toggleForm } from '../../vendorSlices/formHandleSlice';
+
 const initialValues = {
   address1: '',
   address2: '',
@@ -28,11 +29,7 @@ const initialValues = {
   vendorId: ''
 };
 
-interface IAddLocationProps {
-  setToggleForm: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-export function AddLocation({ setToggleForm }: IAddLocationProps) {
+export function AddLocation() {
   const dispatch = useDispatch();
 
   const selectedLocation = useSelector((state: RootState) => state.selectedLocation);
@@ -45,10 +42,10 @@ export function AddLocation({ setToggleForm }: IAddLocationProps) {
         location: { ...values, id: uuidv4(), vendorId: getVendorId(), hoursOfOperation: [''] }
       })
       .then(() => {
-        vendorService.listLocations(getVendorId()).then(({ response }) => {
-          dispatch(getAllLocationsData(response?.locations));
-        });
-        setToggleForm(false);
+        // vendorService.listLocations(getVendorId()).then(({ response }) => {
+        //   dispatch(getAllLocationsData(response?.locations));
+        // });
+        dispatch(toggleForm(false));
       })
       .catch(() => {});
   };
@@ -64,7 +61,7 @@ export function AddLocation({ setToggleForm }: IAddLocationProps) {
           (loc) => loc?.id !== selectedLocation?.id
         );
         dispatch(getAllLocationsData([...updatedLocationsData, { ...values }]));
-        setToggleForm(false);
+        dispatch(toggleForm(false));
       })
       .catch(() => {});
   };
@@ -109,7 +106,7 @@ export function AddLocation({ setToggleForm }: IAddLocationProps) {
             ))}
           </div>
           <div className="mt-4 flex justify-center gap-4">
-            <Button onClick={() => setToggleForm(false)}>Cancel</Button>
+            <Button onClick={() => dispatch(toggleForm(false))}>Cancel</Button>
             <Button type="submit">Submit</Button>
           </div>
         </Form>

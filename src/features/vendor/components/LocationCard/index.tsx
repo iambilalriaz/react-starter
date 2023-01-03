@@ -1,19 +1,21 @@
 /* eslint-disable no-shadow */
 /* eslint-disable no-unused-vars */
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../../app/store';
 import locationIcon from '../../../../assets/location.svg';
 import { Button } from '../../../../components/Button';
 import { ILocationInterface } from '../../../../lib/types';
 import { getSelectedLocation } from '../../vendorSlices/selectedLocationSlice';
+import { toggleForm } from '../../vendorSlices/formHandleSlice';
 
 export interface ILocationCardProps {
   location: ILocationInterface;
   deleteLocation: (locationId: string) => void;
-  handleForm: () => void;
 }
 
-export function LocationCard({ location, deleteLocation, handleForm }: ILocationCardProps) {
+export function LocationCard({ location, deleteLocation }: ILocationCardProps) {
   const dispatch = useDispatch();
+  const isFormOpen = useSelector((state: RootState) => state.toggleForm);
 
   return (
     <div className="mb-12 w-[300px] rounded-md p-4 shadow-5xl">
@@ -48,7 +50,7 @@ export function LocationCard({ location, deleteLocation, handleForm }: ILocation
         <Button
           onClick={() => {
             dispatch(getSelectedLocation(location));
-            handleForm();
+            dispatch(toggleForm(!isFormOpen));
           }}
         >
           Edit

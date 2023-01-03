@@ -8,12 +8,9 @@ import { LocationCard } from '../LocationCard';
 import { getAllLocationsData } from '../../vendorSlices/locationSlice';
 import { ILocationInterface } from '../../../../lib/types';
 
-interface viewLocationsProps {
-  handleForm: () => void;
-}
-
-export function ViewLocations({ handleForm }: viewLocationsProps) {
+export function ViewLocations() {
   const dispatch = useDispatch();
+
   const allLocationsData = useSelector((state: RootState) => state.allLocationsData);
 
   const deleteLocation = async (locationId: string) => {
@@ -35,12 +32,7 @@ export function ViewLocations({ handleForm }: viewLocationsProps) {
   return (
     <div className="mt-24 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
       {allLocationsData?.map((location: ILocationInterface) => (
-        <LocationCard
-          deleteLocation={deleteLocation}
-          key={location?.id}
-          location={location}
-          handleForm={handleForm}
-        />
+        <LocationCard deleteLocation={deleteLocation} key={location?.id} location={location} />
       ))}
     </div>
   );

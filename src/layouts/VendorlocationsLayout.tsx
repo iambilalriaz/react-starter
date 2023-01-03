@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useCallback, useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AddLocation } from '../features/vendor/components/AddLocation';
 import { EmptyState } from '../features/vendor/components/EmptState';
@@ -10,22 +10,11 @@ import { getVendorId } from '../utils';
 import { getAllLocationsData } from '../features/vendor/vendorSlices/locationSlice';
 import { RootState } from '../app/store';
 
-interface IVendorlocationsLayoutProps {
-  toggleForm: boolean;
-  setToggleForm: React.Dispatch<React.SetStateAction<boolean>>;
-  handleForm: () => void;
-  // eslint-disable-next-line no-unused-vars
-  // editLocation: (currentLocation: ILocationProps) => void;
-  // selectedLocation: ILocationProps;
-}
-
-export function VendorlocationsLayout({
-  toggleForm,
-  setToggleForm,
-  handleForm
-}: IVendorlocationsLayoutProps) {
+export function VendorlocationsLayout() {
   const dispatch = useDispatch();
+
   const allLocationsData = useSelector((state: RootState) => state.allLocationsData);
+  const isFormOpen = useSelector((state: RootState) => state.toggleForm);
 
   const getAllLocations = useCallback(() => {
     const vendorService = new VendorService();
@@ -34,15 +23,17 @@ export function VendorlocationsLayout({
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   useEffect(() => {
     getAllLocations();
   }, [getAllLocations]);
+
   return (
     <div className="grid h-screen place-items-center">
-      {toggleForm ? (
-        <AddLocation setToggleForm={setToggleForm} />
+      {isFormOpen ? (
+        <AddLocation />
       ) : allLocationsData?.length ? (
-        <ViewLocations handleForm={handleForm} />
+        <ViewLocations />
       ) : (
         <div>
           <EmptyState />
