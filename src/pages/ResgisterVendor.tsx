@@ -85,8 +85,7 @@ export default function RegisterVendor() {
     <AuthLayout>
       <Card>
         <div className="mb-11 flex flex-col items-center justify-center">
-          <h2 className="text-lg md:text-2xl">Register Your Business</h2>
-          <p className="text-lg text-accent md:text-base">Get started with Suforia</p>
+          <h2 className="text-lg md:text-2xl">Register Your Brand</h2>
         </div>
         {/* inputs */}
         <Formik
