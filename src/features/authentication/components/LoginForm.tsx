@@ -27,32 +27,17 @@ const initialValues = {
 };
 
 export default function LoginForm() {
-  const [
-    inputType
-    //  setInputType
-  ] = useState('email');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const FormSchema = Yup.object().shape(
-    inputType === 'email'
-      ? {
-          email: Yup.string()
-            .email('Please enter a valid email address')
-            .required('Email address is empty')
-        }
-      : {
-          phoneNumber: Yup.string()
-            .matches(/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/, {
-              message: 'Please enter a valid phone number'
-            })
-            .required('Phone number is empty')
-        }
-  );
-
-  // const changeInputType = () => {
-  //   setInputType((prevInputType) => (prevInputType === 'email' ? 'phone' : 'email'));
-  // };
+  const FormSchema = Yup.object().shape({
+    email: Yup.string()
+      .matches(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        { message: 'Email is invalid' }
+      )
+      .required('Email address is empty')
+  });
 
   useEffect(() => {
     if (isLoggedIn()) {
@@ -81,11 +66,7 @@ export default function LoginForm() {
   };
   return (
     <Formik initialValues={initialValues} validationSchema={FormSchema} onSubmit={onFormSubmit}>
-      {({
-        // setFieldValue, setFieldTouched,
-        errors,
-        touched
-      }) => (
+      {({ errors, touched }) => (
         <Form>
           <Card>
             <div className="mb-11 flex flex-col items-center justify-center gap-[15px]">
@@ -94,64 +75,30 @@ export default function LoginForm() {
             </div>
             {/* inputs */}
             <div className="grid gap-x-4">
-              {inputType === 'email' ? (
-                <Field name="email">
-                  {({ field }: { field: FormikField }) => {
-                    return (
-                      <>
-                        <Input
-                          label="Email"
-                          type=""
-                          id="email"
-                          placeholder="bill.sanders@example.com"
-                          field={field}
-                        />
-                        {touched?.email && errors?.email ? (
-                          <ErrorMessage text={errors?.email} />
-                        ) : (
-                          ''
-                        )}
-                      </>
-                    );
-                  }}
-                </Field>
-              ) : (
-                <Field name="phoneNumber">
-                  {({ field }: { field: FormikField }) => (
+              <Field name="email">
+                {({ field }: { field: FormikField }) => {
+                  return (
                     <>
                       <Input
-                        label="Phone Number"
-                        type="text"
-                        id="phoneNumber"
-                        placeholder="(480) 555-0103"
+                        label="Email"
+                        type=""
+                        id="email"
+                        placeholder="bill.sanders@example.com"
                         field={field}
                       />
-                      {touched?.phoneNumber && errors?.phoneNumber ? (
-                        <ErrorMessage text={errors?.phoneNumber} />
-                      ) : (
-                        ''
-                      )}
+                      {touched?.email && errors?.email ? <ErrorMessage text={errors?.email} /> : ''}
                     </>
-                  )}
-                </Field>
-              )}
-            </div>
-            <div className="mt-2 flex justify-end">
-              {/* <button
-                type="button"
-                onClick={() => {
-                  changeInputType();
-                  setFieldValue(inputType === 'email' ? 'email' : 'phoneNumber', '');
-                  setFieldTouched('email', false);
-                  setFieldTouched('phoneNumber', false);
+                  );
                 }}
-                className="underline font-medium text-sm text-black mb-8"
-              >
-                use {inputType === 'email' ? 'phone number' : 'email'} instead
-              </button> */}
+              </Field>
             </div>
 
-            <Button btnState={isLoading ? 'loading' : 'normal'} size="lg" type="submit">
+            <Button
+              classes="mt-2"
+              btnState={isLoading ? 'loading' : 'normal'}
+              size="lg"
+              type="submit"
+            >
               Log In
             </Button>
           </Card>
