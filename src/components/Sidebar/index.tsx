@@ -29,7 +29,7 @@ const Sidebar = ({ vendorPermissions, selectedItem, setSelectedItem }: SidebarPr
     localStorage.clear();
     navigate('/auth/login', { replace: true });
   };
-  const onSwitch = () => {
+  const updateUserRole = () => {
     setCurrentRole((prevRole: string) => (prevRole === 'user' ? 'vendor' : 'user'));
     const switchedRole = currentRole === 'user' ? 'vendor' : currentRole === 'vendor' ? 'user' : '';
     const updatedUser = {
@@ -39,6 +39,21 @@ const Sidebar = ({ vendorPermissions, selectedItem, setSelectedItem }: SidebarPr
     localStorage.setItem('user', JSON.stringify(updatedUser));
     navigate(`/dashboard/${switchedRole}`);
   };
+
+  const onSwitch = async () => {
+    if (currentRole === 'user') {
+      const vendorService = new VendorService();
+      const { response } = await vendorService.listVendors();
+      if (response?.vendors?.length) {
+        updateUserRole();
+      } else {
+        navigate(`/auth/business?referrer=${window.location.href}`);
+      }
+    } else {
+      updateUserRole();
+    }
+  };
+
   useEffect(() => {
     if (currentRole === 'vendor') {
       if (!vendorPermissions?.includes('admin')) {

@@ -13,8 +13,7 @@ export default function VendorDashboard() {
     const vendorService = new VendorService();
     vendorService.listVendors().then(({ response }) => {
       if (!response?.vendors?.length) {
-        // register first vendor
-        navigate(`/auth/business?referrer=${window.location.href}`);
+        navigate('/dashboard/user');
       } else {
         vendorService
           .getVendorPermissions(response?.vendors?.[0]?.id)
