@@ -1,5 +1,6 @@
 /* eslint-disable no-shadow */
 /* eslint-disable no-unused-vars */
+import React from 'react';
 import locationIcon from '../../../../assets/location.svg';
 import { Button } from '../../../../components/Button';
 import mapImage from '../../../../assets/map.svg';
@@ -10,14 +11,14 @@ export interface ILocationCardProps {
   location: ILocationProps;
   deleteLocation: (locationId: string) => void;
   editLocation: (location: ILocationProps) => void;
-  handleForm: () => void;
+  setIsAddingLocation: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export function LocationCard({
   location,
   deleteLocation,
   editLocation,
-  handleForm
+  setIsAddingLocation
 }: ILocationCardProps) {
   return (
     <div className="mb-12  rounded-md shadow-5xl">
@@ -31,16 +32,23 @@ export function LocationCard({
           </p>
         </div>
         {getVendorPermissions()?.includes('admin') ? (
-          <div className="mt-6 flex gap-4">
+          <div className="mt-6 flex justify-end gap-4">
             <Button
+              classes="min-w-[5rem]"
               onClick={() => {
                 editLocation(location);
-                handleForm();
+                setIsAddingLocation(true);
               }}
             >
               Edit
             </Button>
-            <Button onClick={() => deleteLocation(location.id)}>Delete</Button>
+            <Button
+              classes="min-w-[5rem]"
+              variant="secondary"
+              onClick={() => deleteLocation(location.id)}
+            >
+              Delete
+            </Button>
           </div>
         ) : null}
       </div>

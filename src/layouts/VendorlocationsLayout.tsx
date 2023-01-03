@@ -1,29 +1,28 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { Button } from '../components/Button';
+import { Card } from '../components/Card';
 import { AddLocation } from '../features/vendor/components/AddLocation';
 import { EmptyState } from '../features/vendor/components/EmptState';
 import { ILocationProps, ViewLocations } from '../features/vendor/components/ViewLocations';
 import { VendorService } from '../services/VendorService';
-import { getVendorId } from '../utils';
+import { getVendorId, getVendorPermissions } from '../utils';
 
 interface IVendorlocationsLayoutProps {
-  toggleForm: boolean;
-  setToggleForm: React.Dispatch<React.SetStateAction<boolean>>;
-  handleForm: () => void;
   // eslint-disable-next-line no-unused-vars
   editLocation: (currentLocation: ILocationProps) => void;
   selectedLocation: ILocationProps;
+  onAddButtonClick: () => void;
 }
 
 export function VendorlocationsLayout({
-  toggleForm,
-  setToggleForm,
-  handleForm,
   editLocation,
-  selectedLocation
+  selectedLocation,
+  onAddButtonClick
 }: IVendorlocationsLayoutProps) {
   const [allLocationsData, setAllLocationsData] = useState<ILocationProps[]>([]);
+  const [isAddingLocation, setIsAddingLocation] = useState(false);
 
   const getAllLocations = useCallback(() => {
     const vendorService = new VendorService();
@@ -36,25 +35,48 @@ export function VendorlocationsLayout({
     getAllLocations();
   }, [getAllLocations]);
   return (
-    <div className="grid place-items-center">
-      {toggleForm ? (
-        <AddLocation
-          setAllLocationsData={setAllLocationsData}
-          setToggleForm={setToggleForm}
-          selectedLocation={selectedLocation}
-        />
-      ) : allLocationsData?.length ? (
-        <ViewLocations
-          allLocationsData={allLocationsData}
-          setAllLocationsData={setAllLocationsData}
-          editLocation={editLocation}
-          handleForm={handleForm}
-        />
-      ) : (
-        <div>
-          <EmptyState />
+    <div className="mt-4 w-full">
+      <Card classes="px-0 py-0">
+        <div className={`flex items-center justify-${isAddingLocation ? 'end' : 'between'} pb-2`}>
+          {!isAddingLocation ? (
+            <p className="text-lg font-medium text-primary">My Locations</p>
+          ) : (
+            ''
+          )}
+          {getVendorPermissions()?.includes('admin') && !isAddingLocation ? (
+            <Button
+              onClick={() => {
+                setIsAddingLocation(true);
+                onAddButtonClick();
+              }}
+            >
+              Add New Location
+            </Button>
+          ) : (
+            ''
+          )}
         </div>
-      )}
+        <div className="">
+          {isAddingLocation ? (
+            <AddLocation
+              setAllLocationsData={setAllLocationsData}
+              selectedLocation={selectedLocation}
+              setIsAddingLocation={setIsAddingLocation}
+            />
+          ) : allLocationsData?.length ? (
+            <ViewLocations
+              allLocationsData={allLocationsData}
+              setAllLocationsData={setAllLocationsData}
+              editLocation={editLocation}
+              setIsAddingLocation={setIsAddingLocation}
+            />
+          ) : (
+            <div>
+              <EmptyState />
+            </div>
+          )}
+        </div>
+      </Card>
     </div>
   );
 }
