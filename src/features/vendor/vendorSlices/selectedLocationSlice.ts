@@ -19,7 +19,7 @@ export const getSelectedLocationSlice = createSlice({
   initialState,
   reducers: {
     getSelectedLocation: (state, action: PayloadAction<ILocationInterface>) => {
-      return { ...state, ...action.payload };
+      return { ...state, ...action?.payload };
     }
   }
 });

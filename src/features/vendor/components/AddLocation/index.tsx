@@ -12,9 +12,8 @@ import { FormikField } from '../../../../types';
 import { getVendorId } from '../../../../utils';
 
 import { getAllLocationsData } from '../../vendorSlices/locationSlice';
-import { RootState } from '../../../../app/store';
 import { ILocationInterface } from '../../../../lib/types';
-
+import { getSelectedLocationSelector } from '../../../../lib/stateSelectors';
 import { toggleForm } from '../../vendorSlices/formHandleSlice';
 
 const initialValues = {
@@ -31,7 +30,7 @@ const initialValues = {
 export function AddLocation() {
   const dispatch = useDispatch();
 
-  const selectedLocation = useSelector((state: RootState) => state.selectedLocation);
+  const selectedLocation = useSelector(getSelectedLocationSelector);
 
   const addLocation = (values: ILocationInterface) => {
     const vendorService = new VendorService();

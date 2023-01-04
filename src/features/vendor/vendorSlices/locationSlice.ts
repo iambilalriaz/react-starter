@@ -10,7 +10,7 @@ export const locationSlice = createSlice({
   initialState,
   reducers: {
     getAllLocationsData: (state, action: PayloadAction<ILocationInterface[]>) => {
-      return action.payload;
+      return action?.payload;
     }
   }
 });
