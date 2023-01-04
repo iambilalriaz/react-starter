@@ -22,11 +22,9 @@ export function ViewLocations() {
         vendorId: getVendorId()
       })
       .then(() => {
-        dispatch(
-          getAllLocationsData(
-            allLocationsData?.filter((location: ILocationInterface) => location.id !== locationId)
-          )
-        );
+        vendorService.listLocations(getVendorId()).then(({ response }) => {
+          dispatch(getAllLocationsData(response.locations));
+        });
       });
   };
 
