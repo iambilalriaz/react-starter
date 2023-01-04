@@ -8,7 +8,7 @@ import BaseCard from '../features/influencer/components/BaseCard';
 import { InfluencerService } from '../services/InfluencerService';
 
 export default function UserDashboard() {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [isInfluencer, setInfluencer] = useState(false);
   const navigate = useNavigate();
 
@@ -39,7 +39,7 @@ export default function UserDashboard() {
     } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <UserLayout navText="Dashboard">
+    <UserLayout navText="Dashboard" isInfluencer={isInfluencer}>
       <div className="grid h-screen place-items-center">
         {loading ? (
           <div className="animated-icon flex justify-center">

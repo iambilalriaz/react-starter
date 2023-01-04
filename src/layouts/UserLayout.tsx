@@ -7,11 +7,13 @@ import { getSelectedItem } from '../utils';
 const UserLayout = ({
   vendorPermissions,
   children,
-  navText
+  navText,
+  isInfluencer
 }: {
   vendorPermissions?: string[];
   children: JSX.Element;
   navText: string;
+  isInfluencer?: boolean;
 }) => {
   const { pathname } = useLocation();
   const [selectedItem, setSelectedItem] = useState('Dashboard');
@@ -25,6 +27,7 @@ const UserLayout = ({
     <div className="flex">
       <div className="w-[20%]">
         <Sidebar
+          isInfluencer={isInfluencer}
           vendorPermissions={vendorPermissions}
           selectedItem={selectedItem}
           setSelectedItem={setSelectedItem}
