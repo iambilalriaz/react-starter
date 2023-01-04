@@ -2,7 +2,7 @@ import Dashboard from '../SVGS/sidebar/Dashboard';
 import Locations from '../SVGS/sidebar/Locations';
 import Users from '../SVGS/sidebar/Users';
 
-export const items = [
+export const vendorItems = [
   {
     label: 'Dashboard',
     Icon: (props: { color: string }) => <Dashboard {...props} />
@@ -16,3 +16,4 @@ export const items = [
     Icon: (props: { color: string }) => <Users {...props} />
   }
 ];
+export const userItems = vendorItems?.filter((item) => item?.label === 'Dashboard');

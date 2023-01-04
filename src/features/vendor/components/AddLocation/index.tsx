@@ -5,7 +5,6 @@ import { Field, Form, Formik } from 'formik';
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Button } from '../../../../components/Button';
-import { Card } from '../../../../components/Card';
 import Input from '../../../../components/Input';
 import { locationDetails } from '../../../../data/locationDetails';
 import { VendorService } from '../../../../services/VendorService';
@@ -26,16 +25,14 @@ const initialValues = {
 
 interface IAddLocationProps {
   selectedLocation: ILocationProps;
-  allLocationsData: ILocationProps[];
-  setToggleForm: React.Dispatch<React.SetStateAction<boolean>>;
   setAllLocationsData: React.Dispatch<React.SetStateAction<ILocationProps[]>>;
+  setIsAddingLocation: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export function AddLocation({
   setAllLocationsData,
-  allLocationsData,
-  setToggleForm,
-  selectedLocation
+  selectedLocation,
+  setIsAddingLocation
 }: IAddLocationProps) {
   const addLocation = (values: ILocationProps) => {
     const vendorService = new VendorService();
@@ -47,24 +44,23 @@ export function AddLocation({
         vendorService.listLocations(getVendorId()).then(({ response }) => {
           setAllLocationsData(response?.locations);
         });
-        setToggleForm(false);
+        setIsAddingLocation(false);
       })
       .catch(() => {});
   };
   const editLocation = (values: ILocationProps) => {
     const vendorService = new VendorService();
+
     vendorService
       .updateLocation({
         location: { ...values, vendorId: getVendorId() }
       })
       .then(() => {
-        const updatedLocationsData = allLocationsData?.filter(
-          (loc) => loc?.id !== selectedLocation?.id
-        );
-        setAllLocationsData([...updatedLocationsData, { ...values }]);
-        setToggleForm(false);
-      })
-      .catch(() => {});
+        vendorService.listLocations(getVendorId()).then(({ response }) => {
+          setAllLocationsData(response?.locations);
+        });
+        setIsAddingLocation(false);
+      });
   };
   const isSelectedLocationEmpty = () => {
     let flag = true;
@@ -76,8 +72,7 @@ export function AddLocation({
     return flag;
   };
   return (
-    <Card>
-      <h2 className="mb-4 text-center text-2xl">Location Details</h2>
+    <div className="p-6">
       <Formik
         initialValues={selectedLocation || initialValues}
         onSubmit={(values) => {
@@ -87,29 +82,42 @@ export function AddLocation({
         }}
         enableReinitialize
       >
-        <Form>
-          <div className="grid grid-cols-2 gap-2">
-            {locationDetails?.map((location) => (
-              <Field name={location?.name} key={location?.fid}>
-                {({ field }: { field: FormikField }) => (
-                  <Input
-                    id={location?.id}
-                    label={location?.label}
-                    name={location?.name}
-                    type={location?.type}
-                    placeholder={location?.placeholder}
-                    field={field}
-                  />
-                )}
-              </Field>
-            ))}
-          </div>
-          <div className="mt-4 flex justify-center gap-4">
-            <Button onClick={() => setToggleForm(false)}>Cancel</Button>
-            <Button type="submit">Submit</Button>
-          </div>
-        </Form>
+        {() => (
+          <Form>
+            <p className="mb-10 rounded border-l-8 border-accent pl-4 text-lg font-medium text-primary">
+              Location Details
+            </p>
+            {/* <div className="grid w-full grid-cols-2 gap-x-4"> */}
+            <div className="grid grid-cols-2 gap-2">
+              {locationDetails?.map((location) => (
+                <div key={location?.fid}>
+                  <Field name={location?.name}>
+                    {({ field }: { field: FormikField }) => (
+                      <Input
+                        id={location?.id}
+                        label={location?.label}
+                        name={location?.name}
+                        type={location?.type}
+                        placeholder={location?.placeholder}
+                        field={field}
+                      />
+                    )}
+                  </Field>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-4 flex justify-end">
+              <Button variant="secondary" onClick={() => setIsAddingLocation(false)}>
+                Cancel
+              </Button>
+              <Button classes="ml-4" type="submit">
+                Submit
+              </Button>
+            </div>
+          </Form>
+        )}
       </Formik>
-    </Card>
+    </div>
   );
 }
