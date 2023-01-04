@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { getQueryParam } from '../constants';
 import { isLoggedIn } from '../router/routes';
 import { VendorService } from '../services/VendorService';
+import { getLoggedInUser } from '../utils';
 
 const AcceptingInvite = () => {
   const [error, setError] = useState(false);
@@ -20,7 +21,9 @@ const AcceptingInvite = () => {
         .acceptInvite(inviteCode)
         .then(() => {
           setError(false);
-          navigate('/dashboard');
+          const user = getLoggedInUser();
+          localStorage.setItem('user', JSON.stringify({ ...user, role: 'vendor' }));
+          navigate('/dashboard/vendor');
         })
         .catch(() => {
           setError(true);

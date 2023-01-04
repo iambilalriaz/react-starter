@@ -15,10 +15,10 @@ type InviteUserProps = {
 };
 type FormValues = {
   userEmail: string;
+  userPhoneNumber: string;
   permissions: {
     billing_manager: string;
     admin: string;
-    view: string;
     manage_campaigns: string;
     manage_users: string;
     message_users: string;
@@ -26,10 +26,10 @@ type FormValues = {
 };
 const initialValues = {
   userEmail: '',
+  userPhoneNumber: '',
   permissions: {
     billing_manager: 'disabled',
     admin: 'disabled',
-    view: 'disabled',
     manage_campaigns: 'disabled',
     manage_users: 'disabled',
     message_users: 'disabled'
@@ -42,82 +42,108 @@ const FormValidations = Yup.object().shape({
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       { message: 'Email is invalid' }
     )
-    .required('Email address is empty')
+    .required('Email address is empty'),
+  userPhoneNumber: Yup.string()
+    .matches(/^\+[1-9]\d{6,14}$/, {
+      message: 'Please enter a valid phone number'
+    })
+    .required('Phone number is empty!')
 });
 const InviteUser = ({ setInvitingUser }: InviteUserProps) => {
+  const onUserInvite = (values: FormValues) => {
+    const permissions = ['view'];
+    for (const key in values?.permissions) {
+      if (values?.permissions?.[key] === 'Enabled') {
+        permissions.push(key);
+      }
+    }
+    const vendorService = new VendorService();
+
+    vendorService
+      .inviteUser({
+        id: uuidv4(),
+        vendorId: getVendorId(),
+        email: values?.userEmail,
+        phoneNumber: values?.userPhoneNumber,
+        permissions
+      })
+      .then(() => {
+        toast.success('Invition sent.');
+        setInvitingUser(false);
+      })
+      .catch((err) => {
+        toast.error(err?.message);
+      });
+  };
   return (
     <div className="p-6">
       <Formik
         initialValues={initialValues}
         validationSchema={FormValidations}
-        onSubmit={(values: FormValues) => {
-          const permissions = [];
-          for (const key in values?.permissions) {
-            if (values?.permissions?.[key] === 'Enabled') {
-              permissions.push(key);
-            }
-          }
-          const vendorService = new VendorService();
-
-          vendorService
-            .inviteUser({
-              id: uuidv4(),
-              vendorId: getVendorId(),
-              email: values?.userEmail,
-              phoneNumber: '',
-              permissions
-            })
-            .then(() => {
-              toast.success('Invition sent.');
-              setInvitingUser(false);
-            })
-            .catch((err) => {
-              toast.error(err?.message);
-            });
-        }}
+        onSubmit={onUserInvite}
       >
         {() => (
           <Form>
             <p className="mb-10 rounded border-l-8 border-accent pl-4 text-lg font-medium text-primary">
               Invite New Employee
             </p>
-            <Field name="userEmail">
-              {({
-                field,
-                form: { touched, errors }
-              }: {
-                field: FormikField;
-                form: {
-                  touched: FormValues;
-                  errors: FormValues;
-                };
-              }) => (
-                <>
-                  <Input id="userEmail" label="Email" placeholder="Enter Email" field={field} />
-                  <div className="mt-1 text-xs text-error">
-                    {errors?.userEmail && touched.userEmail ? <div>{errors?.userEmail}</div> : null}
-                  </div>
-                </>
-              )}
-            </Field>
-
+            <div className="grid grid-cols-2 gap-x-4">
+              <div>
+                <Field name="userEmail">
+                  {({
+                    field,
+                    form: { touched, errors }
+                  }: {
+                    field: FormikField;
+                    form: {
+                      touched: FormValues;
+                      errors: FormValues;
+                    };
+                  }) => (
+                    <>
+                      <Input id="userEmail" label="Email" placeholder="Enter Email" field={field} />
+                      <div className="mt-1 text-xs text-error">
+                        {errors?.userEmail && touched.userEmail ? (
+                          <div>{errors?.userEmail}</div>
+                        ) : null}
+                      </div>
+                    </>
+                  )}
+                </Field>
+              </div>
+              <div>
+                <Field name="userPhoneNumber">
+                  {({
+                    field,
+                    form: { touched, errors }
+                  }: {
+                    field: FormikField;
+                    form: {
+                      touched: FormValues;
+                      errors: FormValues;
+                    };
+                  }) => (
+                    <>
+                      <Input
+                        id="userPhoneNumber"
+                        label="Phone Number"
+                        placeholder="Enter Phone Number"
+                        field={field}
+                      />
+                      <div className="mt-1 text-xs text-error">
+                        {errors?.userPhoneNumber && touched.userPhoneNumber ? (
+                          <div>{errors?.userPhoneNumber}</div>
+                        ) : null}
+                      </div>
+                    </>
+                  )}
+                </Field>
+              </div>
+            </div>
             <p className="my-10 rounded border-l-8 border-accent pl-4 text-lg font-medium text-primary">
               Permissions
             </p>
             <div className="grid grid-cols-2 gap-x-4">
-              <Field name="permissions.billing_manager">
-                {({ field }: { field: FormikField }) => (
-                  <div className="mb-4">
-                    <Select
-                      label="Billing Manager"
-                      id="billing_manager"
-                      field={field}
-                      options={['Disabled', 'Enabled']}
-                    />
-                  </div>
-                )}
-              </Field>
-
               <Field name="permissions.admin">
                 {({ field }: { field: FormikField }) => (
                   <div className="mb-4">
@@ -130,19 +156,20 @@ const InviteUser = ({ setInvitingUser }: InviteUserProps) => {
                   </div>
                 )}
               </Field>
-              <Field name="permissions.view">
+              {/* <Field name="permissions.billing_manager">
                 {({ field }: { field: FormikField }) => (
                   <div className="mb-4">
                     <Select
-                      label="View"
-                      id="view"
+                      label="Manage Billing"
+                      id="billing_manager"
                       field={field}
                       options={['Disabled', 'Enabled']}
                     />
                   </div>
                 )}
-              </Field>
-              <Field name="permissions.manage_campaigns">
+              </Field> */}
+
+              {/* <Field name="permissions.manage_campaigns">
                 {({ field }: { field: FormikField }) => (
                   <div className="mb-4">
                     <Select
@@ -153,7 +180,7 @@ const InviteUser = ({ setInvitingUser }: InviteUserProps) => {
                     />
                   </div>
                 )}
-              </Field>
+              </Field> */}
               <Field name="permissions.manage_users">
                 {({ field }: { field: FormikField }) => (
                   <div className="mb-4">
@@ -166,18 +193,18 @@ const InviteUser = ({ setInvitingUser }: InviteUserProps) => {
                   </div>
                 )}
               </Field>
-              <Field name="permissions.message_users">
+              {/* <Field name="permissions.message_users">
                 {({ field }: { field: FormikField }) => (
                   <div className="mb-4">
                     <Select
-                      label="Message Users"
+                      label="Message"
                       id="message_users"
                       field={field}
                       options={['Disabled', 'Enabled']}
                     />
                   </div>
                 )}
-              </Field>
+              </Field> */}
             </div>
             <div className="mt-4 flex justify-end">
               <Button variant="secondary" onClick={() => setInvitingUser(false)}>

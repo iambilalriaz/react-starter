@@ -2,13 +2,28 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Button } from '../components/Button';
+import { Card } from '../components/Card';
 import { AddLocation } from '../features/vendor/components/AddLocation';
 import { EmptyState } from '../features/vendor/components/EmptState';
 import { ViewLocations } from '../features/vendor/components/ViewLocations';
 import { VendorService } from '../services/VendorService';
-import { getVendorId } from '../utils';
+import { getVendorId, getVendorPermissions } from '../utils';
 import { getAllLocationsData } from '../features/vendor/vendorSlices/locationSlice';
 import { RootState } from '../app/store';
+import { getSelectedLocation } from '../features/vendor/vendorSlices/selectedLocationSlice';
+import { toggleForm } from '../features/vendor/vendorSlices/formHandleSlice';
+
+export const initialLocationData = {
+  id: '',
+  address1: '',
+  address2: '',
+  city: '',
+  country: '',
+  state: '',
+  zip: '',
+  hoursOfOperation: ['']
+};
 
 export function VendorlocationsLayout() {
   const dispatch = useDispatch();
@@ -29,16 +44,35 @@ export function VendorlocationsLayout() {
   }, [getAllLocations]);
 
   return (
-    <div className="grid h-screen place-items-center">
-      {isFormOpen ? (
-        <AddLocation />
-      ) : allLocationsData?.length ? (
-        <ViewLocations />
-      ) : (
-        <div>
-          <EmptyState />
+    <div className="mt-4 w-full">
+      <Card classes="px-0 py-0">
+        <div className={`flex items-center justify-${isFormOpen ? 'end' : 'between'} pb-2`}>
+          {!isFormOpen ? <p className="text-lg font-medium text-primary">My Locations</p> : ''}
+          {getVendorPermissions()?.includes('admin') && !isFormOpen ? (
+            <Button
+              onClick={() => {
+                dispatch(getSelectedLocation(initialLocationData));
+                dispatch(toggleForm(!isFormOpen));
+              }}
+            >
+              Add New Location
+            </Button>
+          ) : (
+            ''
+          )}
         </div>
-      )}
+        <div className="">
+          {isFormOpen ? (
+            <AddLocation />
+          ) : allLocationsData?.length ? (
+            <ViewLocations />
+          ) : (
+            <div>
+              <EmptyState />
+            </div>
+          )}
+        </div>
+      </Card>
     </div>
   );
 }

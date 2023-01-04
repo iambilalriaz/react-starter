@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../app/store';
 import { VendorService } from '../../../../services/VendorService';
 import { getVendorId } from '../../../../utils';
+import { EmptyState } from '../EmptState';
 import { LocationCard } from '../LocationCard';
 import { getAllLocationsData } from '../../vendorSlices/locationSlice';
 import { ILocationInterface } from '../../../../lib/types';

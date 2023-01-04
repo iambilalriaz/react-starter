@@ -5,7 +5,6 @@ import { Field, Form, Formik } from 'formik';
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '../../../../components/Button';
-import { Card } from '../../../../components/Card';
 import Input from '../../../../components/Input';
 import { locationDetails } from '../../../../data/locationDetails';
 import { VendorService } from '../../../../services/VendorService';
@@ -33,7 +32,6 @@ export function AddLocation() {
   const dispatch = useDispatch();
 
   const selectedLocation = useSelector((state: RootState) => state.selectedLocation);
-  const allLocationsData = useSelector((state: RootState) => state.allLocationsData);
 
   const addLocation = (values: ILocationInterface) => {
     const vendorService = new VendorService();
@@ -52,18 +50,17 @@ export function AddLocation() {
 
   const editLocation = (values: ILocationInterface) => {
     const vendorService = new VendorService();
+
     vendorService
       .updateLocation({
         location: { ...values, vendorId: getVendorId() }
       })
       .then(() => {
-        const updatedLocationsData = allLocationsData?.filter(
-          (loc) => loc?.id !== selectedLocation?.id
-        );
-        dispatch(getAllLocationsData([...updatedLocationsData, { ...values }]));
-        dispatch(toggleForm(false));
-      })
-      .catch(() => {});
+        vendorService.listLocations(getVendorId()).then(({ response }) => {
+          dispatch(getAllLocationsData(response?.locations));
+          dispatch(toggleForm(false));
+        });
+      });
   };
 
   const isSelectedLocationEmpty = () => {
@@ -77,8 +74,7 @@ export function AddLocation() {
   };
 
   return (
-    <Card>
-      <h2 className="mb-4 text-center text-2xl">Location Details</h2>
+    <div className="p-6">
       <Formik
         initialValues={selectedLocation || initialValues}
         onSubmit={(values) => {
@@ -111,6 +107,6 @@ export function AddLocation() {
           </div>
         </Form>
       </Formik>
-    </Card>
+    </div>
   );
 }
