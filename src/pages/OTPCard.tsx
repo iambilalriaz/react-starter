@@ -38,7 +38,6 @@ export function OTPCodeCard() {
     }
     return () => clearInterval(intervalId);
   }, [countDown]);
-
   const onCodeSubmit = (values: FormValues) => {
     setIsLoading(true);
     if (!values.codes.includes('')) {
@@ -82,7 +81,7 @@ export function OTPCodeCard() {
         })
         .catch(() => {
           setIsLoading(false);
-          toast.error('Unable to accept invite.');
+          toast.error('Unable to verify code.');
         });
     }
   };

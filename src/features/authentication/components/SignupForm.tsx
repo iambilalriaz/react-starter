@@ -18,7 +18,7 @@ const initialValues = {
 };
 const SignupSchema = Yup.object().shape({
   phoneNumber: Yup.string()
-    .matches(/^\+[1-9]\d{1,14}$/, {
+    .matches(/^\+[1-9]\d{6,14}$/, {
       message: 'Please enter a valid phone number'
     })
     .required('Phone number is empty!')

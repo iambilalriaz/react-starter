@@ -12,6 +12,7 @@ import AuthLayout from '../layouts/AuthLayout';
 import { AuthService } from '../services/AuthService';
 import { VendorService } from '../services/VendorService';
 import { FormikField } from '../types';
+import { getLoggedInUser } from '../utils';
 
 type FormValues = {
   vendorName: string;
@@ -64,7 +65,12 @@ export default function RegisterVendor() {
       })
       .then(() => {
         setIsLoading(false);
-        navigate('/dashboard/user');
+        const updatedUser = {
+          ...getLoggedInUser(),
+          role: 'vendor'
+        };
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+        navigate('/dashboard/vendor');
       })
       .catch(() => {
         setIsLoading(false);
@@ -76,7 +82,7 @@ export default function RegisterVendor() {
   }, []);
   useEffect(() => {
     if (!localStorage.getItem('accessToken')) {
-      navigate('/auth/token');
+      navigate('/auth/login');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -85,8 +91,7 @@ export default function RegisterVendor() {
     <AuthLayout>
       <Card>
         <div className="mb-11 flex flex-col items-center justify-center">
-          <h2 className="text-lg md:text-2xl">Register Your Business</h2>
-          <p className="text-lg text-accent md:text-base">Get started with Suforia</p>
+          <h2 className="text-lg md:text-2xl">Register Your Brand</h2>
         </div>
         {/* inputs */}
         <Formik

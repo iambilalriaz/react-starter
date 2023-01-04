@@ -10,9 +10,9 @@ const Navbar = () => {
       <p className="text-xl">
         {getSelectedItem(pathname)?.includes('Dashboard') ? 'Dashboard' : getSelectedItem(pathname)}
       </p>
-      <div className={`text-md ${pathname === '/locations' ? 'mr-24' : ''}`}>
+      <div className="text-md">
+        <span className="mr-2 text-sm font-normal text-accent">{getLoggedInUser()?.email}</span>
         <img src={profileImg} width={30} alt="" />
-        <span className="ml-2 text-sm font-normal text-accent">{getLoggedInUser()?.email}</span>
       </div>
     </div>
   );
