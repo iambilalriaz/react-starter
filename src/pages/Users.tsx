@@ -23,7 +23,7 @@ const Users = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <UserLayout vendorPermissions={getVendorPermissions()}>
+    <UserLayout navText="Users" vendorPermissions={getVendorPermissions()}>
       <div className="mt-20 mb-4 w-full px-4">
         <Card classes="px-0 py-0">
           {invitingUser ? (

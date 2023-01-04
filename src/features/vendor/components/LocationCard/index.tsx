@@ -22,10 +22,10 @@ export function LocationCard({
 }: ILocationCardProps) {
   return (
     <div className="mb-12  rounded-md shadow-5xl">
-      <img src={mapImage} alt="" />
+      <img loading="lazy" src={mapImage} alt="" />
       <div className="p-4">
         <div className="flex items-center ">
-          <img src={locationIcon} alt="location" />
+          <img loading="lazy" src={locationIcon} alt="location" />
           <p className="ml-2 text-accent">
             {location?.address1}, {location?.city}, {location?.state} {location?.zip},{' '}
             {location?.country}

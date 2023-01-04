@@ -5,6 +5,6 @@ interface ICardProps {
   classes?: string;
 }
 
-export function Card({ children, classes }: ICardProps) {
-  return <div className={`rounded-1.5xl bg-white px-8 py-7 shadow-4xl ${classes}`}>{children}</div>;
+export function Card({ children, classes = 'px-8 py-7' }: ICardProps) {
+  return <div className={`rounded-1.5xl bg-white shadow-4xl ${classes}`}>{children}</div>;
 }

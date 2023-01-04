@@ -36,7 +36,7 @@ const Locations = () => {
     setSelectedLocation(initialLocationData);
   };
   return (
-    <UserLayout vendorPermissions={getVendorPermissions()}>
+    <UserLayout navText="Locations" vendorPermissions={getVendorPermissions()}>
       <div className="mt-20 w-full px-4">
         <VendorlocationsLayout
           editLocation={editLocation}
