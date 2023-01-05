@@ -8,3 +8,18 @@ export interface ILocationInterface {
   zip: string;
   hoursOfOperation: string[];
 }
+
+export type ConversationType = {
+  influencerId: string;
+  userName: string;
+  lastMessageTimestamp: string;
+  lastMessageText: string;
+  sentByVendor: boolean;
+};
+export type MessageType = {
+  messageId: string;
+  influencerId: string;
+  timestamp: string;
+  text: string;
+  sentByVendor: boolean;
+};

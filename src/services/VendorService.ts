@@ -12,6 +12,7 @@ import {
   Vendor,
   InviteUserRequest
 } from '../api/vendorpb/v1/vendor';
+import { SendMessageRequest } from '../api/influencerpb/v1/influencer';
 
 export class VendorService {
   private vendorService: IVendorServiceClient;
@@ -94,5 +95,20 @@ export class VendorService {
   async getVendorPermissions(vendorId: string) {
     const authOptions = await this.getAuthOptions();
     return this.vendorService.getPermissionsForUser({ vendorId }, authOptions);
+  }
+
+  async getVendorConversations(vendorId: string) {
+    const authOptions = await this.getAuthOptions();
+    return this.vendorService.listConversations({ vendorId }, authOptions);
+  }
+
+  async getVendorMessages({ vendorId, influencerId }: { vendorId: string; influencerId: string }) {
+    const authOptions = await this.getAuthOptions();
+    return this.vendorService.listMessages({ vendorId, influencerId }, authOptions);
+  }
+
+  async sendMessage(messagePayload: SendMessageRequest) {
+    const authOptions = await this.getAuthOptions();
+    return this.vendorService.sendMessage(messagePayload, authOptions);
   }
 }
