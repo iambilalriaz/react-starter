@@ -10,6 +10,7 @@ interface IInputProps {
   field?: any;
   name?: string;
   classes?: string;
+  absoluteIcon?: JSX.Element;
 }
 
 export default function Input({
@@ -19,7 +20,8 @@ export default function Input({
   placeholder = '',
   field,
   name,
-  classes = ''
+  classes = '',
+  absoluteIcon
 }: IInputProps) {
   const [togglePassword, setTogglePassword] = useState(false);
 
@@ -29,9 +31,11 @@ export default function Input({
 
   return (
     <div className="form-control">
-      <label className="label text-primary" htmlFor={id}>
-        <span className="text-sm md:text-base">{label}</span>
-      </label>
+      {label ? (
+        <label className="label text-primary" htmlFor={id}>
+          <span className="text-sm md:text-base">{label}</span>
+        </label>
+      ) : null}
       {type === 'password' ? (
         <div className="relative">
           <input
@@ -65,13 +69,16 @@ export default function Input({
           {...field}
         />
       ) : (
-        <input
-          id={id}
-          type={type}
-          placeholder={placeholder}
-          className={`input-bordered input w-full ${classes}`}
-          {...field}
-        />
+        <div className="relative flex w-full items-center justify-between">
+          <input
+            id={id}
+            type={type}
+            placeholder={placeholder}
+            className={`input-bordered input w-full ${classes}`}
+            {...field}
+          />
+          {absoluteIcon}
+        </div>
       )}
     </div>
   );
