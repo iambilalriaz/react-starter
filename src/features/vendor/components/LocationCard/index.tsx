@@ -1,7 +1,6 @@
 /* eslint-disable no-shadow */
 /* eslint-disable no-unused-vars */
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../../app/store';
 import locationIcon from '../../../../assets/location.svg';
 import { Button } from '../../../../components/Button';
 import { ILocationInterface } from '../../../../lib/types';

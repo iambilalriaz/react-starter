@@ -15,6 +15,7 @@ import { getAllLocationsData } from '../../vendorSlices/locationSlice';
 import { ILocationInterface } from '../../../../lib/types';
 import { getSelectedLocationSelector } from '../../../../lib/stateSelectors';
 import { toggleForm } from '../../vendorSlices/formHandleSlice';
+import { resetSelectedLocation } from '../../vendorSlices/selectedLocationSlice';
 
 const initialValues = {
   address1: '',
@@ -58,6 +59,7 @@ export function AddLocation() {
         vendorService.listLocations(getVendorId()).then(({ response }) => {
           dispatch(getAllLocationsData(response?.locations));
           dispatch(toggleForm(false));
+          dispatch(resetSelectedLocation());
         });
       });
   };

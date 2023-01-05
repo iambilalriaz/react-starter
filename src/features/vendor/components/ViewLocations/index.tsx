@@ -7,6 +7,7 @@ import { LocationCard } from '../LocationCard';
 import { getAllLocationsData } from '../../vendorSlices/locationSlice';
 import { ILocationInterface } from '../../../../lib/types';
 import { getAllLocationsDataSelector } from '../../../../lib/stateSelectors';
+import { resetSelectedLocation } from '../../vendorSlices/selectedLocationSlice';
 
 export function ViewLocations() {
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ export function ViewLocations() {
       .then(() => {
         vendorService.listLocations(getVendorId()).then(({ response }) => {
           dispatch(getAllLocationsData(response.locations));
+          dispatch(resetSelectedLocation());
         });
       });
   };

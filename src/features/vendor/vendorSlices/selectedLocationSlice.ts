@@ -20,10 +20,13 @@ export const getSelectedLocationSlice = createSlice({
   reducers: {
     getSelectedLocation: (state, action: PayloadAction<ILocationInterface>) => {
       return { ...state, ...action?.payload };
+    },
+    resetSelectedLocation: () => {
+      return initialState;
     }
   }
 });
 
-export const { getSelectedLocation } = getSelectedLocationSlice.actions;
+export const { getSelectedLocation, resetSelectedLocation } = getSelectedLocationSlice.actions;
 
 export default getSelectedLocationSlice.reducer;
