@@ -21,7 +21,7 @@ export function LocationCard({ location, deleteLocation }: ILocationCardProps) {
 
   return (
     <div className="mb-12  rounded-md shadow-5xl">
-      <img loading="lazy" src={mapImage} alt="" />
+      <img data-testid="hero-img" loading="lazy" src={mapImage} alt="" />
       <div className="p-4">
         <div className="flex items-center ">
           <img loading="lazy" src={locationIcon} alt="location" />
