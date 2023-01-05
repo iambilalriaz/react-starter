@@ -1,25 +1,24 @@
 /* eslint-disable no-shadow */
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import locationIcon from '../../../../assets/location.svg';
 import { Button } from '../../../../components/Button';
+import { ILocationInterface } from '../../../../lib/types';
+import { getSelectedLocation } from '../../vendorSlices/selectedLocationSlice';
+import { toggleForm } from '../../vendorSlices/formHandleSlice';
 import mapImage from '../../../../assets/map.svg';
 import { getVendorPermissions } from '../../../../utils';
-import { ILocationProps } from '../ViewLocations';
+import { getIsFormOpenSelector } from '../../../../lib/stateSelectors';
 
 export interface ILocationCardProps {
-  location: ILocationProps;
+  location: ILocationInterface;
   deleteLocation: (locationId: string) => void;
-  editLocation: (location: ILocationProps) => void;
-  setIsAddingLocation: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export function LocationCard({
-  location,
-  deleteLocation,
-  editLocation,
-  setIsAddingLocation
-}: ILocationCardProps) {
+export function LocationCard({ location, deleteLocation }: ILocationCardProps) {
+  const dispatch = useDispatch();
+  const isFormOpen = useSelector(getIsFormOpenSelector);
+
   return (
     <div className="mb-12  rounded-md shadow-5xl">
       <img loading="lazy" src={mapImage} alt="" />
@@ -36,8 +35,8 @@ export function LocationCard({
             <Button
               classes="min-w-[5rem]"
               onClick={() => {
-                editLocation(location);
-                setIsAddingLocation(true);
+                dispatch(getSelectedLocation(location));
+                dispatch(toggleForm(!isFormOpen));
               }}
             >
               Edit
