@@ -23,8 +23,8 @@ const Conversation = ({
       <div className="flex items-center">
         <img src={profileImg} alt="contact" loading="lazy" width={45} />
         <div className="ml-2">
-          <p className={`text-left text-lg font-medium ${textColor('primary')}`}>{name}</p>
-          <p className={`text-sm ${textColor('accent')}`}>{lastMessage}</p>
+          <p className={`text-left font-medium ${textColor('primary')}`}>{name}</p>
+          <p className={`text-xs ${textColor('accent')}`}>{lastMessage}</p>
         </div>
       </div>
       <p className={`text-xs ${textColor('accent')}`}>{date}</p>
