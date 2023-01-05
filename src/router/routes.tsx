@@ -11,6 +11,7 @@ import UserDashboard from '../pages/UserDashboard';
 import VendorDashboard from '../pages/VendorDashboard';
 import RegisterInfluencer from '../pages/Influencer/RegisterInfluencer';
 import InfluencerDashboard from '../pages/Influencer/InfluencerDashboard';
+import VendorChats from '../pages/VendorChats';
 
 export const isLoggedIn = () => !!localStorage.getItem('accessToken');
 
@@ -81,5 +82,9 @@ export const routes = [
   {
     path: '/dashboard/influencer',
     element: <InfluencerDashboard />
+  },
+  {
+    path: '/chats',
+    element: <VendorChats />
   }
 ];

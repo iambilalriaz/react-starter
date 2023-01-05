@@ -71,7 +71,7 @@ export function VendorlocationsLayout({
               setIsAddingLocation={setIsAddingLocation}
             />
           ) : (
-            <div>
+            <div className="pb-16">
               <EmptyState />
             </div>
           )}

@@ -1,3 +1,4 @@
+import { BsFillChatSquareDotsFill } from 'react-icons/bs';
 import Dashboard from '../SVGS/sidebar/Dashboard';
 import Locations from '../SVGS/sidebar/Locations';
 import Users from '../SVGS/sidebar/Users';
@@ -14,6 +15,10 @@ export const vendorItems = [
   {
     label: 'Users',
     Icon: (props: { color: string }) => <Users {...props} />
+  },
+  {
+    label: 'Chats',
+    Icon: () => <BsFillChatSquareDotsFill />
   }
 ];
 export const userItems = vendorItems?.filter((item) => item?.label === 'Dashboard');

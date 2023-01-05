@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { RxCaretDown, RxCaretRight } from 'react-icons/rx';
 import Logo from '../SVGS/Logo';
 import Logout from '../SVGS/sidebar/Logout';
@@ -39,6 +39,7 @@ const Sidebar = ({
     localStorage.clear();
     navigate('/auth/login', { replace: true });
   };
+
   const updateUserRole = () => {
     setCurrentRole((prevRole: string) => (prevRole === 'user' ? 'vendor' : 'user'));
     const switchedRole = currentRole === 'user' ? 'vendor' : currentRole === 'vendor' ? 'user' : '';
@@ -94,9 +95,8 @@ const Sidebar = ({
             ? userItems
             : []
           )?.map(({ label, Icon }) => (
-            <>
+            <Fragment key={label}>
               <button
-                key={label}
                 className={`my-4 w-[90%] rounded-tr-md rounded-br-md px-4 py-2 ${
                   label === selectedItem
                     ? 'border-l-4 border-accent bg-mine-shaft text-white'
@@ -156,7 +156,7 @@ const Sidebar = ({
                   </button>
                 </>
               ) : null}
-            </>
+            </Fragment>
           ))}
         </div>
       </div>
