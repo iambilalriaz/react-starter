@@ -20,14 +20,18 @@ const Conversation = ({
         'accent/10'
       )} p-4`}
     >
-      <div className="flex items-center">
-        <img src={profileImg} alt="contact" loading="lazy" width={45} />
-        <div className="ml-2">
-          <p className={`text-left font-medium ${textColor('primary')}`}>{name}</p>
-          <p className={`text-xs ${textColor('accent')}`}>{lastMessage}</p>
+      <div className="flex items-center justify-between">
+        <div className="flex w-1/2 items-center overflow-hidden">
+          <img src={profileImg} alt="contact" loading="lazy" width={45} />
+          <div className="ml-2">
+            <p className={`text-left font-medium ${textColor('primary')}`}>{name}</p>
+            <p className={`max-w-[50%] truncate text-ellipsis text-xs ${textColor('accent')}`}>
+              {lastMessage}
+            </p>
+          </div>
         </div>
+        <p className={`text-xs ${textColor('accent')}`}>{date}</p>
       </div>
-      <p className={`text-xs ${textColor('accent')}`}>{date}</p>
     </button>
   );
 };

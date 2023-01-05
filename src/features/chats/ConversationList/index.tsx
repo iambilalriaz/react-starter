@@ -24,7 +24,7 @@ const ConversationsList = ({
           <Conversation
             selected={convo === selectedConversation}
             name="Bilal Riaz"
-            lastMessage="Good Morning!"
+            lastMessage="Good Morning tnheruioghiunrniunrpeirugnoeiunpeoue!"
             date="Today"
           />
         </button>
