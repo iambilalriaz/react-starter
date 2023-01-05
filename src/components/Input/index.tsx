@@ -50,9 +50,9 @@ export default function Input({
             onKeyDown={passwordDisplayHandle}
           >
             {togglePassword ? (
-              <img src={eyeClosed} alt="show password" />
+              <img loading="lazy" src={eyeClosed} alt="show password" />
             ) : (
-              <img src={eye} alt="show password" />
+              <img loading="lazy" src={eye} alt="show password" />
             )}
           </div>
         </div>

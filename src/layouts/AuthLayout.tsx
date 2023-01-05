@@ -16,7 +16,7 @@ function AuthLayout({ children }: { children: React.ReactNode }) {
         <div className="mt-[10px] rounded bg-black p-8 text-white md:mt-0 md:w-[50%] md:rounded-none">
           <div className="md:ml-[100px]">
             <header className="mb-[239px] mt-[76px] hidden  md:block">
-              <img src={logo} alt="Suforia" />
+              <img loading="lazy" src={logo} alt="Suforia" />
             </header>
             <h1 className="font-semibold text-base text-neutral md:mb-[18px] md:text-2xl">
               Welcome to Suforia

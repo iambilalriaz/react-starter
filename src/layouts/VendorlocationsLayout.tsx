@@ -45,7 +45,7 @@ export function VendorlocationsLayout() {
 
   return (
     <div className="mt-4 w-full">
-      <Card classes="px-0 py-0">
+      <Card>
         <div className={`flex items-center justify-${isFormOpen ? 'end' : 'between'} pb-2`}>
           {!isFormOpen ? <p className="text-lg font-medium text-primary">My Locations</p> : ''}
           {getVendorPermissions()?.includes('admin') && !isFormOpen ? (
