@@ -22,4 +22,5 @@ export const getSelectedItem = (pathname: string) => {
 };
 
 export const getVendorId = () => localStorage?.getItem('vendorId') || '';
-export const getLoggedInUser = () => localStorage?.getItem('user') || null;
+export const getLoggedInUser = () => JSON.parse(localStorage?.getItem('user')) || null;
+export const getVendorPermissions = () => JSON.parse(localStorage.getItem('permissions'));

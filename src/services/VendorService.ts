@@ -90,4 +90,9 @@ export class VendorService {
     const authOptions = await this.getAuthOptions();
     return this.vendorService.acceptInvite({ id: inviteId }, authOptions);
   }
+
+  async getVendorPermissions(vendorId: string) {
+    const authOptions = await this.getAuthOptions();
+    return this.vendorService.getPermissionsForUser({ vendorId }, authOptions);
+  }
 }

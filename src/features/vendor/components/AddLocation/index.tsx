@@ -5,7 +5,6 @@ import { Field, Form, Formik } from 'formik';
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '../../../../components/Button';
-import { Card } from '../../../../components/Card';
 import Input from '../../../../components/Input';
 import { locationDetails } from '../../../../data/locationDetails';
 import { VendorService } from '../../../../services/VendorService';
@@ -13,10 +12,10 @@ import { FormikField } from '../../../../types';
 import { getVendorId } from '../../../../utils';
 
 import { getAllLocationsData } from '../../vendorSlices/locationSlice';
-import { RootState } from '../../../../app/store';
 import { ILocationInterface } from '../../../../lib/types';
-
+import { getSelectedLocationSelector } from '../../../../lib/stateSelectors';
 import { toggleForm } from '../../vendorSlices/formHandleSlice';
+import { resetSelectedLocation } from '../../vendorSlices/selectedLocationSlice';
 
 const initialValues = {
   address1: '',
@@ -32,8 +31,7 @@ const initialValues = {
 export function AddLocation() {
   const dispatch = useDispatch();
 
-  const selectedLocation = useSelector((state: RootState) => state.selectedLocation);
-  const allLocationsData = useSelector((state: RootState) => state.allLocationsData);
+  const selectedLocation = useSelector(getSelectedLocationSelector);
 
   const addLocation = (values: ILocationInterface) => {
     const vendorService = new VendorService();
@@ -52,18 +50,18 @@ export function AddLocation() {
 
   const editLocation = (values: ILocationInterface) => {
     const vendorService = new VendorService();
+
     vendorService
       .updateLocation({
         location: { ...values, vendorId: getVendorId() }
       })
       .then(() => {
-        const updatedLocationsData = allLocationsData?.filter(
-          (loc) => loc?.id !== selectedLocation?.id
-        );
-        dispatch(getAllLocationsData([...updatedLocationsData, { ...values }]));
-        dispatch(toggleForm(false));
-      })
-      .catch(() => {});
+        vendorService.listLocations(getVendorId()).then(({ response }) => {
+          dispatch(getAllLocationsData(response?.locations));
+          dispatch(toggleForm(false));
+          dispatch(resetSelectedLocation());
+        });
+      });
   };
 
   const isSelectedLocationEmpty = () => {
@@ -77,8 +75,7 @@ export function AddLocation() {
   };
 
   return (
-    <Card>
-      <h2 className="mb-4 text-center text-2xl">Location Details</h2>
+    <div className="p-6">
       <Formik
         initialValues={selectedLocation || initialValues}
         onSubmit={(values) => {
@@ -111,6 +108,6 @@ export function AddLocation() {
           </div>
         </Form>
       </Formik>
-    </Card>
+    </div>
   );
 }

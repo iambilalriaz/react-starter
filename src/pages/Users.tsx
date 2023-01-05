@@ -5,6 +5,7 @@ import InvitesTable from '../features/vendor/components/InvitesTable';
 import InviteUser from '../features/vendor/components/InviteUser';
 import UserLayout from '../layouts/UserLayout';
 import { isLoggedIn } from '../router/routes';
+import { getVendorPermissions } from '../utils';
 
 const Users = () => {
   const [invitingUser, setInvitingUser] = useState(false);
@@ -13,13 +14,18 @@ const Users = () => {
     if (!isLoggedIn()) {
       navigate('/auth/login');
     }
-
+    if (
+      !getVendorPermissions()?.includes('admin') &&
+      !getVendorPermissions()?.includes('manage_users')
+    ) {
+      navigate('/dashboard/vendor');
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <UserLayout>
+    <UserLayout navText="Users" vendorPermissions={getVendorPermissions()}>
       <div className="mt-20 mb-4 w-full px-4">
-        <Card classes="px-0 py-0">
+        <Card>
           {invitingUser ? (
             <InviteUser setInvitingUser={setInvitingUser} />
           ) : (

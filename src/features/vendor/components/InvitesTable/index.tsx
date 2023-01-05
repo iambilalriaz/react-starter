@@ -16,9 +16,9 @@ const InvitesTable = ({ setInvitingUser }: InviteTableProps) => {
   const [pendingInvites, setPendingInvites] = useState<Invite[]>([]);
   const getAllPendingInvites = useCallback(() => {
     const vendorService = new VendorService();
-    vendorService
-      .listPendingInvites(getVendorId())
-      .then(({ response }) => setPendingInvites(response?.invites));
+    vendorService.listPendingInvites(getVendorId()).then(({ response }) => {
+      setPendingInvites(response?.invites);
+    });
   }, []);
   useEffect(() => {
     getAllPendingInvites();
@@ -26,7 +26,7 @@ const InvitesTable = ({ setInvitingUser }: InviteTableProps) => {
 
   return (
     <>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between pb-2">
         <p className="text-lg font-medium text-primary">Pending Invites</p>
         <Button onClick={() => setInvitingUser(true)}>Invite</Button>
       </div>

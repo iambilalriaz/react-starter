@@ -8,7 +8,6 @@ import moment from 'moment';
 import { toast } from 'react-toastify';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
-import { getQueryParam } from '../constants';
 import CardTitle from '../features/authentication/components/CardTitle';
 import CardSubtitle from '../features/authentication/components/CardSubtitle';
 import OTPInput from '../features/authentication/components/OTPInput';
@@ -39,7 +38,6 @@ export function OTPCodeCard() {
     }
     return () => clearInterval(intervalId);
   }, [countDown]);
-
   const onCodeSubmit = (values: FormValues) => {
     setIsLoading(true);
     if (!values.codes.includes('')) {
@@ -56,7 +54,8 @@ export function OTPCodeCard() {
             'user',
             JSON.stringify({
               email: localStorage.getItem('userEmail'),
-              phoneNumber: localStorage.getItem('phoneNumber') || ''
+              phoneNumber: localStorage.getItem('phoneNumber') || '',
+              role: 'user'
             })
           );
           localStorage.setItem('accessToken', response?.accessToken);
@@ -66,21 +65,23 @@ export function OTPCodeCard() {
           localStorage.removeItem('userEmail');
           localStorage.removeItem('countDown');
           localStorage.removeItem('phoneNumber');
-          if (getQueryParam('newUser')) {
-            navigate('/auth/business');
-          } else {
+
+          const inviteCode = localStorage.getItem('inviteCode');
+          if (inviteCode) {
             const vendorService = new VendorService();
             vendorService
               .acceptInvite(localStorage.getItem('inviteCode') as string)
               .then(() => {
-                navigate('/dashboard');
+                navigate('/dashboard/user');
               })
               .catch((err) => toast.error(err?.message));
+          } else {
+            navigate('/dashboard/user');
           }
         })
         .catch(() => {
           setIsLoading(false);
-          toast.error('Unable to accept invite.');
+          toast.error('Unable to verify code.');
         });
     }
   };

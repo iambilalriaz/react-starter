@@ -25,11 +25,11 @@ export function Button({
     // eslint-disable-next-line react/button-has-type
     <button
       onClick={onClick}
-      className={`btn ${btnState} ${classes} ${
+      className={`rounded px-4 py-2 ${btnState} ${classes} ${
         variant === 'secondary'
           ? 'border border-primary bg-white text-primary hover:bg-white'
           : 'bg-primary'
-      } capitalize text-white ${size && 'w-full'}`}
+      } capitalize text-white${size ? ' w-full' : ''}`}
       // eslint-disable-next-line react/button-has-type
       type={type}
     >

@@ -1,5 +1,4 @@
 import CheckEmail from '../pages/CheckEmail';
-import Dashboard from '../pages/Dashboard';
 import LoggingIn from '../pages/LoggingIn';
 import Login from '../pages/Login';
 import SignUp from '../pages/SignUp';
@@ -8,17 +7,30 @@ import { OTPCodeCard } from '../pages/OTPCard';
 import Locations from '../pages/Locations';
 import Users from '../pages/Users';
 import AcceptingInvite from '../pages/AcceptingInvite';
+import UserDashboard from '../pages/UserDashboard';
+import VendorDashboard from '../pages/VendorDashboard';
+import RegisterInfluencer from '../pages/Influencer/RegisterInfluencer';
+import InfluencerDashboard from '../pages/Influencer/InfluencerDashboard';
 
 export const isLoggedIn = () => !!localStorage.getItem('accessToken');
 
 export const routes = [
   {
     path: '/',
-    element: <Dashboard />
+    element: <UserDashboard />
   },
   {
     path: '/dashboard',
-    element: <Dashboard />
+    children: [
+      {
+        path: '/dashboard/vendor',
+        element: <VendorDashboard />
+      },
+      {
+        path: '/dashboard/user',
+        element: <UserDashboard />
+      }
+    ]
   },
   {
     path: '/locations',
@@ -55,11 +67,19 @@ export const routes = [
       {
         path: '/auth/otp',
         element: <OTPCodeCard />
-      },
-      {
-        path: '/auth/business',
-        element: <RegisterVendor />
       }
     ]
+  },
+  { path: '/vendor/onboarding', element: <RegisterVendor /> },
+  {
+    path: '/influencer/register',
+    children: [
+      { path: '/influencer/register/intro', element: <RegisterInfluencer page="Introduction" /> },
+      { path: '/influencer/register/profile', element: <RegisterInfluencer page="Profile" /> }
+    ]
+  },
+  {
+    path: '/dashboard/influencer',
+    element: <InfluencerDashboard />
   }
 ];

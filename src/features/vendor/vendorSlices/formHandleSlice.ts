@@ -9,7 +9,7 @@ export const formHandleSlice = createSlice({
   initialState,
   reducers: {
     toggleForm: (state, action: PayloadAction<boolean>) => {
-      return action.payload;
+      return action?.payload;
     }
   }
 });
