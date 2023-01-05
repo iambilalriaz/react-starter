@@ -25,7 +25,7 @@ const Users = () => {
   return (
     <UserLayout navText="Users" vendorPermissions={getVendorPermissions()}>
       <div className="mt-20 mb-4 w-full px-4">
-        <Card classes="px-0 py-0">
+        <Card>
           {invitingUser ? (
             <InviteUser setInvitingUser={setInvitingUser} />
           ) : (

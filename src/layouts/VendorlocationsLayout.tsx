@@ -36,7 +36,7 @@ export function VendorlocationsLayout({
   }, [getAllLocations]);
   return (
     <div className="mt-4 w-full">
-      <Card classes="px-0 py-0">
+      <Card>
         <div className={`flex items-center justify-${isAddingLocation ? 'end' : 'between'} pb-2`}>
           {!isAddingLocation ? (
             <p className="text-lg font-medium text-primary">My Locations</p>
