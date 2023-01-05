@@ -9,6 +9,7 @@ import Users from '../pages/Users';
 import AcceptingInvite from '../pages/AcceptingInvite';
 import UserDashboard from '../pages/UserDashboard';
 import VendorDashboard from '../pages/VendorDashboard';
+import RegisterInfluencer from '../pages/Influencer/RegisterInfluencer';
 
 export const isLoggedIn = () => !!localStorage.getItem('accessToken');
 
@@ -65,11 +66,15 @@ export const routes = [
       {
         path: '/auth/otp',
         element: <OTPCodeCard />
-      },
-      {
-        path: '/auth/business',
-        element: <RegisterVendor />
       }
+    ]
+  },
+  { path: '/vendor/onboarding', element: <RegisterVendor /> },
+  {
+    path: '/influencer/register',
+    children: [
+      { path: '/influencer/register/intro', element: <RegisterInfluencer page="Introduction" /> },
+      { path: '/influencer/register/profile', element: <RegisterInfluencer page="Profile" /> }
     ]
   }
 ];

@@ -29,7 +29,7 @@ export function Button({
         variant === 'secondary'
           ? 'border border-primary bg-white text-primary hover:bg-white'
           : 'bg-primary'
-      } capitalize text-white ${size && 'w-full'}`}
+      } capitalize text-white${size ? ' w-full' : ''}`}
       // eslint-disable-next-line react/button-has-type
       type={type}
     >

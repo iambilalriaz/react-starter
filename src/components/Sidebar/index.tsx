@@ -12,7 +12,7 @@ type SidebarProps = {
   selectedItem: string;
   // eslint-disable-next-line no-unused-vars
   setSelectedItem: (item: string) => void;
-  vendorPermissions: string[];
+  vendorPermissions?: string[];
 };
 
 type ItemType = {
@@ -47,7 +47,7 @@ const Sidebar = ({ vendorPermissions, selectedItem, setSelectedItem }: SidebarPr
       if (response?.vendors?.length) {
         updateUserRole();
       } else {
-        navigate(`/auth/business?referrer=${window.location.href}`);
+        navigate(`/vendor/onboarding?referrer=${window.location.href}`);
       }
     } else {
       updateUserRole();

@@ -35,7 +35,7 @@ export default function VendorDashboard() {
     } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <UserLayout vendorPermissions={vendorPermissions}>
+    <UserLayout navText="Dashboard" vendorPermissions={vendorPermissions}>
       <div className="grid h-screen place-items-center">
         <Card>Welcome to vendor dashboard!</Card>
       </div>

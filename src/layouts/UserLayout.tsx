@@ -6,10 +6,12 @@ import { getSelectedItem } from '../utils';
 
 const UserLayout = ({
   vendorPermissions,
-  children
+  children,
+  navText
 }: {
-  vendorPermissions: string[];
+  vendorPermissions?: string[];
   children: JSX.Element;
+  navText: string;
 }) => {
   const { pathname } = useLocation();
   const [selectedItem, setSelectedItem] = useState('Dashboard');
@@ -29,7 +31,7 @@ const UserLayout = ({
         />
       </div>
       <div className="w-[80%]">
-        <Navbar />
+        <Navbar navText={navText} />
         {children}
       </div>
     </div>
