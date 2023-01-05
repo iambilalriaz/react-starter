@@ -1,35 +1,19 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { VendorService } from '../../../../services/VendorService';
 import { getVendorId } from '../../../../utils';
-import { EmptyState } from '../EmptState';
 import { LocationCard } from '../LocationCard';
+import { getAllLocationsData } from '../../vendorSlices/locationSlice';
+import { ILocationInterface } from '../../../../lib/types';
+import { getAllLocationsDataSelector } from '../../../../lib/stateSelectors';
+import { resetSelectedLocation } from '../../vendorSlices/selectedLocationSlice';
 
-export interface ILocationProps {
-  id: string;
-  address1: string;
-  address2: string;
-  city: string;
-  country: string;
-  state: string;
-  zip: string;
-  hoursOfOperation: string[];
-}
+export function ViewLocations() {
+  const dispatch = useDispatch();
 
-interface viewLocationsProps {
-  editLocation: (location: ILocationProps) => void;
-  setAllLocationsData: React.Dispatch<React.SetStateAction<ILocationProps[]>>;
-  allLocationsData: ILocationProps[];
-  setIsAddingLocation: React.Dispatch<React.SetStateAction<boolean>>;
-}
+  const allLocationsData = useSelector(getAllLocationsDataSelector);
 
-export function ViewLocations({
-  setAllLocationsData,
-  allLocationsData,
-  editLocation,
-  setIsAddingLocation
-}: viewLocationsProps) {
   const deleteLocation = async (locationId: string) => {
     const vendorService = new VendorService();
     vendorService
@@ -38,29 +22,18 @@ export function ViewLocations({
         vendorId: getVendorId()
       })
       .then(() => {
-        setAllLocationsData(
-          allLocationsData?.filter((location: ILocationProps) => location.id !== locationId)
-        );
+        vendorService.listLocations(getVendorId()).then(({ response }) => {
+          dispatch(getAllLocationsData(response.locations));
+          dispatch(resetSelectedLocation());
+        });
       });
   };
 
   return (
-    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-      {allLocationsData?.length ? (
-        allLocationsData?.map((location: ILocationProps) => (
-          <LocationCard
-            deleteLocation={deleteLocation}
-            key={location?.id}
-            location={location}
-            editLocation={editLocation}
-            setIsAddingLocation={setIsAddingLocation}
-          />
-        ))
-      ) : (
-        <div className="pb-16">
-          <EmptyState />
-        </div>
-      )}
+    <div className="mt-24 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+      {allLocationsData?.map((location: ILocationInterface) => (
+        <LocationCard deleteLocation={deleteLocation} key={location?.id} location={location} />
+      ))}
     </div>
   );
 }
