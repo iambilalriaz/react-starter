@@ -13,7 +13,7 @@ import { getVendorId } from '../../../../utils';
 
 import { getAllLocationsData } from '../../vendorSlices/locationSlice';
 import { ILocationInterface } from '../../../../lib/types';
-import { getSelectedLocationSelector } from '../../../../lib/stateSelectors';
+import { selectedLocationSelector } from '../../../../lib/stateSelectors';
 import { toggleForm } from '../../vendorSlices/formHandleSlice';
 import { resetSelectedLocation } from '../../vendorSlices/selectedLocationSlice';
 
@@ -31,7 +31,7 @@ const initialValues = {
 export function AddLocation() {
   const dispatch = useDispatch();
 
-  const selectedLocation = useSelector(getSelectedLocationSelector);
+  const selectedLocation = useSelector(selectedLocationSelector);
 
   const addLocation = (values: ILocationInterface) => {
     const vendorService = new VendorService();

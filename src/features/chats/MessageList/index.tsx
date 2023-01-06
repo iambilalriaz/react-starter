@@ -1,32 +1,47 @@
 /* eslint-disable camelcase */
 import { Field, Form, Formik } from 'formik';
 import { IoMdSend } from 'react-icons/io';
+import { useCallback, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Card } from '../../../components/Card';
 import profileImg from '../../../assets/profile.png';
 import Input from '../../../components/Input';
 import { FormikField } from '../../../types';
+import { VendorService } from '../../../services/VendorService';
+import { getVendorId } from '../../../utils';
+import { messagesSelector, selectedConversationSelector } from '../../../lib/stateSelectors';
+import { setConversations } from '../../vendor/vendorSlices/conversationsSlice';
+import { setMessages } from '../../vendor/vendorSlices/messagesSlice';
+import { setSelectedConversation } from '../../vendor/vendorSlices/selectedConversationSlice';
 
-const messages = [
-  { id: 1, message: 'Aoa kese ho?', message_by_vendor: true },
-  { id: 2, message: 'Aoa kese ho?', message_by_vendor: false },
-  { id: 3, message: 'Aoa kese ho?', message_by_vendor: true },
-  { id: 4, message: 'Aoa kese ho?', message_by_vendor: false },
-  { id: 4, message: 'Aoa kese ho?', message_by_vendor: true },
-  { id: 5, message: 'Aoa kese ho?', message_by_vendor: false },
-  { id: 6, message: 'Aoa kese ho?', message_by_vendor: true },
-  { id: 7, message: 'Aoa kese ho?', message_by_vendor: false },
-  { id: 8, message: 'Aoa kese ho?', message_by_vendor: true },
-  { id: 9, message: 'Aoa kese ho?', message_by_vendor: false },
-  { id: 10, message: 'Aoa kese ho?', message_by_vendor: true },
-  { id: 11, message: 'Aoa kese ho?', message_by_vendor: false },
-  { id: 12, message: 'Aoa kese ho?', message_by_vendor: true },
-  { id: 13, message: 'Aoa kese ho?', message_by_vendor: false },
-  { id: 14, message: 'Aoa kese ho?', message_by_vendor: true },
-  { id: 15, message: 'Aoa kese ho?', message_by_vendor: false },
-  { id: 16, message: 'Aoa kese ho?', message_by_vendor: true },
-  { id: 17, message: 'Aoa kese ho?', message_by_vendor: false }
-];
 const MessageList = () => {
+  const messages = useSelector(messagesSelector);
+  const selectedConversation = useSelector(selectedConversationSelector);
+
+  const dispatch = useDispatch();
+
+  const getMessages = useCallback(() => {
+    const vendorService = new VendorService();
+    vendorService
+      .getVendorMessages({
+        vendorId: getVendorId(),
+        influencerId: selectedConversation?.influencerId
+      })
+      .then(({ response }) => {
+        dispatch(
+          setMessages(
+            response?.messages?.map((msg) => ({
+              ...msg,
+              timestamp: msg?.timestamp?.toString()
+            }))
+          )
+        );
+      });
+  }, [dispatch, selectedConversation?.influencerId]);
+
+  useEffect(() => {
+    getMessages();
+  }, [getMessages]);
   return (
     <Card classes="col-span-2">
       <div className="sticky top-0 z-10 rounded-tl rounded-tr bg-primary px-6 py-4 text-white">
@@ -39,9 +54,9 @@ const MessageList = () => {
           <p className="ml-4 text-xl">Bilal Riaz</p>
         </div>
       </div>
-      <div className="h-[35rem] w-full overflow-auto p-4">
-        {messages?.map(({ id, message, message_by_vendor }) => (
-          <div className={`chat ${message_by_vendor ? 'chat-end' : 'chat-start'}`} key={id}>
+      <div className="flex h-[35rem] w-full flex-col-reverse overflow-auto p-4">
+        {messages?.map(({ messageId, text, sentByVendor }) => (
+          <div className={`chat ${sentByVendor ? 'chat-end' : 'chat-start'}`} key={messageId}>
             <div className="chat-image avatar">
               <div className="w-7 rounded-full">
                 <img src={profileImg} alt="contact" loading="lazy" width={28} />
@@ -49,10 +64,10 @@ const MessageList = () => {
             </div>
             <div
               className={`chat-bubble ${
-                message_by_vendor ? 'bg-white text-primary shadow-bottom' : 'bg-primary'
+                sentByVendor ? 'bg-white text-primary shadow-bottom' : 'bg-primary'
               }`}
             >
-              {message}
+              {text}
             </div>
           </div>
         ))}
@@ -62,7 +77,38 @@ const MessageList = () => {
           initialValues={{
             message: ''
           }}
-          onSubmit={() => {}}
+          onSubmit={(values, actions) => {
+            const vendorService = new VendorService();
+            vendorService
+              .sendMessage({
+                messasgeId: crypto.randomUUID(),
+                vendorId: getVendorId(),
+                influencerId: 'EUykEaNlgTutFqzAI4WQ',
+                message: values?.message
+              })
+              .then(() => {
+                vendorService.getVendorConversations(getVendorId()).then(({ response }) => {
+                  const allConvos = response?.messagePreviews?.map((convo) => ({
+                    ...convo,
+                    lastMessageTimestamp: convo?.lastMessageTimestamp?.toString()
+                  }));
+                  dispatch(setConversations(allConvos));
+                  dispatch(setSelectedConversation(allConvos?.[0]));
+                });
+                getMessages();
+                actions.resetForm();
+                vendorService.getVendorConversations(getVendorId()).then(({ response }) => {
+                  dispatch(
+                    setConversations(
+                      response?.messagePreviews?.map((convo) => ({
+                        ...convo,
+                        lastMessageTimestamp: convo?.lastMessageTimestamp?.toString()
+                      }))
+                    )
+                  );
+                });
+              });
+          }}
         >
           <Form>
             <Field name="message">
@@ -76,9 +122,9 @@ const MessageList = () => {
                       placeholder="Write your message..."
                       classes="border-none focus:outline-0"
                       absoluteIcon={
-                        <div className="absolute right-3">
+                        <button type="submit" className="absolute right-3">
                           <IoMdSend width="45" />
-                        </div>
+                        </button>
                       }
                     />
                   </div>
