@@ -37,7 +37,7 @@ const ConversationsList = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <Card classes="px-8 py-7 h-[42rem] overflow-auto break-all">
+    <Card classes="px-8 py-7 h-full overflow-auto break-all">
       {conversations?.length ? (
         conversations?.map((convo) => (
           <button
