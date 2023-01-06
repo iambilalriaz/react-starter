@@ -43,7 +43,7 @@ const MessageList = () => {
     getMessages();
   }, [getMessages]);
   return (
-    <Card classes="col-span-2">
+    <Card classes="col-span-2 overflow-hidden">
       <div className="sticky top-0 z-10 rounded-tl rounded-tr bg-primary px-6 py-4 text-white">
         <div className="flex items-center">
           <div className="online avatar">
