@@ -21,7 +21,7 @@ export function LocationCard({ location, deleteLocation }: ILocationCardProps) {
 
   return (
     <div className="mb-12  rounded-md shadow-5xl">
-      <img loading="lazy" src={mapImage} alt="" />
+      <img data-testid="hero-img" loading="lazy" src={mapImage} alt="" />
       <div className="p-4">
         <div className="flex items-center ">
           <img loading="lazy" src={locationIcon} alt="location" />
@@ -38,13 +38,25 @@ export function LocationCard({ location, deleteLocation }: ILocationCardProps) {
                 dispatch(getSelectedLocation(location));
                 dispatch(toggleForm(!isFormOpen));
               }}
+              testid="edit"
             >
               Edit
             </Button>
+            {/* <button
+              data-testid="edit"
+              onClick={() => {
+                dispatch(getSelectedLocation(location));
+                dispatch(toggleForm(!isFormOpen));
+              }}
+              type="submit"
+            >
+              Edit
+            </button> */}
             <Button
               classes="min-w-[5rem]"
               variant="secondary"
               onClick={() => deleteLocation(location.id)}
+              testid="delete"
             >
               Delete
             </Button>
