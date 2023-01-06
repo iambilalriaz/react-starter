@@ -41,7 +41,7 @@ export default function LoginForm() {
 
   useEffect(() => {
     if (isLoggedIn()) {
-      navigate('/dashboard/user');
+      navigate('/user/dashboard');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

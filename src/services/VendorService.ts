@@ -10,9 +10,9 @@ import {
   UpdateLocationRequest,
   DeleteLocationRequest,
   Vendor,
-  InviteUserRequest
+  InviteUserRequest,
+  SendMessageRequest
 } from '../api/vendorpb/v1/vendor';
-import { SendMessageRequest } from '../api/influencerpb/v1/influencer';
 
 export class VendorService {
   private vendorService: IVendorServiceClient;

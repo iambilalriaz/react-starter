@@ -4,10 +4,11 @@ import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Card } from '../../../components/Card';
 import Conversation from '../../../components/Conversation';
-import { conversationsSelector } from '../../../lib/stateSelectors';
+import { conversationsSelector, isInfluencerSelector } from '../../../lib/stateSelectors';
 import { ConversationType } from '../../../lib/types';
+import { InfluencerService } from '../../../services/InfluencerService';
 import { VendorService } from '../../../services/VendorService';
-import { getVendorId } from '../../../utils';
+import { getVendorId, influencerId } from '../../../utils';
 import { EmptyState } from '../../vendor/components/EmptState';
 import { setConversations } from '../../vendor/vendorSlices/conversationsSlice';
 import { setSelectedConversation } from '../../vendor/vendorSlices/selectedConversationSlice';
@@ -15,6 +16,8 @@ import { setSelectedConversation } from '../../vendor/vendorSlices/selectedConve
 
 const ConversationsList = () => {
   const conversations = useSelector(conversationsSelector);
+  const isInfluencer = useSelector(isInfluencerSelector);
+
   const dispatch = useDispatch();
 
   const onSelection = useCallback((convo: ConversationType) => {
@@ -23,17 +26,31 @@ const ConversationsList = () => {
   }, []);
 
   useEffect(() => {
-    const vendorService = new VendorService();
-    vendorService.getVendorConversations(getVendorId()).then(({ response }) => {
-      const allConversations = response?.messagePreviews?.map((convo) => ({
-        ...convo,
-        lastMessageTimestamp: convo?.lastMessageTimestamp?.toString()
-      }));
-      dispatch(setConversations(allConversations));
-      if (allConversations?.length) {
-        dispatch(setSelectedConversation(allConversations?.[0]));
-      }
-    });
+    if (isInfluencer) {
+      const influencerService = new InfluencerService();
+      influencerService.getInfluencerConversations().then(({ response }) => {
+        const allConversations = response?.messagePreviews?.map((convo) => ({
+          ...convo,
+          lastMessageTimestamp: convo?.lastMessageTimestamp?.toString()
+        }));
+        dispatch(setConversations(allConversations));
+        if (allConversations?.length) {
+          dispatch(setSelectedConversation(allConversations?.[0]));
+        }
+      });
+    } else {
+      const vendorService = new VendorService();
+      vendorService.getVendorConversations(getVendorId()).then(({ response }) => {
+        const allConversations = response?.messagePreviews?.map((convo) => ({
+          ...convo,
+          lastMessageTimestamp: convo?.lastMessageTimestamp?.toString()
+        }));
+        dispatch(setConversations(allConversations));
+        if (allConversations?.length) {
+          dispatch(setSelectedConversation(allConversations?.[0]));
+        }
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
@@ -47,8 +64,8 @@ const ConversationsList = () => {
             key={crypto.randomUUID()}
           >
             <Conversation
-              selected={convo?.influencerId === 'EUykEaNlgTutFqzAI4WQ'}
-              name={convo?.userName?.split(' ')?.[0]}
+              selected={convo?.influencerId === influencerId}
+              name={convo?.userName?.split(' ')?.[0] || convo?.vendorName?.split(' ')?.[0] || ''}
               lastMessage={convo?.lastMessageText}
               date={moment(convo?.lastMessageTimestamp, 'X').format('hh:mm A')}
             />

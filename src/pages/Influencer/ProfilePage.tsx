@@ -37,7 +37,9 @@ const ProfilePage = ({ moveToNextPage }: { moveToNextPage: () => void }) => {
           .then(() => {
             moveToNextPage();
           })
-          .catch(() => toast.error('Failed to become an influencer.'));
+          .catch(() => {
+            toast.error('Failed to become an influencer.');
+          });
       }}
     >
       <>

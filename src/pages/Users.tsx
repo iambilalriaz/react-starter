@@ -18,7 +18,7 @@ const Users = () => {
       !getVendorPermissions()?.includes('admin') &&
       !getVendorPermissions()?.includes('manage_users')
     ) {
-      navigate('/dashboard/vendor');
+      navigate('/vendor/dashboard');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

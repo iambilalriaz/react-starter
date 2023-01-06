@@ -10,16 +10,25 @@ export interface ILocationInterface {
 }
 
 export type ConversationType = {
-  influencerId: string;
-  userName: string;
+  influencerId?: string;
+  vendorId?: string;
+  userName?: string;
   lastMessageTimestamp: string;
   lastMessageText: string;
   sentByVendor: boolean;
+  vendorName?: string;
 };
 export type MessageType = {
   messageId: string;
-  influencerId: string;
+  influencerId?: string;
   timestamp: string;
   text: string;
   sentByVendor: boolean;
+};
+
+export type SidebarItemType = {
+  label: string;
+  // eslint-disable-next-line no-unused-vars
+  Icon: (props: { color: string }) => JSX.Element;
+  path: string;
 };

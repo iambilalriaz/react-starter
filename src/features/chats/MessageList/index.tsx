@@ -8,26 +8,27 @@ import profileImg from '../../../assets/profile.png';
 import Input from '../../../components/Input';
 import { FormikField } from '../../../types';
 import { VendorService } from '../../../services/VendorService';
-import { getVendorId } from '../../../utils';
-import { messagesSelector, selectedConversationSelector } from '../../../lib/stateSelectors';
+import { getInfluencerId, getVendorId, influencerId, vendorId } from '../../../utils';
+import {
+  isInfluencerSelector,
+  messagesSelector,
+  selectedConversationSelector
+} from '../../../lib/stateSelectors';
 import { setConversations } from '../../vendor/vendorSlices/conversationsSlice';
 import { setMessages } from '../../vendor/vendorSlices/messagesSlice';
 import { setSelectedConversation } from '../../vendor/vendorSlices/selectedConversationSlice';
+import { InfluencerService } from '../../../services/InfluencerService';
 
 const MessageList = () => {
   const messages = useSelector(messagesSelector);
   const selectedConversation = useSelector(selectedConversationSelector);
-
+  const isInfluencer = useSelector(isInfluencerSelector);
   const dispatch = useDispatch();
 
   const getMessages = useCallback(() => {
-    const vendorService = new VendorService();
-    vendorService
-      .getVendorMessages({
-        vendorId: getVendorId(),
-        influencerId: selectedConversation?.influencerId
-      })
-      .then(({ response }) => {
+    if (isInfluencer) {
+      const influencerService = new InfluencerService();
+      influencerService.getInfluencerMessages(vendorId).then(({ response }) => {
         dispatch(
           setMessages(
             response?.messages?.map((msg) => ({
@@ -37,7 +38,26 @@ const MessageList = () => {
           )
         );
       });
-  }, [dispatch, selectedConversation?.influencerId]);
+    } else {
+      const vendorService = new VendorService();
+      vendorService
+        .getVendorMessages({
+          vendorId: getVendorId(),
+          influencerId: selectedConversation?.influencerId || ''
+        })
+        .then(({ response }) => {
+          dispatch(
+            setMessages(
+              response?.messages?.map((msg) => ({
+                ...msg,
+                timestamp: msg?.timestamp?.toString()
+              }))
+            )
+          );
+        });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isInfluencer, selectedConversation?.influencerId]);
 
   useEffect(() => {
     getMessages();
@@ -56,7 +76,18 @@ const MessageList = () => {
       </div>
       <div className="flex h-[35rem] w-full flex-col-reverse overflow-auto p-4">
         {messages?.map(({ messageId, text, sentByVendor }) => (
-          <div className={`chat ${sentByVendor ? 'chat-end' : 'chat-start'}`} key={messageId}>
+          <div
+            className={`chat ${
+              isInfluencer
+                ? sentByVendor
+                  ? 'chat-start'
+                  : 'chat-end'
+                : sentByVendor
+                ? 'chat-end'
+                : 'chat-start'
+            }`}
+            key={messageId}
+          >
             <div className="chat-image avatar">
               <div className="w-7 rounded-full">
                 <img src={profileImg} alt="contact" loading="lazy" width={28} />
@@ -78,36 +109,48 @@ const MessageList = () => {
             message: ''
           }}
           onSubmit={(values, actions) => {
-            const vendorService = new VendorService();
-            vendorService
-              .sendMessage({
-                messasgeId: crypto.randomUUID(),
-                vendorId: getVendorId(),
-                influencerId: 'EUykEaNlgTutFqzAI4WQ',
-                message: values?.message
-              })
-              .then(() => {
-                vendorService.getVendorConversations(getVendorId()).then(({ response }) => {
-                  const allConvos = response?.messagePreviews?.map((convo) => ({
-                    ...convo,
-                    lastMessageTimestamp: convo?.lastMessageTimestamp?.toString()
-                  }));
-                  dispatch(setConversations(allConvos));
-                  dispatch(setSelectedConversation(allConvos?.[0]));
+            if (getInfluencerId()) {
+              const influencerService = new InfluencerService();
+              influencerService
+                .sendMessage({
+                  messageId: crypto.randomUUID(),
+                  vendorId,
+                  message: values?.message
+                })
+                .then(() => {
+                  influencerService.getInfluencerConversations().then(({ response }) => {
+                    const allConvos = response?.messagePreviews?.map((convo) => ({
+                      ...convo,
+                      lastMessageTimestamp: convo?.lastMessageTimestamp?.toString()
+                    }));
+                    dispatch(setConversations(allConvos));
+                    dispatch(setSelectedConversation(allConvos?.[0]));
+                  });
+                  getMessages();
+                  actions.resetForm();
                 });
-                getMessages();
-                actions.resetForm();
-                vendorService.getVendorConversations(getVendorId()).then(({ response }) => {
-                  dispatch(
-                    setConversations(
-                      response?.messagePreviews?.map((convo) => ({
-                        ...convo,
-                        lastMessageTimestamp: convo?.lastMessageTimestamp?.toString()
-                      }))
-                    )
-                  );
+            } else {
+              const vendorService = new VendorService();
+              vendorService
+                .sendMessage({
+                  messageId: crypto.randomUUID(),
+                  vendorId: getVendorId(),
+                  influencerId,
+                  message: values?.message
+                })
+                .then(() => {
+                  vendorService.getVendorConversations(getVendorId()).then(({ response }) => {
+                    const allConvos = response?.messagePreviews?.map((convo) => ({
+                      ...convo,
+                      lastMessageTimestamp: convo?.lastMessageTimestamp?.toString()
+                    }));
+                    dispatch(setConversations(allConvos));
+                    dispatch(setSelectedConversation(allConvos?.[0]));
+                  });
+                  getMessages();
+                  actions.resetForm();
                 });
-              });
+            }
           }}
         >
           <Form>

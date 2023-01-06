@@ -6,3 +6,6 @@ export const allLocationsDataSelector = (state: RootState) => state?.allLocation
 export const selectedConversationSelector = (state: RootState) => state?.selectedConversation;
 export const conversationsSelector = (state: RootState) => state?.conversations;
 export const messagesSelector = (state: RootState) => state?.messages;
+export const selectedSidebarItemSelector = (state: RootState) => state?.selectedSidebarItem;
+export const isInfluencerSelector = (state: RootState) => state?.isInfluencer;
+export const checkingInfluencerSelector = (state: RootState) => state?.checkingInfluence;

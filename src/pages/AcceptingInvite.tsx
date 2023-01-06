@@ -23,7 +23,7 @@ const AcceptingInvite = () => {
           setError(false);
           const user = getLoggedInUser();
           localStorage.setItem('user', JSON.stringify({ ...user, role: 'vendor' }));
-          navigate('/dashboard/vendor');
+          navigate('/vendor/dashboard');
         })
         .catch(() => {
           setError(true);
