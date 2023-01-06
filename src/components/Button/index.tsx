@@ -9,6 +9,7 @@ export interface IButtonProps {
   btnState?: 'loading' | 'btn-disabled' | 'normal';
   classes?: string;
   variant?: 'primary' | 'secondary';
+  testid?: string;
 }
 
 export function Button({
@@ -19,7 +20,8 @@ export function Button({
   onClick,
   btnState,
   classes,
-  variant
+  variant,
+  testid
 }: IButtonProps): JSX.Element {
   return (
     // eslint-disable-next-line react/button-has-type
@@ -32,6 +34,7 @@ export function Button({
       } capitalize text-white${size ? ' w-full' : ''}`}
       // eslint-disable-next-line react/button-has-type
       type={type}
+      data-testid={testid}
     >
       {htmlFor ? <label htmlFor={htmlFor}>{children}</label> : children}
     </button>
