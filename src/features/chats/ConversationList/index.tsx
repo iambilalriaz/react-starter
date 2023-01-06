@@ -13,7 +13,7 @@ const ConversationsList = ({
   selectedConversation
 }: ConversationsListType) => {
   return (
-    <Card classes="px-8 py-7 h-[42rem] overflow-auto break-all">
+    <Card classes="px-8 py-7 rounded h-[42rem] overflow-auto break-all">
       {conversations?.map((convo) => (
         <button
           className="w-full"

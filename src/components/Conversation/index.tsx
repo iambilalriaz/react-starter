@@ -1,16 +1,13 @@
 import profileImg from '../../assets/profile.png';
 
-const Conversation = ({
-  name,
-  lastMessage,
-  date,
-  selected
-}: {
+interface IChatProps {
   name: string;
   lastMessage: string;
   date: string;
   selected: boolean;
-}) => {
+}
+
+const Conversation = ({ name, lastMessage, date, selected }: IChatProps) => {
   const textColor = (defaultColor: string) => (selected ? 'text-white' : `text-${defaultColor}`);
   const bgColor = (defaultColor: string) => (selected ? 'bg-primary' : `bg-${defaultColor}`);
   return (
@@ -20,12 +17,12 @@ const Conversation = ({
         'accent/10'
       )} p-4`}
     >
-      <div className="flex items-center justify-between">
-        <div className="flex w-1/2 items-center overflow-hidden">
+      <div className="flex w-full items-center justify-between">
+        <div className="flex w-1/2 items-center ">
           <img src={profileImg} alt="contact" loading="lazy" width={45} />
-          <div className="ml-2">
+          <div className="ml-2 w-full">
             <p className={`text-left font-medium ${textColor('primary')}`}>{name}</p>
-            <p className={`max-w-[50%] truncate text-ellipsis text-xs ${textColor('accent')}`}>
+            <p className={` truncate text-ellipsis text-xs ${textColor('accent')}`}>
               {lastMessage}
             </p>
           </div>
