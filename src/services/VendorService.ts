@@ -111,4 +111,9 @@ export class VendorService {
     const authOptions = await this.getAuthOptions();
     return this.vendorService.sendMessage(messagePayload, authOptions);
   }
+
+  async searchInfluencers() {
+    const authOptions = await this.getAuthOptions();
+    return this.vendorService.influencerSearch({}, authOptions);
+  }
 }

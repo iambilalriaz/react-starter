@@ -26,3 +26,8 @@ export const getSelectedItem = (items: SidebarItemType[]) =>
 
 export const influencerId = 'ysGSs361qDH6kWc6hcVi';
 export const vendorId = '2tv6VtI0Jc5jDirEJVMV';
+
+export const getQueryParam = (param: string) => {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(param) || '';
+};

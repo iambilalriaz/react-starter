@@ -23,17 +23,15 @@ const Influencer = () => {
   };
 
   const getCurrentPath = useCallback(() => {
-    for (let index = 0; index < influencerItems.length; index++) {
-      if (influencerItems?.[index]?.children?.length) {
-        influencerItems[index]?.children?.map((item) => {
-          if (item?.path === window.location.pathname) {
-            dispatch(setSelectedSidebarItem(item?.label));
-          }
-          return true;
-        });
-      } else {
-        dispatch(setSelectedSidebarItem(influencerItems?.[index]?.label));
-      }
+    const path = window.location.pathname;
+    const parentPath = influencerItems?.find(
+      (item) => item?.path === path || item?.children?.map((i) => i?.path)?.includes(path)
+    );
+    if (!parentPath?.children?.length) {
+      dispatch(setSelectedSidebarItem(parentPath?.label || ''));
+    } else {
+      const childPath = parentPath?.children?.find((i) => i?.path === path);
+      dispatch(setSelectedSidebarItem(childPath?.label || ''));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

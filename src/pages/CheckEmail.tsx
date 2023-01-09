@@ -1,4 +1,4 @@
-import { getQueryParam } from '../constants';
+import { getQueryParam } from '../utils';
 
 const CheckEmail = () => {
   const isError = getQueryParam('isError');

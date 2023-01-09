@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import { TbLoader } from 'react-icons/tb';
 import { useNavigate } from 'react-router-dom';
-import { getQueryParam } from '../constants';
 import { isLoggedIn } from '../router/routes';
 import { VendorService } from '../services/VendorService';
-import { getLoggedInUser } from '../utils';
+import { getLoggedInUser, getQueryParam } from '../utils';
 
 const AcceptingInvite = () => {
   const [error, setError] = useState(false);

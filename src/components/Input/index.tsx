@@ -3,7 +3,7 @@ import eye from '../../assets/eye.svg';
 import eyeClosed from '../../assets/EyeFill.svg';
 
 interface IInputProps {
-  label: string;
+  label?: string;
   id: string;
   type?: string;
   placeholder: string;

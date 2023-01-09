@@ -2,9 +2,9 @@ import profileImg from '../../assets/profile.png';
 
 interface IChatProps {
   name: string;
-  lastMessage: string;
-  date: string;
-  selected: boolean;
+  lastMessage?: string;
+  date?: string;
+  selected?: boolean;
 }
 
 const Conversation = ({ name, lastMessage, date, selected }: IChatProps) => {

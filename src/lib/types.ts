@@ -32,3 +32,16 @@ export type SidebarItemType = {
   Icon: (props: { color: string }) => JSX.Element;
   path: string;
 };
+
+export type Influencer = {
+  id: string;
+  name: string;
+};
+export type Vendor = {
+  id: string;
+  name: string;
+  category: string;
+  subCategory: string;
+  description: string;
+  imageUrl: string;
+};

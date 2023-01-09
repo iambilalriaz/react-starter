@@ -62,4 +62,9 @@ export class InfluencerService {
     const authOptions = await this.getAuthOptions();
     return this.influencerService.sendMessage(messagePayload, authOptions);
   }
+
+  async searchVendors() {
+    const authOptions = await this.getAuthOptions();
+    return this.influencerService.vendorSearch({}, authOptions);
+  }
 }
