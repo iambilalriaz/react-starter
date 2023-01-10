@@ -21,7 +21,7 @@ const Conversation = ({ name, lastMessage, date, selected }: IChatProps) => {
         <div className="flex w-1/2 items-center ">
           <img src={profileImg} alt="contact" loading="lazy" width={45} />
           <div className="ml-2 w-full">
-            <p className={`text-left font-medium ${textColor('primary')}`}>{name}</p>
+            <p className={`truncate text-left font-medium ${textColor('primary')}`}>{name}</p>
             <p className={`truncate text-ellipsis text-left text-xs ${textColor('accent')}`}>
               {lastMessage}
             </p>

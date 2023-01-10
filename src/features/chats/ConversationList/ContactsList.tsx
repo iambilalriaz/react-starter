@@ -94,7 +94,7 @@ const ContactsList = ({
                   });
               }
               dispatch(setSelectedConversation(contact));
-              navigate(`?chatId:${contact?.id}`);
+              navigate(`?chatId=${contact?.id}`);
               setNewChat(false);
             }}
             className="my-2 flex w-full items-center justify-between rounded-2xl p-4"
@@ -103,7 +103,7 @@ const ContactsList = ({
               <div className="flex items-center ">
                 <img src={profileImg} alt="contact" loading="lazy" width={45} />
                 <div className="ml-2 w-full">
-                  <p className="text-left font-medium">{contact?.name}</p>
+                  <p className="truncate text-ellipsis text-left font-medium">{contact?.name}</p>
                 </div>
               </div>
             </div>

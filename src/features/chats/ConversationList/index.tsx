@@ -10,7 +10,7 @@ import { conversationsSelector, selectedConversationSelector } from '../../../li
 import { ConversationType, Influencer, Vendor } from '../../../lib/types';
 import { InfluencerService } from '../../../services/InfluencerService';
 import { VendorService } from '../../../services/VendorService';
-import { isInfluencer, getVendorId } from '../../../utils';
+import { isInfluencer, getVendorId, getQueryParam } from '../../../utils';
 import { EmptyState } from '../../vendor/components/EmptState';
 import { setConversations } from '../../vendor/vendorSlices/conversationsSlice';
 import { setSelectedConversation } from '../../vendor/vendorSlices/selectedConversationSlice';
@@ -45,13 +45,18 @@ const ConversationsList = () => {
         }));
         dispatch(setConversations(allConversations));
         if (allConversations?.length) {
+          const conversation = allConversations?.find(
+            (convo) => convo?.vendorId === getQueryParam('chatId')
+          );
           dispatch(
             setSelectedConversation({
-              id: allConversations?.[0]?.vendorId,
-              name: allConversations?.[0]?.vendorName
+              id: conversation?.vendorId || '',
+              name: conversation?.vendorName || ''
             })
           );
-          navigate(`?chatId=${allConversations?.[0]?.vendorId}`);
+          if (conversation?.vendorId) {
+            navigate(`?chatId=${conversation?.vendorId}`);
+          }
         }
       });
     } else {
@@ -63,13 +68,19 @@ const ConversationsList = () => {
         }));
         dispatch(setConversations(allConversations));
         if (allConversations?.length) {
+          const conversation = allConversations?.find(
+            (convo) => convo?.influencerId === getQueryParam('chatId')
+          );
           dispatch(
             setSelectedConversation({
-              id: allConversations?.[0]?.influencerId,
-              name: allConversations?.[0]?.userName
+              id: conversation?.influencerId || '',
+              name: conversation?.userName || ''
             })
           );
-          navigate(`?chatId=${allConversations?.[0]?.influencerId}`);
+
+          if (conversation?.influencerId) {
+            navigate(`?chatId=${conversation?.influencerId}`);
+          }
         }
       });
     }

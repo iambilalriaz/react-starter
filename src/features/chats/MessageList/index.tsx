@@ -72,7 +72,7 @@ const MessageList = () => {
   }, [getMessages]);
   return (
     <Card classes="col-span-2 overflow-hidden">
-      {messages?.length || selectedConversation?.id ? (
+      {getQueryParam('chatId') || selectedConversation?.id ? (
         <>
           <div className="sticky top-0 z-10 rounded-tl rounded-tr bg-primary px-6 py-4 text-white">
             <div className="flex items-center">
@@ -81,7 +81,7 @@ const MessageList = () => {
                   <img src={profileImg} alt="contact" loading="lazy" width={40} />
                 </div>
               </div>
-              <p className="ml-4 text-xl">{selectedConversation?.name}</p>
+              <p className="ml-4 text-xl">{selectedConversation?.name || 'New Conversation'}</p>
             </div>
           </div>
           <div className="flex h-[35rem] w-full flex-col-reverse overflow-auto p-4">
@@ -144,10 +144,13 @@ const MessageList = () => {
                           lastMessageTimestamp: convo?.lastMessageTimestamp?.toString()
                         }));
                         dispatch(setConversations(allConvos));
+                        const conversation = allConvos?.find(
+                          (convo) => convo?.vendorId === getQueryParam('chatId')
+                        );
                         dispatch(
                           setSelectedConversation({
-                            id: allConvos?.[0]?.vendorId,
-                            name: allConvos?.[0]?.vendorName
+                            id: conversation?.vendorId || '',
+                            name: conversation?.vendorName || ''
                           })
                         );
                       });
@@ -170,10 +173,13 @@ const MessageList = () => {
                           lastMessageTimestamp: convo?.lastMessageTimestamp?.toString()
                         }));
                         dispatch(setConversations(allConvos));
+                        const conversation = allConvos?.find(
+                          (convo) => convo?.influencerId === getQueryParam('chatId')
+                        );
                         dispatch(
                           setSelectedConversation({
-                            id: allConvos?.[0]?.influencerId,
-                            name: allConvos?.[0]?.userName
+                            id: conversation?.influencerId || '',
+                            name: conversation?.userName || ''
                           })
                         );
                       });
