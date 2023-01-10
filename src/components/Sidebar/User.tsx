@@ -7,7 +7,7 @@ import { setIsInfluencer } from '../../features/influencer/influencerSlices/isIn
 import { selectedSidebarItemSelector } from '../../lib/stateSelectors';
 import { SidebarItemType } from '../../lib/types';
 import { InfluencerService } from '../../services/InfluencerService';
-import { getInfluencerId, getLoggedInUser, getSelectedItem } from '../../utils';
+import { getLoggedInUser, getSelectedItem, isInfluencer, isVendor } from '../../utils';
 import Logo from '../SVGS/Logo';
 import { userItems } from './items';
 import { setSelectedSidebarItem } from './selectedSidebarItemSlice';
@@ -19,14 +19,14 @@ const User = () => {
   const navigate = useNavigate();
   useEffect(() => {
     dispatch(setSelectedSidebarItem(getSelectedItem(userItems)));
-    if (getLoggedInUser()?.role === 'user') {
+    if (!isVendor()) {
       const influencerService = new InfluencerService();
       influencerService
         .getInfluencerProfile()
         .then(({ response }) => {
           dispatch(setIsInfluencer(true));
           dispatch(setCheckingInfluencer(false));
-          if (!getInfluencerId()) {
+          if (!isInfluencer()) {
             localStorage.setItem('influencerId', response?.id);
           }
         })

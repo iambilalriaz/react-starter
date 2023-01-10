@@ -1,5 +1,3 @@
-/* eslint-disable no-plusplus */
-/* eslint-disable no-unused-vars */
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Fragment, useCallback, useEffect, useState } from 'react';
 import { RxCaretDown, RxCaretRight } from 'react-icons/rx';
@@ -12,7 +10,6 @@ import { setSelectedSidebarItem } from './selectedSidebarItemSlice';
 const Influencer = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const selectedSidebarItem = useSelector(selectedSidebarItemSelector);
-  const itemsWithoutChats = influencerItems?.filter((item) => item?.label !== 'Chats');
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -67,7 +64,14 @@ const Influencer = () => {
             >
               <div className="relative flex items-center">
                 <div>
-                  <Icon color={label === selectedSidebarItem ? '#f5f5f5' : '#818181'} />
+                  <Icon
+                    color={
+                      label === selectedSidebarItem ||
+                      children?.map((item) => item?.label)?.includes(selectedSidebarItem)
+                        ? '#f5f5f5'
+                        : '#818181'
+                    }
+                  />
                 </div>
                 <div className="ml-4">{label}</div>
                 {label === 'Dashboard' ? (

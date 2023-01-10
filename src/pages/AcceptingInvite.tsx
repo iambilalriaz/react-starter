@@ -3,7 +3,7 @@ import { TbLoader } from 'react-icons/tb';
 import { useNavigate } from 'react-router-dom';
 import { isLoggedIn } from '../router/routes';
 import { VendorService } from '../services/VendorService';
-import { getLoggedInUser, getQueryParam } from '../utils';
+import { getQueryParam } from '../utils';
 
 const AcceptingInvite = () => {
   const [error, setError] = useState(false);
@@ -20,8 +20,6 @@ const AcceptingInvite = () => {
         .acceptInvite(inviteCode)
         .then(() => {
           setError(false);
-          const user = getLoggedInUser();
-          localStorage.setItem('user', JSON.stringify({ ...user, role: 'vendor' }));
           navigate('/vendor/dashboard');
         })
         .catch(() => {

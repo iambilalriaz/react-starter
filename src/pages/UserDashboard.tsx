@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { TbLoader } from 'react-icons/tb';
 import UserLayout from '../layouts/UserLayout';
 import { isLoggedIn } from '../router/routes';
-import { getLoggedInUser } from '../utils';
+import { isVendor } from '../utils';
 import BaseCard from '../features/influencer/components/BaseCard';
 import { checkingInfluencerSelector } from '../lib/stateSelectors';
 
@@ -20,7 +20,7 @@ export default function UserDashboard() {
 
   useEffect(() => {
     if (isLoggedIn()) {
-      navigate(`/${getLoggedInUser()?.role}/dashboard`);
+      navigate(`/${isVendor() ? 'vendor' : 'user'}/dashboard`);
     } else {
       navigate('/auth/login');
     } // eslint-disable-next-line react-hooks/exhaustive-deps

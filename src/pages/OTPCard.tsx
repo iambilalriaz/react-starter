@@ -44,7 +44,10 @@ export function OTPCodeCard() {
       const authService = new AuthService();
       authService
         .verifySMSCode({
-          phoneNumber: localStorage.getItem('phoneNumber') || '',
+          phoneNumber:
+            localStorage.getItem('phoneNumber')?.startsWith('*') || ''
+              ? ''
+              : localStorage.getItem('phoneNumber') || '',
           code: values?.codes?.join('')
         })
         .then(({ response }) => {

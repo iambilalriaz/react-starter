@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Logo from '../SVGS/Logo';
 import { vendorItems } from './items';
-import { getLoggedInUser } from '../../utils';
+import { getLoggedInUser, isVendor } from '../../utils';
 import { selectedSidebarItemSelector } from '../../lib/stateSelectors';
 import { setSelectedSidebarItem } from './selectedSidebarItemSlice';
 import { SidebarItemType } from '../../lib/types';
@@ -23,7 +23,7 @@ const Vendor = ({ vendorPermissions }: SidebarProps) => {
       ? items?.find((item) => item?.path === window.location.pathname)?.label || ''
       : '';
   useEffect(() => {
-    if (getLoggedInUser()?.role === 'vendor') {
+    if (isVendor()) {
       if (!vendorPermissions?.includes('admin')) {
         if (!vendorPermissions?.includes('manage_users')) {
           const items = vendorItems?.filter((item) => item?.label !== 'Users');

@@ -12,7 +12,6 @@ import AuthLayout from '../layouts/AuthLayout';
 import { AuthService } from '../services/AuthService';
 import { VendorService } from '../services/VendorService';
 import { FormikField } from '../types';
-import { getLoggedInUser } from '../utils';
 
 type FormValues = {
   vendorName: string;
@@ -65,11 +64,7 @@ export default function RegisterVendor() {
       })
       .then(() => {
         setIsLoading(false);
-        const updatedUser = {
-          ...getLoggedInUser(),
-          role: 'vendor'
-        };
-        localStorage.setItem('user', JSON.stringify(updatedUser));
+
         navigate('/vendor/dashboard');
       })
       .catch(() => {

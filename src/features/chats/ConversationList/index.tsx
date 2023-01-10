@@ -6,24 +6,20 @@ import { MdOutlineMessage } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import { Card } from '../../../components/Card';
 import Conversation from '../../../components/Conversation';
-import {
-  conversationsSelector,
-  isInfluencerSelector,
-  selectedConversationSelector
-} from '../../../lib/stateSelectors';
+import { conversationsSelector, selectedConversationSelector } from '../../../lib/stateSelectors';
 import { ConversationType, Influencer, Vendor } from '../../../lib/types';
 import { InfluencerService } from '../../../services/InfluencerService';
 import { VendorService } from '../../../services/VendorService';
-import { getInfluencerId, getVendorId } from '../../../utils';
+import { isInfluencer, getVendorId } from '../../../utils';
 import { EmptyState } from '../../vendor/components/EmptState';
 import { setConversations } from '../../vendor/vendorSlices/conversationsSlice';
 import { setSelectedConversation } from '../../vendor/vendorSlices/selectedConversationSlice';
 import ContactsList from './ContactsList';
+import { INTERVAL_TIME } from '../../../constants';
 
 const ConversationsList = () => {
   const conversations = useSelector(conversationsSelector);
   const selectedConversation = useSelector(selectedConversationSelector);
-  const isInfluencer = useSelector(isInfluencerSelector);
   const [contactsList, setContactsList] = useState<Vendor[] | Influencer[]>([]);
   const [newChat, setNewChat] = useState<boolean>(false);
   const dispatch = useDispatch();
@@ -39,9 +35,8 @@ const ConversationsList = () => {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    if (getInfluencerId()) {
+  const getConversations = useCallback(() => {
+    if (isInfluencer()) {
       const influencerService = new InfluencerService();
       influencerService.getInfluencerConversations().then(({ response }) => {
         const allConversations = response?.messagePreviews?.map((convo) => ({
@@ -80,9 +75,18 @@ const ConversationsList = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      getConversations();
+    }, INTERVAL_TIME);
+    return () => clearInterval(intervalId);
+  }, [getConversations]);
+  useEffect(() => {
+    getConversations();
+  }, [getConversations]);
   const newChatHandler = () => {
     setNewChat(true);
-    if (isInfluencer) {
+    if (isInfluencer()) {
       const influencerService = new InfluencerService();
       influencerService.searchVendors().then(({ response }) => {
         setContactsList(response?.vendors);

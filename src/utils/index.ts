@@ -18,7 +18,8 @@ export const getAccessToken = async () => {
 };
 
 export const getVendorId = () => localStorage?.getItem('vendorId') || '';
-export const getInfluencerId = () => localStorage?.getItem('influencerId') || '';
+export const isVendor = () => window?.location?.pathname?.includes('vendor');
+export const isInfluencer = () => window?.location?.pathname?.includes('influencer');
 export const getLoggedInUser = () => JSON.parse(localStorage?.getItem('user')) || null;
 export const getVendorPermissions = () => JSON.parse(localStorage.getItem('permissions'));
 export const getSelectedItem = (items: SidebarItemType[]) =>

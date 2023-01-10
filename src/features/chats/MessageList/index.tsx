@@ -3,31 +3,28 @@ import { Field, Form, Formik } from 'formik';
 import { IoMdSend } from 'react-icons/io';
 import { useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import moment from 'moment';
 import { Card } from '../../../components/Card';
 import profileImg from '../../../assets/profile.png';
 import Input from '../../../components/Input';
 import { FormikField } from '../../../types';
 import { VendorService } from '../../../services/VendorService';
-import { getInfluencerId, getQueryParam, getVendorId } from '../../../utils';
-import {
-  isInfluencerSelector,
-  messagesSelector,
-  selectedConversationSelector
-} from '../../../lib/stateSelectors';
+import { isInfluencer, getQueryParam, getVendorId } from '../../../utils';
+import { messagesSelector, selectedConversationSelector } from '../../../lib/stateSelectors';
 import { setConversations } from '../../vendor/vendorSlices/conversationsSlice';
 import { setMessages } from '../../vendor/vendorSlices/messagesSlice';
 import { setSelectedConversation } from '../../vendor/vendorSlices/selectedConversationSlice';
 import { InfluencerService } from '../../../services/InfluencerService';
 import { EmptyState } from '../../vendor/components/EmptState';
+import { INTERVAL_TIME } from '../../../constants';
 
 const MessageList = () => {
   const messages = useSelector(messagesSelector);
   const selectedConversation = useSelector(selectedConversationSelector);
-  const isInfluencer = useSelector(isInfluencerSelector);
   const dispatch = useDispatch();
 
   const getMessages = useCallback(() => {
-    if (getInfluencerId()) {
+    if (isInfluencer()) {
       const influencerService = new InfluencerService();
       influencerService.getInfluencerMessages(selectedConversation?.id).then(({ response }) => {
         dispatch(
@@ -67,7 +64,7 @@ const MessageList = () => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       getMessages();
-    }, 5000);
+    }, INTERVAL_TIME);
     return () => clearInterval(intervalId);
   }, [getMessages]);
   useEffect(() => {
@@ -88,10 +85,10 @@ const MessageList = () => {
             </div>
           </div>
           <div className="flex h-[35rem] w-full flex-col-reverse overflow-auto p-4">
-            {messages?.map(({ messageId, text, sentByVendor }) => (
+            {messages?.map(({ messageId, text, sentByVendor, timestamp }) => (
               <div
                 className={`chat ${
-                  isInfluencer
+                  isInfluencer()
                     ? sentByVendor
                       ? 'chat-start'
                       : 'chat-end'
@@ -108,7 +105,7 @@ const MessageList = () => {
                 </div>
                 <div
                   className={`chat-bubble ${
-                    isInfluencer
+                    isInfluencer()
                       ? sentByVendor
                         ? 'bg-white text-primary shadow-bottom'
                         : 'bg-primary'
@@ -119,6 +116,9 @@ const MessageList = () => {
                 >
                   {text}
                 </div>
+                <p className="text-[.6rem] text-accent">
+                  {moment(timestamp, 'X').format('hh:mm A')}
+                </p>
               </div>
             ))}
           </div>
@@ -128,7 +128,7 @@ const MessageList = () => {
                 message: ''
               }}
               onSubmit={(values, actions) => {
-                if (getInfluencerId()) {
+                if (isInfluencer()) {
                   const influencerService = new InfluencerService();
 
                   influencerService

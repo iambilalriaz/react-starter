@@ -7,7 +7,7 @@ import Input from '../../../components/Input';
 import { Influencer, Vendor } from '../../../lib/types';
 import { InfluencerService } from '../../../services/InfluencerService';
 import { VendorService } from '../../../services/VendorService';
-import { getInfluencerId, getVendorId } from '../../../utils';
+import { getVendorId, isInfluencer } from '../../../utils';
 import { EmptyState } from '../../vendor/components/EmptState';
 import { setMessages } from '../../vendor/vendorSlices/messagesSlice';
 import { setSelectedConversation } from '../../vendor/vendorSlices/selectedConversationSlice';
@@ -59,7 +59,7 @@ const ContactsList = ({
             key={contact?.id}
             type="button"
             onClick={() => {
-              if (getInfluencerId()) {
+              if (isInfluencer()) {
                 const influencerService = new InfluencerService();
                 influencerService.getInfluencerMessages(contact?.id).then(({ response }) => {
                   dispatch(
@@ -111,7 +111,7 @@ const ContactsList = ({
         ))
       ) : (
         <div className="grid h-[32rem] place-items-center">
-          <EmptyState message="No contacts found." />
+          <EmptyState message={`No ${isInfluencer() ? 'vendor' : 'influencer'} found.`} />
         </div>
       )}
     </div>

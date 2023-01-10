@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import Logo from '../SVGS/Logo';
 import Logout from '../SVGS/sidebar/Logout';
 import { influencerItems, userItems, vendorItems } from './items';
-import { getLoggedInUser } from '../../utils';
+import { getLoggedInUser, isInfluencer, isVendor } from '../../utils';
 import { Switch } from '../SVGS/sidebar/Switch';
 import { VendorService } from '../../services/VendorService';
 import User from './User';
@@ -19,8 +19,6 @@ type VendorSidebarProps = {
 };
 
 const Sidebar = ({ vendorPermissions }: VendorSidebarProps) => {
-  const [currentRole, setCurrentRole] = useState(getLoggedInUser()?.role);
-  const isInfluencer = useSelector(isInfluencerSelector);
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -30,18 +28,12 @@ const Sidebar = ({ vendorPermissions }: VendorSidebarProps) => {
   };
 
   const updateUserRole = () => {
-    setCurrentRole((prevRole: string) => (prevRole === 'user' ? 'vendor' : 'user'));
-    const switchedRole = currentRole === 'user' ? 'vendor' : currentRole === 'vendor' ? 'user' : '';
-    const updatedUser = {
-      ...getLoggedInUser(),
-      role: switchedRole
-    };
-    localStorage.setItem('user', JSON.stringify(updatedUser));
+    const switchedRole = !isVendor() ? 'vendor' : 'user';
     navigate(`/${switchedRole}/dashboard`);
   };
 
   const onSwitch = async () => {
-    if (currentRole === 'user') {
+    if (!isVendor()) {
       const vendorService = new VendorService();
       const { response } = await vendorService.listVendors();
       if (response?.vendors?.length) {
@@ -51,18 +43,19 @@ const Sidebar = ({ vendorPermissions }: VendorSidebarProps) => {
       }
     } else {
       updateUserRole();
+      localStorage.removeItem('influencerId');
     }
   };
 
   return (
     <div className="fixed left-0 flex h-screen w-[20%] flex-col justify-between bg-primary text-white">
-      {getLoggedInUser()?.role === 'user' ? (
-        isInfluencer ? (
+      {!isVendor() ? (
+        isInfluencer() ? (
           <Influencer />
         ) : (
           <User />
         )
-      ) : getLoggedInUser()?.role === 'vendor' ? (
+      ) : isVendor() ? (
         <Vendor vendorPermissions={vendorPermissions} />
       ) : null}
       <div className="my-12">
@@ -70,14 +63,7 @@ const Sidebar = ({ vendorPermissions }: VendorSidebarProps) => {
           <div>
             <Switch />
           </div>
-          <div className="ml-4">
-            Switch to{' '}
-            {getLoggedInUser()?.role === 'user'
-              ? 'vendor'
-              : getLoggedInUser()?.role === 'vendor'
-              ? 'user'
-              : ''}
-          </div>
+          <div className="ml-4">Switch to {!isVendor() ? 'vendor' : isVendor() ? 'user' : ''}</div>
         </button>
         <button className="block px-4 py-2" type="button" onClick={onLogout}>
           <Link to="/auth/login" className="flex items-center">
