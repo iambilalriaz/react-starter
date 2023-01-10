@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdOutlineMessage } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 import { Card } from '../../../components/Card';
 import Conversation from '../../../components/Conversation';
 import { conversationsSelector, selectedConversationSelector } from '../../../lib/stateSelectors';
@@ -121,7 +122,7 @@ const ConversationsList = () => {
                 className="w-full"
                 type="button"
                 onClick={() => onSelection(convo)}
-                key={crypto.randomUUID()}
+                key={uuidv4()}
               >
                 <Conversation
                   selected={

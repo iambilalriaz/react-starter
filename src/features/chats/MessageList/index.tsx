@@ -4,6 +4,7 @@ import { IoMdSend } from 'react-icons/io';
 import { useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
+import { v4 as uuidv4 } from 'uuid';
 import { Card } from '../../../components/Card';
 import profileImg from '../../../assets/profile.png';
 import Input from '../../../components/Input';
@@ -133,7 +134,7 @@ const MessageList = () => {
 
                   influencerService
                     .sendMessage({
-                      messageId: crypto.randomUUID(),
+                      messageId: uuidv4(),
                       vendorId: selectedConversation?.id || getQueryParam('chatId'),
                       message: values?.message
                     })
@@ -161,7 +162,7 @@ const MessageList = () => {
                   const vendorService = new VendorService();
                   vendorService
                     .sendMessage({
-                      messageId: crypto.randomUUID(),
+                      messageId: uuidv4(),
                       vendorId: getVendorId(),
                       influencerId: selectedConversation?.id || getQueryParam('chatId'),
                       message: values?.message

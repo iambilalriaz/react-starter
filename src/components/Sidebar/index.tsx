@@ -50,7 +50,7 @@ const Sidebar = ({ vendorPermissions }: VendorSidebarProps) => {
   return (
     <div className="fixed left-0 flex h-screen w-[20%] flex-col justify-between bg-primary text-white">
       {!isVendor() ? (
-        isInfluencer() ? (
+        isInfluencer() && localStorage.getItem('influencerId') ? (
           <Influencer />
         ) : (
           <User />
