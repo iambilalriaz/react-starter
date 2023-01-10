@@ -11,6 +11,8 @@ interface IInputProps {
   name?: string;
   classes?: string;
   absoluteIcon?: JSX.Element;
+  // eslint-disable-next-line no-unused-vars
+  onChange?: (value: string) => void;
 }
 
 export default function Input({
@@ -21,7 +23,8 @@ export default function Input({
   field,
   name,
   classes = '',
-  absoluteIcon
+  absoluteIcon,
+  onChange
 }: IInputProps) {
   const [togglePassword, setTogglePassword] = useState(false);
 
@@ -45,7 +48,13 @@ export default function Input({
             className="input-bordered input w-full"
             {...field}
             name={name}
+            onChange={(e) => {
+              if (onChange) {
+                onChange(e?.target?.value);
+              }
+            }}
           />
+
           <div
             onClick={passwordDisplayHandle}
             className="absolute top-[27%] right-[6%] cursor-pointer p-1 "
@@ -67,6 +76,11 @@ export default function Input({
           placeholder={placeholder}
           className={`input-bordered input w-full ${classes}`}
           {...field}
+          onChange={(e) => {
+            if (onChange) {
+              onChange(e?.target?.value);
+            }
+          }}
         />
       ) : (
         <div className="relative flex w-full items-center justify-between">
@@ -76,6 +90,11 @@ export default function Input({
             placeholder={placeholder}
             className={`input-bordered input w-full ${classes}`}
             {...field}
+            onChange={(e) => {
+              if (onChange) {
+                onChange(e?.target?.value);
+              }
+            }}
           />
           {absoluteIcon}
         </div>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { IoMdArrowRoundBack } from 'react-icons/io';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -19,8 +19,24 @@ const ContactsList = ({
   contacts: Vendor[] | Influencer[];
   setNewChat: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  const [filteredContacts, setFilteredContacts] = useState<Vendor[] | Influencer[]>(contacts);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const onFilterContacts = (value: string) => {
+    if (value?.trim()) {
+      setFilteredContacts(
+        contacts?.filter((contact) =>
+          contact?.name?.toLowerCase()?.startsWith(value?.toLowerCase())
+        )
+      );
+    } else {
+      setFilteredContacts(contacts);
+    }
+  };
+  useEffect(() => {
+    setFilteredContacts(contacts);
+  }, [contacts]);
   return (
     <div>
       <div className="flex items-center justify-between gap-4">
@@ -29,11 +45,16 @@ const ContactsList = ({
         </button>
 
         <div className="w-full">
-          <Input classes="w-full" placeholder="Search here..." id="searchedValue" />
+          <Input
+            classes="w-full"
+            placeholder="Search here..."
+            id="searchedValue"
+            onChange={onFilterContacts}
+          />
         </div>
       </div>
-      {contacts?.length ? (
-        contacts?.map((contact) => (
+      {filteredContacts?.length ? (
+        filteredContacts?.map((contact) => (
           <button
             key={contact?.id}
             type="button"
