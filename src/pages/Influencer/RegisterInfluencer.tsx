@@ -18,9 +18,9 @@ const RegisterInfluencer = ({ page }: { page: string }) => {
   }, [page]);
   const moveToNextPage = useCallback(() => {
     if (currentPage?.number === 1) {
-      navigate('/influencer/register/profile');
+      navigate('/influencer/profile');
     } else {
-      navigate('/dashboard/user');
+      navigate('/user/dashboard');
     }
   }, [currentPage?.number, navigate]);
   return (

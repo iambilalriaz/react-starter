@@ -6,13 +6,13 @@ import { getVendorId } from '../../../../utils';
 import { LocationCard } from '../LocationCard';
 import { getAllLocationsData } from '../../vendorSlices/locationSlice';
 import { ILocationInterface } from '../../../../lib/types';
-import { getAllLocationsDataSelector } from '../../../../lib/stateSelectors';
+import { allLocationsDataSelector } from '../../../../lib/stateSelectors';
 import { resetSelectedLocation } from '../../vendorSlices/selectedLocationSlice';
 
 export function ViewLocations() {
   const dispatch = useDispatch();
 
-  const allLocationsData = useSelector(getAllLocationsDataSelector);
+  const allLocationsData = useSelector(allLocationsDataSelector);
 
   const deleteLocation = async (locationId: string) => {
     const vendorService = new VendorService();

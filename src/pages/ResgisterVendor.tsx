@@ -70,7 +70,7 @@ export default function RegisterVendor() {
           role: 'vendor'
         };
         localStorage.setItem('user', JSON.stringify(updatedUser));
-        navigate('/dashboard/vendor');
+        navigate('/vendor/dashboard');
       })
       .catch(() => {
         setIsLoading(false);

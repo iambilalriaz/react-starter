@@ -3,13 +3,16 @@ import eye from '../../assets/eye.svg';
 import eyeClosed from '../../assets/EyeFill.svg';
 
 interface IInputProps {
-  label: string;
+  label?: string;
   id: string;
   type?: string;
   placeholder: string;
   field?: any;
   name?: string;
   classes?: string;
+  absoluteIcon?: JSX.Element;
+  // eslint-disable-next-line no-unused-vars
+  onChange?: (value: string) => void;
 }
 
 export default function Input({
@@ -19,7 +22,9 @@ export default function Input({
   placeholder = '',
   field,
   name,
-  classes = ''
+  classes = '',
+  absoluteIcon,
+  onChange
 }: IInputProps) {
   const [togglePassword, setTogglePassword] = useState(false);
 
@@ -29,9 +34,11 @@ export default function Input({
 
   return (
     <div className="form-control">
-      <label className="label text-primary" htmlFor={id}>
-        <span className="text-sm md:text-base">{label}</span>
-      </label>
+      {label ? (
+        <label className="label text-primary" htmlFor={id}>
+          <span className="text-sm md:text-base">{label}</span>
+        </label>
+      ) : null}
       {type === 'password' ? (
         <div className="relative">
           <input
@@ -41,7 +48,13 @@ export default function Input({
             className="input-bordered input w-full"
             {...field}
             name={name}
+            onChange={(e) => {
+              if (onChange) {
+                onChange(e?.target?.value);
+              }
+            }}
           />
+
           <div
             onClick={passwordDisplayHandle}
             className="absolute top-[27%] right-[6%] cursor-pointer p-1 "
@@ -63,15 +76,28 @@ export default function Input({
           placeholder={placeholder}
           className={`input-bordered input w-full ${classes}`}
           {...field}
+          onChange={(e) => {
+            if (onChange) {
+              onChange(e?.target?.value);
+            }
+          }}
         />
       ) : (
-        <input
-          id={id}
-          type={type}
-          placeholder={placeholder}
-          className={`input-bordered input w-full ${classes}`}
-          {...field}
-        />
+        <div className="relative flex w-full items-center justify-between">
+          <input
+            id={id}
+            type={type}
+            placeholder={placeholder}
+            className={`input-bordered input w-full ${classes}`}
+            {...field}
+            onChange={(e) => {
+              if (onChange) {
+                onChange(e?.target?.value);
+              }
+            }}
+          />
+          {absoluteIcon}
+        </div>
       )}
     </div>
   );

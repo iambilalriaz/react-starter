@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { SidebarItemType } from '../lib/types';
 import { AuthService } from '../services/AuthService';
 
 export const getAccessToken = async () => {
@@ -16,11 +17,17 @@ export const getAccessToken = async () => {
   return response?.accessToken;
 };
 
-export const getSelectedItem = (pathname: string) => {
-  const selectedItem = pathname.slice(1);
-  return `${selectedItem?.[0]?.toUpperCase()}${selectedItem.slice(1)}`;
-};
-
 export const getVendorId = () => localStorage?.getItem('vendorId') || '';
+export const getInfluencerId = () => localStorage?.getItem('influencerId') || '';
 export const getLoggedInUser = () => JSON.parse(localStorage?.getItem('user')) || null;
 export const getVendorPermissions = () => JSON.parse(localStorage.getItem('permissions'));
+export const getSelectedItem = (items: SidebarItemType[]) =>
+  items?.length ? items?.find((item) => item?.path === window.location.pathname)?.label || '' : '';
+
+export const influencerId = 'ysGSs361qDH6kWc6hcVi';
+export const vendorId = '2tv6VtI0Jc5jDirEJVMV';
+
+export const getQueryParam = (param: string) => {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(param) || '';
+};

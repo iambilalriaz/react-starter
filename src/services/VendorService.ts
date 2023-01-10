@@ -10,7 +10,8 @@ import {
   UpdateLocationRequest,
   DeleteLocationRequest,
   Vendor,
-  InviteUserRequest
+  InviteUserRequest,
+  SendMessageRequest
 } from '../api/vendorpb/v1/vendor';
 
 export class VendorService {
@@ -94,5 +95,25 @@ export class VendorService {
   async getVendorPermissions(vendorId: string) {
     const authOptions = await this.getAuthOptions();
     return this.vendorService.getPermissionsForUser({ vendorId }, authOptions);
+  }
+
+  async getVendorConversations(vendorId: string) {
+    const authOptions = await this.getAuthOptions();
+    return this.vendorService.listConversations({ vendorId }, authOptions);
+  }
+
+  async getVendorMessages({ vendorId, influencerId }: { vendorId: string; influencerId: string }) {
+    const authOptions = await this.getAuthOptions();
+    return this.vendorService.listMessages({ vendorId, influencerId }, authOptions);
+  }
+
+  async sendMessage(messagePayload: SendMessageRequest) {
+    const authOptions = await this.getAuthOptions();
+    return this.vendorService.sendMessage(messagePayload, authOptions);
+  }
+
+  async searchInfluencers() {
+    const authOptions = await this.getAuthOptions();
+    return this.vendorService.influencerSearch({}, authOptions);
   }
 }

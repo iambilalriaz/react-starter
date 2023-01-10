@@ -72,11 +72,11 @@ export function OTPCodeCard() {
             vendorService
               .acceptInvite(localStorage.getItem('inviteCode') as string)
               .then(() => {
-                navigate('/dashboard/user');
+                navigate('/user/dashboard');
               })
               .catch((err) => toast.error(err?.message));
           } else {
-            navigate('/dashboard/user');
+            navigate('/user/dashboard');
           }
         })
         .catch(() => {

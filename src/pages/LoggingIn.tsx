@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { TbLoader } from 'react-icons/tb';
 import { useNavigate } from 'react-router-dom';
-import { getQueryParam } from '../constants';
 import { AuthService } from '../services/AuthService';
+import { getQueryParam } from '../utils';
 
 const LoggingIn = () => {
   const navigate = useNavigate();

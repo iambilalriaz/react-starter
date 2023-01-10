@@ -6,9 +6,9 @@ import { useState } from 'react';
 import Input from '../../../components/Input';
 import { Card } from '../../../components/Card';
 import { Button } from '../../../components/Button';
-import { getQueryParam } from '../../../constants';
 import { AuthService } from '../../../services/AuthService';
 import { FormikField } from '../../../types';
+import { getQueryParam } from '../../../utils';
 
 type FormValues = {
   phoneNumber: string;
@@ -37,7 +37,7 @@ export default function SignupForm() {
     authService
       .requestSMSCode({ phoneNumber: values.phoneNumber })
       .then(() => {
-        navigate('/dashboard/user', {
+        navigate('/user/dashboard', {
           replace: true
         });
       })

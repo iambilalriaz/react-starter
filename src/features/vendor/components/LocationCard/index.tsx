@@ -8,7 +8,7 @@ import { getSelectedLocation } from '../../vendorSlices/selectedLocationSlice';
 import { toggleForm } from '../../vendorSlices/formHandleSlice';
 import mapImage from '../../../../assets/map.svg';
 import { getVendorPermissions } from '../../../../utils';
-import { getIsFormOpenSelector } from '../../../../lib/stateSelectors';
+import { isFormOpenSelector } from '../../../../lib/stateSelectors';
 
 export interface ILocationCardProps {
   location: ILocationInterface;
@@ -17,7 +17,7 @@ export interface ILocationCardProps {
 
 export function LocationCard({ location, deleteLocation }: ILocationCardProps) {
   const dispatch = useDispatch();
-  const isFormOpen = useSelector(getIsFormOpenSelector);
+  const isFormOpen = useSelector(isFormOpenSelector);
 
   return (
     <div className="mb-12  rounded-md shadow-5xl">
