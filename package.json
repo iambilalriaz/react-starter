@@ -10,6 +10,7 @@
     "preview": "vite preview",
     "prepare": "husky install",
     "start": "vite",
+    "test": "vitest",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
@@ -44,8 +45,10 @@
     "@storybook/builder-vite": "^0.2.5",
     "@storybook/react": "^6.5.14",
     "@storybook/testing-library": "^0.0.13",
+    "@testing-library/react": "^13.4.0",
     "@types/react": "^18.0.24",
     "@types/react-dom": "^18.0.8",
+    "@types/redux-mock-store": "^1.0.3",
     "@types/uuid": "^9.0.0",
     "@typescript-eslint/eslint-plugin": "^5.45.1",
     "@typescript-eslint/parser": "^5.45.1",
@@ -62,13 +65,16 @@
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-plugin-storybook": "^0.6.8",
+    "happy-dom": "^8.1.1",
     "husky": "^8.0.0",
     "lint-staged": "^13.1.0",
     "postcss": "^8.4.19",
     "prettier": "^2.8.0",
     "prettier-plugin-tailwindcss": "^0.2.1",
+    "redux-mock-store": "^1.5.4",
     "tailwindcss": "^3.2.4",
-    "typescript": "^4.6.4"
+    "typescript": "^4.6.4",
+    "vitest": "^0.26.3"
   },
   "lint-staged": {
     "*.{js,ts,tsx}": [
