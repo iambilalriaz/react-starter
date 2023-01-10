@@ -65,7 +65,10 @@ const MessageList = () => {
   }, [isInfluencer, selectedConversation]);
 
   useEffect(() => {
-    getMessages();
+    const intervalId = setInterval(() => {
+      getMessages();
+    }, 5000);
+    return () => clearInterval(intervalId);
   }, [getMessages]);
   return (
     <Card classes="col-span-2 overflow-hidden">
