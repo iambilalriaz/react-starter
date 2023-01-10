@@ -12,7 +12,7 @@ import { getVendorId, getVendorPermissions } from '../utils';
 import { getAllLocationsData } from '../features/vendor/vendorSlices/locationSlice';
 import { getSelectedLocation } from '../features/vendor/vendorSlices/selectedLocationSlice';
 import { toggleForm } from '../features/vendor/vendorSlices/formHandleSlice';
-import { getAllLocationsDataSelector, getIsFormOpenSelector } from '../lib/stateSelectors';
+import { allLocationsDataSelector, isFormOpenSelector } from '../lib/stateSelectors';
 
 export const initialLocationData = {
   id: '',
@@ -28,8 +28,8 @@ export const initialLocationData = {
 export function VendorlocationsLayout() {
   const dispatch = useDispatch();
 
-  const allLocationsData = useSelector(getAllLocationsDataSelector);
-  const isFormOpen = useSelector(getIsFormOpenSelector);
+  const allLocationsData = useSelector(allLocationsDataSelector);
+  const isFormOpen = useSelector(isFormOpenSelector);
 
   const getAllLocations = useCallback(() => {
     const vendorService = new VendorService();
@@ -67,7 +67,7 @@ export function VendorlocationsLayout() {
           ) : allLocationsData?.length ? (
             <ViewLocations />
           ) : (
-            <div>
+            <div className="pb-16">
               <EmptyState />
             </div>
           )}

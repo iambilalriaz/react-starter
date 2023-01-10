@@ -1,14 +1,12 @@
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Pipe from '../../../../components/SVGS/Pipe';
 import Star from '../../../../components/SVGS/Star';
+import { isInfluencerSelector } from '../../../../lib/stateSelectors';
 
-const BaseCard = ({
-  isInfluencer,
-  onButtonClick
-}: {
-  isInfluencer: boolean;
-  onButtonClick: () => void;
-}) => {
+const BaseCard = ({ onButtonClick }: { onButtonClick: () => void }) => {
+  const isInfluencer = useSelector(isInfluencerSelector);
+
   const navigate = useNavigate();
   return (
     <div className={`rounded-md ${isInfluencer ? 'bg-eastern-blue' : 'bg-primary'} p-4 text-white`}>
@@ -30,7 +28,7 @@ const BaseCard = ({
         <Star />
       </div>
       <button
-        onClick={isInfluencer ? () => navigate('/dashboard/influencer') : onButtonClick}
+        onClick={isInfluencer ? () => navigate('/influencer/dashboard') : onButtonClick}
         type="button"
         className="ml-5 mt-4 rounded bg-white px-4 py-2 font-medium text-base text-primary"
       >

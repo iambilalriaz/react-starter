@@ -13,7 +13,7 @@ export default function VendorDashboard() {
     const vendorService = new VendorService();
     vendorService.listVendors().then(({ response }) => {
       if (!response?.vendors?.length) {
-        navigate('/dashboard/user');
+        navigate('/user/dashboard');
       } else {
         vendorService
           .getVendorPermissions(response?.vendors?.[0]?.id)
@@ -27,7 +27,7 @@ export default function VendorDashboard() {
   };
   useEffect(() => {
     if (isLoggedIn()) {
-      navigate('/dashboard/vendor');
+      navigate('/vendor/dashboard');
       getAllVendors();
       setVendorPermissions(getVendorPermissions());
     } else {

@@ -6,6 +6,7 @@ import { getAccessToken } from '../utils';
 
 import type { IInfluencerServiceClient } from '../api/influencerpb/v1/influencer.client';
 import { InfluencerServiceClient } from '../api/influencerpb/v1/influencer.client';
+import { SendMessageRequest } from '../api/influencerpb/v1/influencer';
 
 export class InfluencerService {
   private influencerService: IInfluencerServiceClient;
@@ -45,5 +46,25 @@ export class InfluencerService {
   async registerInfluencer(name: string) {
     const authOptions = await this.getAuthOptions();
     return this.influencerService.register({ name }, authOptions);
+  }
+
+  async getInfluencerConversations() {
+    const authOptions = await this.getAuthOptions();
+    return this.influencerService.listConversations({}, authOptions);
+  }
+
+  async getInfluencerMessages(vendorId: string) {
+    const authOptions = await this.getAuthOptions();
+    return this.influencerService.listMessages({ vendorId }, authOptions);
+  }
+
+  async sendMessage(messagePayload: SendMessageRequest) {
+    const authOptions = await this.getAuthOptions();
+    return this.influencerService.sendMessage(messagePayload, authOptions);
+  }
+
+  async searchVendors() {
+    const authOptions = await this.getAuthOptions();
+    return this.influencerService.vendorSearch({}, authOptions);
   }
 }

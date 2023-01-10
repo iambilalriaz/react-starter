@@ -11,39 +11,12 @@ import UserDashboard from '../pages/UserDashboard';
 import VendorDashboard from '../pages/VendorDashboard';
 import RegisterInfluencer from '../pages/Influencer/RegisterInfluencer';
 import InfluencerDashboard from '../pages/Influencer/InfluencerDashboard';
+import VendorChats from '../pages/VendorChats';
 
 export const isLoggedIn = () => !!localStorage.getItem('accessToken');
 
 export const routes = [
-  {
-    path: '/',
-    element: <UserDashboard />
-  },
-  {
-    path: '/dashboard',
-    children: [
-      {
-        path: '/dashboard/vendor',
-        element: <VendorDashboard />
-      },
-      {
-        path: '/dashboard/user',
-        element: <UserDashboard />
-      }
-    ]
-  },
-  {
-    path: '/locations',
-    element: <Locations />
-  },
-  {
-    path: '/users',
-    element: <Users />
-  },
-  {
-    path: '/vendor/invite',
-    element: <AcceptingInvite />
-  },
+  // auth routes
   {
     path: '/auth',
     children: [
@@ -70,16 +43,56 @@ export const routes = [
       }
     ]
   },
-  { path: '/vendor/onboarding', element: <RegisterVendor /> },
+
   {
-    path: '/influencer/register',
-    children: [
-      { path: '/influencer/register/intro', element: <RegisterInfluencer page="Introduction" /> },
-      { path: '/influencer/register/profile', element: <RegisterInfluencer page="Profile" /> }
-    ]
+    path: '/',
+    element: <UserDashboard />
   },
   {
-    path: '/dashboard/influencer',
-    element: <InfluencerDashboard />
+    path: '/user/dashboard',
+    element: <UserDashboard />
+  },
+
+  // vendor routes
+  {
+    path: '/vendor',
+    children: [
+      {
+        path: '/vendor/dashboard',
+        element: <VendorDashboard />
+      },
+      {
+        path: '/vendor/locations',
+        element: <Locations />
+      },
+      {
+        path: '/vendor/users',
+        element: <Users />
+      },
+      {
+        path: '/vendor/invite',
+        element: <AcceptingInvite />
+      },
+
+      { path: '/vendor/onboarding', element: <RegisterVendor /> },
+      { path: '/vendor/chats', element: <VendorChats /> }
+    ]
+  },
+
+  // influencer routes
+  {
+    path: '/influencer',
+    children: [
+      {
+        path: '/influencer/dashboard',
+        element: <InfluencerDashboard />
+      },
+      { path: '/influencer/intro', element: <RegisterInfluencer page="Introduction" /> },
+      { path: '/influencer/profile', element: <RegisterInfluencer page="Profile" /> },
+      {
+        path: '/influencer/chats',
+        element: <VendorChats />
+      }
+    ]
   }
 ];
