@@ -1,7 +1,0 @@
-version: v1
-plugins:
-  - name: ts
-    out: src/
-    path: ./node_modules/@protobuf-ts/plugin/bin/protoc-gen-ts
-    opt:
-      - output_javascript_es2016
